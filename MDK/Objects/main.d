@@ -1,4 +1,6 @@
 .\objects\main.o: ..\USER\main.c
+.\objects\main.o: ..\USER\sysconfig.h
+.\objects\main.o: ..\BSP\bsp_gpio.h
 .\objects\main.o: ..\CORE\stm32f4xx.h
 .\objects\main.o: ..\CORE\core_cm4.h
 .\objects\main.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -36,3 +38,4 @@
 .\objects\main.o: ..\FWLIB\inc\stm32f4xx_dma2d.h
 .\objects\main.o: ..\FWLIB\inc\stm32f4xx_fmc.h
 .\objects\main.o: ..\FWLIB\inc\stm32f4xx_sai.h
+.\objects\main.o: ..\USER\delay.h

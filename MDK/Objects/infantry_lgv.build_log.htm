@@ -17,32 +17,32 @@ Library Manager: ArmAr.exe V5.06 update 6 (build 750)
 Hex Converter:   FromElf.exe V5.06 update 6 (build 750)
 CPU DLL:         SARMCM3.DLL V5.25.2.0
 Dialog DLL:      DCM.DLL V1.17.1.0
-Target DLL:      UL2CM3.DLL V1.160.12.0
+Target DLL:      Segger\JL2CM3.dll V2.99.29.0
 Dialog DLL:      TCM.DLL V1.35.1.0
  
 <h2>Project:</h2>
-E:\ROBOMATER\MY\infantry\MDK\infantry_lgv.uvprojx
+E:\github\infantry\MDK\infantry_lgv.uvprojx
 Project File Date:  10/26/2018
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\keil_v5\ARM\ARMCC\Bin'
-Rebuild target 'infantry'
-compiling stm32f4xx_it.c...
+Build target 'infantry'
+compiling bsp_gpio.c...
+compiling sysconfig.c...
+..\USER\sysconfig.h(9): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\USER\sysconfig.c(7): warning:  #1-D: last line of file ends without a newline
+  }
+..\USER\sysconfig.c: 2 warnings, 0 errors
 compiling main.c...
-compiling delay.c...
-compiling system_stm32f4xx.c...
-assembling startup_stm32f427xx.s...
-compiling misc.c...
-compiling stm32f4xx_exti.c...
-compiling stm32f4xx_can.c...
-compiling stm32f4xx_dma.c...
-compiling stm32f4xx_gpio.c...
-compiling stm32f4xx_usart.c...
-compiling stm32f4xx_rcc.c...
-compiling stm32f4xx_tim.c...
+..\USER\sysconfig.h(9): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\USER\main.c(12): warning:  #111-D: statement is unreachable
+      return 0;
+..\USER\main.c: 2 warnings, 0 errors
 linking...
-Program Size: Code=788 RO-data=460 RW-data=20 ZI-data=1636  
-".\Objects\infantry_lgv.axf" - 0 Error(s), 0 Warning(s).
+Program Size: Code=3260 RO-data=460 RW-data=40 ZI-data=1632  
+".\Objects\infantry_lgv.axf" - 0 Error(s), 4 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -56,7 +56,7 @@ Package Vendor: Keil
   D:\keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:04
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>
