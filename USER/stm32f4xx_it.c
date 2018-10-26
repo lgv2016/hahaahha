@@ -166,3 +166,18 @@ void SysTick_Handler(void)
 
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
+
+/************************************ 以下为添加的中断函数 ***********************************************/
+
+void DMA2_Stream7_IRQHandler(void)  
+{  
+    if(DMA_GetITStatus(DMA2_Stream7,DMA_IT_TCIF7)!=RESET)
+    {   
+        DMA_ClearITPendingBit(DMA2_Stream7, DMA_IT_TCIF7);
+        DMA_Cmd(DMA2_Stream7, DISABLE); 
+    }  
+
+} 
+
+
