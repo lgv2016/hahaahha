@@ -1,6 +1,7 @@
 .\objects\sysconfig.o: ..\USER\sysconfig.c
 .\objects\sysconfig.o: ..\USER\sysconfig.h
-.\objects\sysconfig.o: ..\BSP\bsp_gpio.h
+.\objects\sysconfig.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\sysconfig.o: ..\USER\delay.h
 .\objects\sysconfig.o: ..\CORE\stm32f4xx.h
 .\objects\sysconfig.o: ..\CORE\core_cm4.h
 .\objects\sysconfig.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -38,4 +39,7 @@
 .\objects\sysconfig.o: ..\FWLIB\inc\stm32f4xx_dma2d.h
 .\objects\sysconfig.o: ..\FWLIB\inc\stm32f4xx_fmc.h
 .\objects\sysconfig.o: ..\FWLIB\inc\stm32f4xx_sai.h
-.\objects\sysconfig.o: ..\USER\delay.h
+.\objects\sysconfig.o: ..\BSP\bsp_gpio.h
+.\objects\sysconfig.o: ..\BSP\bsp_usart.h
+.\objects\sysconfig.o: ..\BSP\bsp_dma.h
+.\objects\sysconfig.o: ..\BSP\bsp_nvic.h

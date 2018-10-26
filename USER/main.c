@@ -8,6 +8,7 @@ int main()
         GPIO_ResetBits(GPIOG, GPIO_Pin_1);
         delay_ms(200);
         GPIO_SetBits(GPIOG, GPIO_Pin_1);
+        printf("fff\r\n");
     }
     return 0;
 }
