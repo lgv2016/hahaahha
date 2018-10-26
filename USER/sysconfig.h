@@ -7,6 +7,8 @@
 #include <bsp_usart.h>
 #include <bsp_dma.h>
 #include <bsp_nvic.h>
+#include <bsp_can.h>
+
 
 
 extern void SYS_Config_Init(void);

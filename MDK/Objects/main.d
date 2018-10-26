@@ -43,3 +43,4 @@
 .\objects\main.o: ..\BSP\bsp_usart.h
 .\objects\main.o: ..\BSP\bsp_dma.h
 .\objects\main.o: ..\BSP\bsp_nvic.h
+.\objects\main.o: ..\BSP\bsp_can.h

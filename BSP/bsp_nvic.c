@@ -31,4 +31,20 @@ void BSP_NVIC_Init()
     DMA_ClearITPendingBit(DMA2_Stream7, DMA_IT_TCIF7);
     DMA_ITConfig(DMA2_Stream7,DMA_IT_TC,ENABLE);
     
+    //CAN1 接收
+    NVIC_InitStructure.NVIC_IRQChannel                      = CAN1_RX0_IRQn;    //FIFO 0
+    NVIC_InitStructure.NVIC_IRQChannelCmd                   = ENABLE;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority    = 2;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority           = 2;
+    NVIC_Init(&NVIC_InitStructure);
+    CAN_ITConfig(CAN1,CAN_IT_FMP0,ENABLE);      //当FIFO 0中有数据时触发中断
+    
+    //CAN2 发送
+    NVIC_InitStructure.NVIC_IRQChannel                      = CAN2_RX1_IRQn;    //FIFO 1
+    NVIC_InitStructure.NVIC_IRQChannelCmd                   = ENABLE;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority    = 2;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority           = 2;
+    NVIC_Init(&NVIC_InitStructure);
+    CAN_ITConfig(CAN2,CAN_IT_FMP1,ENABLE);      //当FIFO中有数据时触发中断
+    
 }

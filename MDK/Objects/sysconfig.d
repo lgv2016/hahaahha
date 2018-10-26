@@ -43,3 +43,4 @@
 .\objects\sysconfig.o: ..\BSP\bsp_usart.h
 .\objects\sysconfig.o: ..\BSP\bsp_dma.h
 .\objects\sysconfig.o: ..\BSP\bsp_nvic.h
+.\objects\sysconfig.o: ..\BSP\bsp_can.h

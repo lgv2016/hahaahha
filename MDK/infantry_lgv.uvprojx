@@ -489,6 +489,11 @@
               <FileType>1</FileType>
               <FilePath>..\BSP\bsp_nvic.c</FilePath>
             </File>
+            <File>
+              <FileName>bsp_can.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\bsp_can.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

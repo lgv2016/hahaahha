@@ -1,6 +1,5 @@
 #include <sysconfig.h>
 
-
 void SYS_Config_Init()
 {
     delay_init(180);
@@ -8,6 +7,8 @@ void SYS_Config_Init()
     BSP_USART_Init();
     BSP_DMA_Init();
     BSP_NVIC_Init();
+    BSP_CAN_Init();
+    
 }
 
 int fputc(int ch, FILE *f)
