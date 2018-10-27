@@ -47,4 +47,14 @@ void BSP_NVIC_Init()
     NVIC_Init(&NVIC_InitStructure);
     CAN_ITConfig(CAN2,CAN_IT_FMP1,ENABLE);      //当FIFO中有数据时触发中断
     
+    //TIM6更新中断
+    NVIC_InitStructure.NVIC_IRQChannel                      = TIM6_DAC_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannelCmd                   = ENABLE;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority    = 2;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority           = 2;
+    NVIC_Init(&NVIC_InitStructure);
+    TIM_ClearFlag(TIM6,TIM_FLAG_Update);
+    TIM_ITConfig(TIM6,TIM_IT_Update,ENABLE);
+    
+ 
 }
