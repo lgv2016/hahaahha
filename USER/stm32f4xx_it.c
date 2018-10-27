@@ -29,7 +29,9 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_it.h"
- 
+
+
+#include <sysconfig.h>
 
 /** @addtogroup Template_Project
   * @{
@@ -181,3 +183,12 @@ void DMA2_Stream7_IRQHandler(void)
 } 
 
 
+void TIM6_DAC_IRQHandler()
+{
+  if(TIM_GetITStatus( TIM6,TIM_IT_Update)!= RESET )
+    {
+  
+       printf("dfdfdf\r\n");
+      TIM_ClearITPendingBit(TIM6 , TIM_IT_Update);
+    }
+}
