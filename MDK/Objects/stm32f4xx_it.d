@@ -37,3 +37,12 @@
 .\objects\stm32f4xx_it.o: ..\FWLIB\inc\stm32f4xx_dma2d.h
 .\objects\stm32f4xx_it.o: ..\FWLIB\inc\stm32f4xx_fmc.h
 .\objects\stm32f4xx_it.o: ..\FWLIB\inc\stm32f4xx_sai.h
+.\objects\stm32f4xx_it.o: ..\USER\sysconfig.h
+.\objects\stm32f4xx_it.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\stm32f4xx_it.o: ..\USER\delay.h
+.\objects\stm32f4xx_it.o: ..\BSP\bsp_gpio.h
+.\objects\stm32f4xx_it.o: ..\BSP\bsp_usart.h
+.\objects\stm32f4xx_it.o: ..\BSP\bsp_dma.h
+.\objects\stm32f4xx_it.o: ..\BSP\bsp_nvic.h
+.\objects\stm32f4xx_it.o: ..\BSP\bsp_can.h
+.\objects\stm32f4xx_it.o: ..\BSP\bsp_time.h

@@ -44,3 +44,4 @@
 .\objects\sysconfig.o: ..\BSP\bsp_dma.h
 .\objects\sysconfig.o: ..\BSP\bsp_nvic.h
 .\objects\sysconfig.o: ..\BSP\bsp_can.h
+.\objects\sysconfig.o: ..\BSP\bsp_time.h
