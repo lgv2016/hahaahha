@@ -45,3 +45,4 @@
 .\objects\sysconfig.o: ..\BSP\bsp_nvic.h
 .\objects\sysconfig.o: ..\BSP\bsp_can.h
 .\objects\sysconfig.o: ..\BSP\bsp_time.h
+.\objects\sysconfig.o: ..\MOTOR\motor_cradle_head.h

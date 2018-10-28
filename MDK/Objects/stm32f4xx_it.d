@@ -46,3 +46,4 @@
 .\objects\stm32f4xx_it.o: ..\BSP\bsp_nvic.h
 .\objects\stm32f4xx_it.o: ..\BSP\bsp_can.h
 .\objects\stm32f4xx_it.o: ..\BSP\bsp_time.h
+.\objects\stm32f4xx_it.o: ..\MOTOR\motor_cradle_head.h

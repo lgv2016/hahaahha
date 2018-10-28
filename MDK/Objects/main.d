@@ -45,3 +45,4 @@
 .\objects\main.o: ..\BSP\bsp_nvic.h
 .\objects\main.o: ..\BSP\bsp_can.h
 .\objects\main.o: ..\BSP\bsp_time.h
+.\objects\main.o: ..\MOTOR\motor_cradle_head.h

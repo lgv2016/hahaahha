@@ -337,7 +337,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F427_437xx,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\CORE;..\USER;..\FWLIB\inc;..\BSP</IncludePath>
+              <IncludePath>..\CORE;..\USER;..\FWLIB\inc;..\BSP;..\MOTOR</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -379,6 +379,44 @@
       </TargetOption>
       <Groups>
         <Group>
+          <GroupName>BSP</GroupName>
+          <Files>
+            <File>
+              <FileName>bsp_time.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\bsp_time.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_gpio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\bsp_gpio.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\bsp_usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_dma.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\bsp_dma.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_nvic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\bsp_nvic.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_can.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\bsp_can.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>DMP</GroupName>
+        </Group>
+        <Group>
           <GroupName>USER</GroupName>
           <Files>
             <File>
@@ -417,6 +455,9 @@
               <FilePath>..\CORE\startup_stm32f427xx.s</FilePath>
             </File>
           </Files>
+        </Group>
+        <Group>
+          <GroupName>TASK</GroupName>
         </Group>
         <Group>
           <GroupName>FWLIB</GroupName>
@@ -464,48 +505,17 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>DMP</GroupName>
-        </Group>
-        <Group>
-          <GroupName>BSP</GroupName>
-          <Files>
-            <File>
-              <FileName>bsp_gpio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\BSP\bsp_gpio.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_usart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\BSP\bsp_usart.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_dma.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\BSP\bsp_dma.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_nvic.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\BSP\bsp_nvic.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_can.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\BSP\bsp_can.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_time.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\BSP\bsp_time.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
           <GroupName>DRIVER</GroupName>
         </Group>
         <Group>
-          <GroupName>TASK</GroupName>
+          <GroupName>MOTOR</GroupName>
+          <Files>
+            <File>
+              <FileName>motor_cradle_head.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MOTOR\motor_cradle_head.c</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>FREERTOS</GroupName>
