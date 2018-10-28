@@ -382,6 +382,11 @@
           <GroupName>BSP</GroupName>
           <Files>
             <File>
+              <FileName>bsp_can.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\bsp_can.c</FilePath>
+            </File>
+            <File>
               <FileName>bsp_time.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\BSP\bsp_time.c</FilePath>
@@ -405,11 +410,6 @@
               <FileName>bsp_nvic.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\BSP\bsp_nvic.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_can.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\BSP\bsp_can.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -510,6 +510,11 @@
         <Group>
           <GroupName>MOTOR</GroupName>
           <Files>
+            <File>
+              <FileName>motor_chassis.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MOTOR\motor_chassis.c</FilePath>
+            </File>
             <File>
               <FileName>motor_cradle_head.c</FileName>
               <FileType>1</FileType>

@@ -64,7 +64,6 @@ void Get_6623_Speed(data_6623_t data)//M·¨ 10ms
         temp=((err_angle[0]*360)/8191.0f)*100.0f;
           if((temp<4000)&&(temp>-4000))
             g_data_6623.speed[0]=temp;
-        
     }
     last_angle[0]=data.angle[0];
     
@@ -76,7 +75,6 @@ void Get_6623_Speed(data_6623_t data)//M·¨ 10ms
         temp=((err_angle[1]*360)/8191.0f)*100.0f;
           if((temp<4000)&&(temp>-4000))
             g_data_6623.speed[1]   =   temp;
-        
     }
     last_angle[1]=g_data_6623.angle[1];
 }
