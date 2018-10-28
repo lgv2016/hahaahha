@@ -11,6 +11,8 @@
 #include <bsp_can.h>
 #include <bsp_time.h>
 
+#include <motor_cradle_head.h>
+
 
 extern void SYS_Config_Init(void);
 extern int fputc(int ch, FILE *f);
