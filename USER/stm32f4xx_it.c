@@ -168,10 +168,14 @@ void SysTick_Handler(void)
 
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+/************************************以下为添加的静态变量**************************************************/
+
+
+/************************************以下为添加的全局变量**************************************************/
+
 
 
 /************************************ 以下为添加的中断函数 ***********************************************/
-
 void DMA2_Stream7_IRQHandler(void)  
 {  
     if(DMA_GetITStatus(DMA2_Stream7,DMA_IT_TCIF7)!=RESET)
@@ -187,8 +191,31 @@ void TIM6_DAC_IRQHandler()
 {
   if(TIM_GetITStatus( TIM6,TIM_IT_Update)!= RESET )
     {
-  
-       printf("dfdfdf\r\n");
+      Get_6623_Speed(g_data_6623);
       TIM_ClearITPendingBit(TIM6 , TIM_IT_Update);
     }
 }
+
+
+void TIM5_IRQHandler()
+{
+    if(TIM_GetITStatus(TIM5,TIM_IT_CC3) != RESET)
+    {
+      
+      TIM_ClearITPendingBit(TIM5, TIM_IT_CC3);
+    }
+}
+
+void CAN1_RX0_IRQHandler(void)
+{
+   CanRxMsg s_rx_message;
+  
+  if(CAN_GetITStatus(CAN1,CAN_IT_FMP0)!=RESET)
+  {
+      CAN_Receive(CAN1, CAN_FIFO0, &s_rx_message);
+      Get_6623_data(s_rx_message);
+      CAN_ClearITPendingBit(CAN1,CAN_IT_FMP0);
+  }
+}
+
+
