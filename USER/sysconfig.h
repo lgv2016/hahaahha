@@ -12,6 +12,7 @@
 #include <bsp_time.h>
 
 #include <motor_cradle_head.h>
+#include <motor_chassis.h>
 
 
 extern void SYS_Config_Init(void);
