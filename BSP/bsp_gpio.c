@@ -6,8 +6,10 @@ void  BSP_GPIO_Init(void)
     
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB,ENABLE);
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD,ENABLE);
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOE,ENABLE);
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOF,ENABLE);
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOG,ENABLE);
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOH,ENABLE);
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOI,ENABLE);
     
     //IMU 模拟IIC
@@ -80,5 +82,35 @@ void  BSP_GPIO_Init(void)
     GPIO_Init(GPIOB, &GPIO_InitStructure);
     GPIO_PinAFConfig(GPIOB,GPIO_PinSource13,GPIO_AF_CAN2);
     GPIO_PinAFConfig(GPIOB,GPIO_PinSource12,GPIO_AF_CAN2);
+    
+ 
+    //拨弹电机 IN1:F1  IN2:F0  供电：PE4
+    GPIO_InitStructure.GPIO_Pin    =  GPIO_Pin_1 | GPIO_Pin_0;  
+    GPIO_InitStructure.GPIO_Mode   =  GPIO_Mode_OUT;
+    GPIO_InitStructure.GPIO_OType  =  GPIO_OType_PP;
+    GPIO_InitStructure.GPIO_PuPd   =  GPIO_PuPd_UP;
+    GPIO_InitStructure.GPIO_Speed  =  GPIO_Speed_100MHz;
+    GPIO_Init(GPIOF, &GPIO_InitStructure);
+    GPIO_SetBits(GPIOF, GPIO_Pin_0);
+    GPIO_ResetBits(GPIOF, GPIO_Pin_1);
+    
+    GPIO_InitStructure.GPIO_Pin    =  GPIO_Pin_4;  
+    GPIO_InitStructure.GPIO_Mode   =  GPIO_Mode_OUT;
+    GPIO_InitStructure.GPIO_OType  =  GPIO_OType_PP;
+    GPIO_InitStructure.GPIO_PuPd   =  GPIO_PuPd_UP;
+    GPIO_InitStructure.GPIO_Speed  =  GPIO_Speed_100MHz;
+    GPIO_Init(GPIOE, &GPIO_InitStructure);
+    GPIO_SetBits(GPIOE, GPIO_Pin_4);
+    
+    //TIM5 IC1 拨弹编码器
+    //PH12
+    GPIO_InitStructure.GPIO_Pin    =  GPIO_Pin_12;
+    GPIO_InitStructure.GPIO_Mode   =  GPIO_Mode_AF;
+    GPIO_InitStructure.GPIO_OType  =  GPIO_OType_PP;
+    GPIO_InitStructure.GPIO_PuPd   =  GPIO_PuPd_DOWN;
+    GPIO_InitStructure.GPIO_Speed  =  GPIO_Speed_100MHz;
+    GPIO_Init(GPIOH, &GPIO_InitStructure);
+    GPIO_PinAFConfig(GPIOH,GPIO_PinSource12,GPIO_AF_TIM5);
+
     
 }
