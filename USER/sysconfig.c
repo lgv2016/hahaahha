@@ -10,6 +10,9 @@ void SYS_Config_Init()
     BSP_CAN_Init();
     BSP_DMA_Init();
     BSP_NVIC_Init();
+    
+    
+    Infan_Control_Init();
  
 }
 

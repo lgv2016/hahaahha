@@ -48,3 +48,9 @@
 .\objects\stm32f4xx_it.o: ..\BSP\bsp_time.h
 .\objects\stm32f4xx_it.o: ..\MOTOR\motor_cradle_head.h
 .\objects\stm32f4xx_it.o: ..\MOTOR\motor_chassis.h
+.\objects\stm32f4xx_it.o: ..\DRIVE\drive_control.h
+.\objects\stm32f4xx_it.o: ..\MATH\math_pid.h
+.\objects\stm32f4xx_it.o: ..\MATH\math_tool.h
+.\objects\stm32f4xx_it.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\stm32f4xx_it.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\objects\stm32f4xx_it.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\math.h

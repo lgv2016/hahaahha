@@ -337,7 +337,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F427_437xx,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\CORE;..\USER;..\FWLIB\inc;..\BSP;..\MOTOR</IncludePath>
+              <IncludePath>..\CORE;..\USER;..\FWLIB\inc;..\BSP;..\MOTOR;..\MATH;..\DRIVE</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -457,6 +457,21 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>MATH</GroupName>
+          <Files>
+            <File>
+              <FileName>math_pid.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MATH\math_pid.c</FilePath>
+            </File>
+            <File>
+              <FileName>math_tool.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MATH\math_tool.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>TASK</GroupName>
         </Group>
         <Group>
@@ -505,7 +520,14 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>DRIVER</GroupName>
+          <GroupName>DRIVE</GroupName>
+          <Files>
+            <File>
+              <FileName>drive_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DRIVE\drive_control.c</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>MOTOR</GroupName>
@@ -523,7 +545,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>FREERTOS</GroupName>
+          <GroupName>FreeRTOS</GroupName>
         </Group>
       </Groups>
     </Target>

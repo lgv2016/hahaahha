@@ -47,3 +47,9 @@
 .\objects\sysconfig.o: ..\BSP\bsp_time.h
 .\objects\sysconfig.o: ..\MOTOR\motor_cradle_head.h
 .\objects\sysconfig.o: ..\MOTOR\motor_chassis.h
+.\objects\sysconfig.o: ..\DRIVE\drive_control.h
+.\objects\sysconfig.o: ..\MATH\math_pid.h
+.\objects\sysconfig.o: ..\MATH\math_tool.h
+.\objects\sysconfig.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\sysconfig.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\objects\sysconfig.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\math.h

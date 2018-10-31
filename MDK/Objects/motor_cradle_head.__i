@@ -1,0 +1,6 @@
+--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork -I ..\CORE -I ..\USER -I ..\FWLIB\inc -I ..\BSP -I ..\MOTOR -I ..\MATH -I ..\DRIVE
+-I.\RTE\_infantry
+-ID:\keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
+-ID:\keil_v5\ARM\CMSIS\Include
+-D__UVISION_VERSION="525" -DSTM32F427xx -DSTM32F427_437xx -DUSE_STDPERIPH_DRIVER
+-o .\objects\motor_cradle_head.o --omf_browse .\objects\motor_cradle_head.crf --depend .\objects\motor_cradle_head.d "..\MOTOR\motor_cradle_head.c"
