@@ -33,6 +33,8 @@
 
 #include <sysconfig.h>
 
+
+
 /** @addtogroup Template_Project
   * @{
   */
@@ -189,9 +191,16 @@ void DMA2_Stream7_IRQHandler(void)
 
 void TIM6_DAC_IRQHandler()
 {
-  if(TIM_GetITStatus( TIM6,TIM_IT_Update)!= RESET )
+    object_t speed_measure;
+    
+    if(TIM_GetITStatus( TIM6,TIM_IT_Update)!= RESET )
     {
-      Get_6623_Speed(g_data_6623);
+        
+        speed_measure=GET_Speed_Measure();
+        Speed_In_Control(speed_measure,0.01);
+      
+        
+        
       TIM_ClearITPendingBit(TIM6 , TIM_IT_Update);
     }
 }
@@ -199,24 +208,31 @@ void TIM6_DAC_IRQHandler()
 
 void TIM5_IRQHandler()
 {
+    
     if(TIM_GetITStatus(TIM5,TIM_IT_CC3) != RESET)
     {
+        
+        
+        
       
         
-      TIM_ClearITPendingBit(TIM5, TIM_IT_CC3);
+        TIM_ClearITPendingBit(TIM5, TIM_IT_CC3);
     }
 }
 
 void CAN1_RX0_IRQHandler(void)
 {
-   CanRxMsg s_rx_message;
+   CanRxMsg rx_message;
   
   if(CAN_GetITStatus(CAN1,CAN_IT_FMP0)!=RESET)
   {
-      CAN_Receive(CAN1, CAN_FIFO0, &s_rx_message);
-      Get_6623_data(s_rx_message);
+      CAN_Receive(CAN1, CAN_FIFO0, &rx_message);
+      Get_6623_data(rx_message);
+      Get_2006_data(rx_message);
       CAN_ClearITPendingBit(CAN1,CAN_IT_FMP0);
   }
 }
+
+
 
 
