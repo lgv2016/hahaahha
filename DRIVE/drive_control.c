@@ -128,6 +128,8 @@ object_t GET_Angle_Measure(void)
     object_t measure;
     measure.shoot=g_data_2006.angle;
     return measure;
+    
+    
 }
 
 
