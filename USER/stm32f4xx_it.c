@@ -192,15 +192,15 @@ void DMA2_Stream7_IRQHandler(void)
 void TIM6_DAC_IRQHandler()
 {
     object_t speed_measure;
+    object_t angle_measure;
     
     if(TIM_GetITStatus( TIM6,TIM_IT_Update)!= RESET )
     {
-        
-        speed_measure=GET_Speed_Measure();
-        Speed_In_Control(speed_measure,0.01);
+          angle_measure=GET_Angle_Measure();
+          Angle_Out_Control(angle_measure,0.01);
+          speed_measure=GET_Speed_Measure();
+          Speed_In_Control(speed_measure,0.01);
       
-        
-        
       TIM_ClearITPendingBit(TIM6 , TIM_IT_Update);
     }
 }
@@ -222,11 +222,18 @@ void TIM5_IRQHandler()
 
 void CAN1_RX0_IRQHandler(void)
 {
+    static u8 flag=1;
    CanRxMsg rx_message;
   
   if(CAN_GetITStatus(CAN1,CAN_IT_FMP0)!=RESET)
   {
+    
       CAN_Receive(CAN1, CAN_FIFO0, &rx_message);
+      if(flag)
+      {
+          Get_2006_Offset_angle(rx_message);
+          flag=0;
+      }
       Get_6623_data(rx_message);
       Get_2006_data(rx_message);
       CAN_ClearITPendingBit(CAN1,CAN_IT_FMP0);

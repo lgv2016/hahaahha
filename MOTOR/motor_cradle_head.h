@@ -21,7 +21,15 @@ typedef struct
 
 typedef struct
 {
-    u16        angle;
+    u16        pre_angle;
+    u16        last_angle;
+    u16        offset_angle;
+    int32_t    total_angle;
+    int32_t    count;
+    
+    
+    float      angle;
+    
     int16_t    speed;
     int16_t    torque;
     
@@ -42,6 +50,8 @@ extern void Get_6623_data(CanRxMsg rx_message);
 
 extern void Cmd_2006_ESC(int16_t  current_207);
 extern void Get_2006_data(CanRxMsg rx_message);
+
+extern void Get_2006_Offset_angle(CanRxMsg rx_message);
 
 
 

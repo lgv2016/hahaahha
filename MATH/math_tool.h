@@ -24,7 +24,7 @@
 
 float ConstrainFloat(float amt, float low, float high);
 
-
+int32_t ApplyDeadbandInt(int32_t value, int32_t deadband);
 float ApplyDeadbandFloat(float value, float deadband);
 
 float Radians(float deg);
