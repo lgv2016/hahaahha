@@ -194,12 +194,18 @@ void TIM6_DAC_IRQHandler()
     object_t speed_measure;
     object_t angle_measure;
     
+    
     if(TIM_GetITStatus( TIM6,TIM_IT_Update)!= RESET )
     {
-          angle_measure=GET_Angle_Measure();
-          Angle_Out_Control(angle_measure,0.01);
+//          angle_measure=GET_Angle_Measure();
+//          Angle_Out_Control(angle_measure,0.01);
+//          speed_measure=GET_Speed_Measure();
+//          Speed_In_Control(speed_measure,0.01);
+        
           speed_measure=GET_Speed_Measure();
           Speed_In_Control(speed_measure,0.01);
+        
+        
       
       TIM_ClearITPendingBit(TIM6 , TIM_IT_Update);
     }
@@ -236,10 +242,22 @@ void CAN1_RX0_IRQHandler(void)
       }
       Get_6623_data(rx_message);
       Get_2006_data(rx_message);
+      Get_3510_data(rx_message);
       CAN_ClearITPendingBit(CAN1,CAN_IT_FMP0);
   }
 }
 
+void DMA2_Stream2_IRQHandler(void)
+{
+  if(DMA_GetITStatus(DMA2_Stream2, DMA_IT_TCIF2))
+   { 
+      DMA_ClearFlag(DMA2_Stream2, DMA_FLAG_TCIF2);
+      DMA_ClearITPendingBit(DMA2_Stream2, DMA_IT_TCIF2);
+     //Ò£¿ØÐ­Òé½âÎö
+      RC_Data_Parse();
+    }
+ 
+}
 
 
 
