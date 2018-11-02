@@ -4,6 +4,7 @@
 #include <math_pid.h>
 #include <math_tool.h>
 
+
 enum
 {
     YAW_ANGLE,
@@ -12,6 +13,11 @@ enum
     PITCH_SPEED,
     SHOOT_ANGLE,
     SHOOT_SPEED,
+    
+    LF_SPEED,    //左前
+    LA_SPEED,
+    RF_SPEED,
+    RA_SPEED,    //右后
     PIDNUM
 };
 
@@ -20,16 +26,18 @@ typedef struct
     float yaw;
     float pitch;
     float shoot;
+    float lf;
+    float la;
+    float rf;
+    float ra;
 
 } object_t;
 
 typedef struct
 {
     PID_t      pid[PIDNUM];         //PID参数结构体
-
     object_t speed_inner_target;
     object_t angle_outer_target;
-
     object_t speed_inner_error;
     object_t angle_outer_error;
 
