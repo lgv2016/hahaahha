@@ -53,3 +53,4 @@
 .\objects\sysconfig.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\sysconfig.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\sysconfig.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\sysconfig.o: ..\DRIVE\drive_rc.h

@@ -21,6 +21,7 @@
 ".\objects\stm32f4xx_exti.o"
 ".\objects\stm32f4xx_gpio.o"
 ".\objects\stm32f4xx_usart.o"
+".\objects\drive_rc.o"
 ".\objects\drive_control.o"
 ".\objects\motor_chassis.o"
 ".\objects\motor_cradle_head_1.o"

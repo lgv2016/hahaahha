@@ -49,7 +49,7 @@ void BSP_DMA_Init()
     DMA_InitStructure.DMA_MemoryBurst             = DMA_MemoryBurst_Single;
     DMA_InitStructure.DMA_PeripheralBurst         = DMA_PeripheralBurst_Single; 
     DMA_Init(DMA2_Stream7,&DMA_InitStructure);
- //   DMA_Cmd(DMA2_Stream7, ABLE);
+ //   DMA_Cmd(DMA2_Stream7, ENABLE);
   
     //USART6_RX  DMA2 数据流1通道5
     DMA_DeInit(DMA2_Stream1);       

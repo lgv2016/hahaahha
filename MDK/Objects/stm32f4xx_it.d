@@ -54,3 +54,4 @@
 .\objects\stm32f4xx_it.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\stm32f4xx_it.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\stm32f4xx_it.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\stm32f4xx_it.o: ..\DRIVE\drive_rc.h

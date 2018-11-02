@@ -11,7 +11,7 @@ typedef struct
 
 
 
-extern data_3510_t data_3510;
+extern data_3510_t g_data_3510;
 
 
 void Get_3510_data(CanRxMsg rx_message);

@@ -53,3 +53,4 @@
 .\objects\main.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\main.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\main.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\main.o: ..\DRIVE\drive_rc.h

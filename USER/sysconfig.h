@@ -14,6 +14,7 @@
 #include <motor_cradle_head.h>
 #include <motor_chassis.h>
 #include <drive_control.h>
+#include <drive_rc.h>
 
 
 extern void SYS_Config_Init(void);

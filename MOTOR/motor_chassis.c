@@ -1,6 +1,6 @@
 #include <motor_chassis.h>
 
-data_3510_t data_3510;
+data_3510_t g_data_3510;
 
 void Cmd_3510_ESC(int16_t current_201,int16_t current_202,int16_t current_203,int16_t current_204)
 {
@@ -28,26 +28,26 @@ void Get_3510_data(CanRxMsg rx_message)
     {
        case 0x201:
       {
-          data_3510.angle[0]=rx_message.Data[0]<<8|rx_message.Data[1];
-          data_3510.speed[0]=rx_message.Data[2]<<8|rx_message.Data[3];
+          g_data_3510.angle[0]=rx_message.Data[0]<<8|rx_message.Data[1];
+          g_data_3510.speed[0]=rx_message.Data[2]<<8|rx_message.Data[3];
           break;
       }
        case 0x202:
       {
-          data_3510.angle[1]=rx_message.Data[0]<<8|rx_message.Data[1];
-          data_3510.speed[1]=rx_message.Data[2]<<8|rx_message.Data[3];
+          g_data_3510.angle[1]=rx_message.Data[0]<<8|rx_message.Data[1];
+          g_data_3510.speed[1]=rx_message.Data[2]<<8|rx_message.Data[3];
           break;
       }
        case 0x203:
       {
-          data_3510.angle[2]=rx_message.Data[0]<<8|rx_message.Data[1];
-          data_3510.speed[2]=rx_message.Data[2]<<8|rx_message.Data[3];
+          g_data_3510.angle[2]=rx_message.Data[0]<<8|rx_message.Data[1];
+          g_data_3510.speed[2]=rx_message.Data[2]<<8|rx_message.Data[3];
           break;
       }
        case 0x204:
       {
-          data_3510.angle[3]=rx_message.Data[0]<<8|rx_message.Data[1];
-          data_3510.speed[3]=rx_message.Data[2]<<8|rx_message.Data[3];
+          g_data_3510.angle[3]=rx_message.Data[0]<<8|rx_message.Data[1];
+          g_data_3510.speed[3]=rx_message.Data[2]<<8|rx_message.Data[3];
           break;
       }
       default:

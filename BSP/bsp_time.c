@@ -18,7 +18,7 @@ void BSP_TIME_Init()
     
 
     
-    //TIM5 OC4
+    //TIM5 OC4  
     TIM_TimeBase_InitStructure.TIM_ClockDivision    =   TIM_CKD_DIV1;
     TIM_TimeBase_InitStructure.TIM_CounterMode      =   TIM_CounterMode_Up;
     TIM_TimeBase_InitStructure.TIM_Period           =   20000-1;
@@ -32,16 +32,6 @@ void BSP_TIME_Init()
     TIM_OC4Init(TIM5,&TIM_OCInitStructure);
     
     TIM_OC4PreloadConfig(TIM5, TIM_OCPreload_Enable);
-    TIM_ARRPreloadConfig(TIM5,ENABLE);	
-    
-    //TIM5 IC3
-	TIM_ICInitStructure.TIM_Channel                 =   TIM_Channel_3; 
-    TIM_ICInitStructure.TIM_ICPolarity              =   TIM_ICPolarity_Rising;	
-    TIM_ICInitStructure.TIM_ICSelection             =   TIM_ICSelection_DirectTI; 
-    TIM_ICInitStructure.TIM_ICPrescaler             =   TIM_ICPSC_DIV1;	 
-    TIM_ICInitStructure.TIM_ICFilter                =   0x00;
-    TIM_ICInit(TIM5, &TIM_ICInitStructure);
-	
-    TIM_Cmd(TIM5,ENABLE );
-    
+    TIM_ARRPreloadConfig(TIM5,DISABLE);	
+
 }
