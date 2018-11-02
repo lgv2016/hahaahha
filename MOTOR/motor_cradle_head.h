@@ -50,8 +50,11 @@ extern void Get_6623_data(CanRxMsg rx_message);
 
 extern void Cmd_2006_ESC(int16_t  current_207);
 extern void Get_2006_data(CanRxMsg rx_message);
-
 extern void Get_2006_Offset_angle(CanRxMsg rx_message);
+
+extern void Snail_Calibration(void);
+extern void Snail_Stop(void);
+extern void Snail_Stat(void);
 
 
 
