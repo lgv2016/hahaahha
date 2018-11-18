@@ -13,10 +13,8 @@ void SYS_Config_Init()
     BSP_TIME_Init();
     BSP_NVIC_Init();
 
-    
-    
     Infan_Control_Init();
- 
+    
 }
 
 int fputc(int ch, FILE *f)

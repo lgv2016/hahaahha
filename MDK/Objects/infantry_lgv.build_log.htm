@@ -27,19 +27,27 @@ Project File Date:  11/02/2018
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\keil_v5\ARM\ARMCC\Bin'
 Build target 'infantry'
-compiling drive_control.c...
+compiling main.c...
+..\BSP\bsp_nvic.h(7): warning:  #1-D: last line of file ends without a newline
+  #endif  
+..\MOTOR\motor_chassis.h(23): warning:  #1-D: last line of file ends without a newline
+  #endif  
 ..\MATH\math_pid.h(34): warning:  #1-D: last line of file ends without a newline
   #endif  
 ..\MATH\math_tool.h(35): warning:  #1-D: last line of file ends without a newline
   #endif  
-..\DRIVE\drive_control.h(57): warning:  #1-D: last line of file ends without a newline
+..\DRIVE\drive_control.h(59): warning:  #1-D: last line of file ends without a newline
   #endif
-..\MOTOR\motor_chassis.h(23): warning:  #1-D: last line of file ends without a newline
-  #endif  
-..\DRIVE\drive_control.c: 4 warnings, 0 errors
+..\DRIVE\drive_rc.h(50): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\USER\sysconfig.h(22): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\USER\main.c(15): warning:  #111-D: statement is unreachable
+      return 0;
+..\USER\main.c: 8 warnings, 0 errors
 linking...
-Program Size: Code=13044 RO-data=460 RW-data=44 ZI-data=2252  
-".\Objects\infantry_lgv.axf" - 0 Error(s), 4 Warning(s).
+Program Size: Code=13316 RO-data=460 RW-data=48 ZI-data=2264  
+".\Objects\infantry_lgv.axf" - 0 Error(s), 8 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -53,7 +61,7 @@ Package Vendor: Keil
   D:\keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:04
 </pre>
 </body>
 </html>

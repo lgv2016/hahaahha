@@ -45,6 +45,8 @@ typedef struct
 
 extern infantry_control_t infc;
 extern object_t g_speed_target;
+extern object_t g_angle_target;
+
 extern void Infan_Control_Init(void);
 extern void SET_Speed_Target(object_t target);
 extern object_t GET_Speed_Measure(void);

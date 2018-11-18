@@ -28,6 +28,5 @@ void RC_Data_Parse()
       g_rc_control.key.k[E]       =   g_rc_control.key.v&0X01<<5;
       g_rc_control.key.k[SHIFT]   =   g_rc_control.key.v&0X01<<6;
       g_rc_control.key.k[CTRL]    =   g_rc_control.key.v&0X01<<7;
-          
 }
 

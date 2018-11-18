@@ -55,13 +55,5 @@ void BSP_NVIC_Init()
     NVIC_Init(&NVIC_InitStructure);
     TIM_ClearFlag(TIM6,TIM_FLAG_Update);
     TIM_ITConfig(TIM6,TIM_IT_Update,ENABLE);
-    
-//    //TIM5 IC3≤∂ªÒ÷–∂œ
-//    NVIC_InitStructure.NVIC_IRQChannel                      = TIM5_IRQn;
-//    NVIC_InitStructure.NVIC_IRQChannelCmd                   = ENABLE;
-//	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority    = 2;
-//	NVIC_InitStructure.NVIC_IRQChannelSubPriority           = 2;		
-//	NVIC_Init(&NVIC_InitStructure);
-//    TIM_ITConfig(TIM5,TIM_IT_CC3,ENABLE);
-	
+
 }
