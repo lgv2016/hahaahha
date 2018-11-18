@@ -34,7 +34,6 @@
 #include <sysconfig.h>
 
 
-
 /** @addtogroup Template_Project
   * @{
   */
@@ -172,7 +171,8 @@ void SysTick_Handler(void)
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
 /************************************以下为添加的静态变量**************************************************/
 
-
+static u8 angle_con_flag=0;
+static u8 speed_con_flag=1;
 /************************************以下为添加的全局变量**************************************************/
 
 
@@ -194,19 +194,20 @@ void TIM6_DAC_IRQHandler()
     object_t speed_measure;
     object_t angle_measure;
     
-    
     if(TIM_GetITStatus( TIM6,TIM_IT_Update)!= RESET )
     {
-//          angle_measure=GET_Angle_Measure();
-//          Angle_Out_Control(angle_measure,0.01);
-//          speed_measure=GET_Speed_Measure();
-//          Speed_In_Control(speed_measure,0.01);
-        
-          speed_measure=GET_Speed_Measure();
-          Speed_In_Control(speed_measure,0.01);
-        
-        
-      
+        if(speed_con_flag)
+        {
+            speed_measure=GET_Speed_Measure();
+            Speed_In_Control(speed_measure,0.01);  
+        }
+        if(angle_con_flag)
+        {
+            angle_measure=GET_Angle_Measure();
+            Angle_Out_Control(angle_measure,0.01);
+            speed_measure=GET_Speed_Measure();
+            Speed_In_Control(speed_measure,0.01);    
+        }            
       TIM_ClearITPendingBit(TIM6 , TIM_IT_Update);
     }
 }
@@ -219,9 +220,6 @@ void TIM5_IRQHandler()
     {
         
         
-        
-      
-        
         TIM_ClearITPendingBit(TIM5, TIM_IT_CC3);
     }
 }
@@ -229,8 +227,7 @@ void TIM5_IRQHandler()
 void CAN1_RX0_IRQHandler(void)
 {
     static u8 flag=1;
-   CanRxMsg rx_message;
-  
+    CanRxMsg rx_message;
   if(CAN_GetITStatus(CAN1,CAN_IT_FMP0)!=RESET)
   {
     
@@ -240,21 +237,25 @@ void CAN1_RX0_IRQHandler(void)
           Get_2006_Offset_angle(rx_message);
           flag=0;
       }
+      
       Get_6623_data(rx_message);
       Get_2006_data(rx_message);
       Get_3510_data(rx_message);
+      
       CAN_ClearITPendingBit(CAN1,CAN_IT_FMP0);
   }
 }
 
 void DMA2_Stream2_IRQHandler(void)
 {
+    
   if(DMA_GetITStatus(DMA2_Stream2, DMA_IT_TCIF2))
    { 
       DMA_ClearFlag(DMA2_Stream2, DMA_FLAG_TCIF2);
       DMA_ClearITPendingBit(DMA2_Stream2, DMA_IT_TCIF2);
      //遥控协议解析
       RC_Data_Parse();
+
     }
  
 }
