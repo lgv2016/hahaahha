@@ -44,14 +44,36 @@ void Cmd_2006_ESC(int16_t  current_207)
 
 void Get_6623_data(CanRxMsg rx_message)
 {
+    float speed[NUM_6623];
      switch(rx_message.StdId)
     {
        case 0x205:
       {
-          g_data_6623.angle[YAW]             =   rx_message.Data[0]<<8|rx_message.Data[1];
+          g_data_6623.last_angle[YAW]        =   g_data_6623.pre_angle[YAW];
+          
+          g_data_6623.pre_angle[YAW]         =   rx_message.Data[0]<<8|rx_message.Data[1];
           g_data_6623.actual_current[YAW]    =   rx_message.Data[2]<<8|rx_message.Data[3];
           g_data_6623.set_current[YAW]       =   rx_message.Data[4]<<8|rx_message.Data[5];
-
+          
+          g_data_6623.angle[YAW]=(g_data_6623.pre_angle[YAW]*360.0f)/8191.0f;
+          
+          
+          if(g_data_6623.pre_angle[YAW]-g_data_6623.last_angle[YAW]>4096)
+          {
+              speed[YAW]=(((g_data_6623.last_angle[YAW]+8191-g_data_6623.pre_angle[YAW])*360.0f)/8191.0f)*1000.0f;
+              g_data_6623.speed[YAW]=speed[YAW];
+          }
+          else if(g_data_6623.pre_angle[YAW]-g_data_6623.last_angle[YAW]<-4096)
+          {
+              speed[YAW]=-(((-g_data_6623.last_angle[YAW]+8191+g_data_6623.pre_angle[YAW])*360.0f)/8191.0f)*1000.0f;
+              g_data_6623.speed[YAW]=speed[YAW];
+          }
+          else
+          {
+              speed[YAW]=(((g_data_6623.last_angle[YAW]-g_data_6623.pre_angle[YAW])*360.0f)/8191.0f)*1000.0f;
+              g_data_6623.speed[YAW]=speed[YAW];
+          }
+              
           break;
       }
       case 0x206:
@@ -69,7 +91,6 @@ void Get_6623_data(CanRxMsg rx_message)
 
 void Get_2006_data(CanRxMsg rx_message)
 {
-    
     //中间变量 便于采样
     int32_t angle1;  
     float angle2;
@@ -119,6 +140,8 @@ void Get_2006_Offset_angle(CanRxMsg rx_message)
 
 void Snail_Calibration()
 { 
+    TIM_Cmd(TIM5, DISABLE);
+    delay_ms(500);
     TIM_Cmd(TIM5, ENABLE);	
     TIM_SetCompare4(TIM5,2000-1);
     TIM_SetCompare3(TIM5,2000-1);
