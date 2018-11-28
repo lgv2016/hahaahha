@@ -40,7 +40,7 @@ void BSP_CAN_Init()
 	CAN_StructInit(&CAN_InitStructure);
   
     CAN_InitStructure.CAN_ABOM           = DISABLE;                    //自动离线管理
-    CAN_InitStructure.CAN_AWUM           = ENABLE;                    //自动唤醒模式
+    CAN_InitStructure.CAN_AWUM           = ENABLE;                    //自动唤醒模式//是的
     CAN_InitStructure.CAN_BS1            = CAN_BS1_5tq;	               //配置CAN Baudrate = 1 MBps   45/(1+5+3)/5=1 Mbps
     CAN_InitStructure.CAN_BS2            = CAN_BS2_3tq;	
     CAN_InitStructure.CAN_Mode           = CAN_Mode_Normal;           //正常工作模式

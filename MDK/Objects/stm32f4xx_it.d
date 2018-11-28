@@ -2,7 +2,7 @@
 .\objects\stm32f4xx_it.o: ..\USER\stm32f4xx_it.h
 .\objects\stm32f4xx_it.o: ..\CORE\stm32f4xx.h
 .\objects\stm32f4xx_it.o: ..\CORE\core_cm4.h
-.\objects\stm32f4xx_it.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\stm32f4xx_it.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\stm32f4xx_it.o: ..\CORE\core_cmInstr.h
 .\objects\stm32f4xx_it.o: ..\CORE\core_cmFunc.h
 .\objects\stm32f4xx_it.o: ..\CORE\core_cm4_simd.h
@@ -38,7 +38,7 @@
 .\objects\stm32f4xx_it.o: ..\FWLIB\inc\stm32f4xx_fmc.h
 .\objects\stm32f4xx_it.o: ..\FWLIB\inc\stm32f4xx_sai.h
 .\objects\stm32f4xx_it.o: ..\USER\sysconfig.h
-.\objects\stm32f4xx_it.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\stm32f4xx_it.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\stm32f4xx_it.o: ..\USER\delay.h
 .\objects\stm32f4xx_it.o: ..\BSP\bsp_gpio.h
 .\objects\stm32f4xx_it.o: ..\BSP\bsp_usart.h
@@ -51,7 +51,7 @@
 .\objects\stm32f4xx_it.o: ..\DRIVE\drive_control.h
 .\objects\stm32f4xx_it.o: ..\MATH\math_pid.h
 .\objects\stm32f4xx_it.o: ..\MATH\math_tool.h
-.\objects\stm32f4xx_it.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-.\objects\stm32f4xx_it.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
-.\objects\stm32f4xx_it.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\stm32f4xx_it.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\stm32f4xx_it.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\objects\stm32f4xx_it.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\stm32f4xx_it.o: ..\DRIVE\drive_rc.h

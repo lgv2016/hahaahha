@@ -2,7 +2,7 @@
 .\objects\drive_rc.o: ..\DRIVE\drive_rc.h
 .\objects\drive_rc.o: ..\CORE\stm32f4xx.h
 .\objects\drive_rc.o: ..\CORE\core_cm4.h
-.\objects\drive_rc.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\drive_rc.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\drive_rc.o: ..\CORE\core_cmInstr.h
 .\objects\drive_rc.o: ..\CORE\core_cmFunc.h
 .\objects\drive_rc.o: ..\CORE\core_cm4_simd.h

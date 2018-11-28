@@ -5,11 +5,11 @@
 <h2>Tool Versions:</h2>
 IDE-Version: ¦ÌVision V5.25.2.0
 Copyright (C) 2018 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: ff ff, fff, LIC=FQQNN-YF5RP-GQF0H-WJ7B7-QC6LW-GRJ21
+License Information: L L, L, LIC=03CVE-5JFSF-9G470-BW308-EXBRE-K7UHS
  
 Tool Versions:
-Toolchain:       MDK-ARM Professional  Version: 5.25.2.0
-Toolchain Path:  D:\keil_v5\ARM\ARMCC\Bin
+Toolchain:       MDK-ARM Plus  Version: 5.25.2.0
+Toolchain Path:  D:\Keil_v5\ARM\ARMCC\Bin
 C Compiler:      Armcc.exe V5.06 update 6 (build 750)
 Assembler:       Armasm.exe V5.06 update 6 (build 750)
 Linker/Locator:  ArmLink.exe V5.06 update 6 (build 750)
@@ -21,47 +21,39 @@ Target DLL:      Segger\JL2CM3.dll V2.99.29.0
 Dialog DLL:      TCM.DLL V1.35.1.0
  
 <h2>Project:</h2>
-E:\github\infantry\MDK\infantry_lgv.uvprojx
-Project File Date:  11/02/2018
+F:\github\infantry\MDK\infantry_lgv.uvprojx
+Project File Date:  11/18/2018
 
 <h2>Output:</h2>
-*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\keil_v5\ARM\ARMCC\Bin'
+*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'infantry'
-compiling main.c...
+compiling bsp_nvic.c...
 ..\BSP\bsp_nvic.h(7): warning:  #1-D: last line of file ends without a newline
   #endif  
-..\MOTOR\motor_chassis.h(23): warning:  #1-D: last line of file ends without a newline
-  #endif  
-..\MATH\math_pid.h(34): warning:  #1-D: last line of file ends without a newline
-  #endif  
-..\MATH\math_tool.h(35): warning:  #1-D: last line of file ends without a newline
-  #endif  
-..\DRIVE\drive_control.h(59): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\DRIVE\drive_rc.h(50): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\USER\sysconfig.h(22): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\USER\main.c(15): warning:  #111-D: statement is unreachable
-      return 0;
-..\USER\main.c: 8 warnings, 0 errors
+..\BSP\bsp_nvic.c(58): warning:  #1-D: last line of file ends without a newline
+  }
+..\BSP\bsp_nvic.c: 2 warnings, 0 errors
+compiling bsp_usart.c...
+..\BSP\bsp_usart.c(37): warning:  #1-D: last line of file ends without a newline
+  }
+..\BSP\bsp_usart.c: 1 warning, 0 errors
 linking...
-Program Size: Code=13316 RO-data=460 RW-data=48 ZI-data=2264  
-".\Objects\infantry_lgv.axf" - 0 Error(s), 8 Warning(s).
+Program Size: Code=14172 RO-data=460 RW-data=44 ZI-data=2316  
+".\Objects\infantry_lgv.axf" - 0 Error(s), 3 Warning(s).
 
 <h2>Software Packages used:</h2>
 
 Package Vendor: Keil
-                http://www.keil.com/pack/Keil.STM32F4xx_DFP.2.11.0.pack
-                Keil.STM32F4xx_DFP.2.11.0
+                http://www.keil.com/pack/Keil.STM32F4xx_DFP.2.13.0.pack
+                Keil.STM32F4xx_DFP.2.13.0
                 STMicroelectronics STM32F4 Series Device Support, Drivers and Examples
 
 <h2>Collection of Component include folders:</h2>
   .\RTE\_infantry
-  D:\keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
+  D:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:04
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

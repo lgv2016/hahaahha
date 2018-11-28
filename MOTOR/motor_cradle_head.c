@@ -27,13 +27,13 @@ void Cmd_6623_ESC(int16_t  current_205,int16_t current_206)
 
 void Cmd_2006_ESC(int16_t  current_207)
 {
-     CanTxMsg s_tx_message;
     
     s_tx_message.StdId = 0x1FF;
     s_tx_message.IDE = CAN_Id_Standard;
     s_tx_message.RTR = CAN_RTR_Data;
     s_tx_message.DLC = 0x08;
     
+	
     s_tx_message.Data[4] = (unsigned char)(current_207 >> 8);
     s_tx_message.Data[5] = (unsigned char)current_207;
     s_tx_message.Data[6] = 0x00;
@@ -91,7 +91,7 @@ void Get_6623_data(CanRxMsg rx_message)
 
 void Get_2006_data(CanRxMsg rx_message)
 {
-    //中间变量 便于采样
+    //中间变量 便于Scope采样
     int32_t angle1;  
     float angle2;
      switch(rx_message.StdId)

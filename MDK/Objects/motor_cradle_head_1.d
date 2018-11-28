@@ -2,7 +2,7 @@
 .\objects\motor_cradle_head_1.o: ..\MOTOR\motor_cradle_head.h
 .\objects\motor_cradle_head_1.o: ..\CORE\stm32f4xx.h
 .\objects\motor_cradle_head_1.o: ..\CORE\core_cm4.h
-.\objects\motor_cradle_head_1.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\motor_cradle_head_1.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\motor_cradle_head_1.o: ..\CORE\core_cmInstr.h
 .\objects\motor_cradle_head_1.o: ..\CORE\core_cmFunc.h
 .\objects\motor_cradle_head_1.o: ..\CORE\core_cm4_simd.h
@@ -38,7 +38,7 @@
 .\objects\motor_cradle_head_1.o: ..\FWLIB\inc\stm32f4xx_fmc.h
 .\objects\motor_cradle_head_1.o: ..\FWLIB\inc\stm32f4xx_sai.h
 .\objects\motor_cradle_head_1.o: ..\MATH\math_tool.h
-.\objects\motor_cradle_head_1.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-.\objects\motor_cradle_head_1.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
-.\objects\motor_cradle_head_1.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\motor_cradle_head_1.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\motor_cradle_head_1.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\objects\motor_cradle_head_1.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\motor_cradle_head_1.o: ..\USER\delay.h

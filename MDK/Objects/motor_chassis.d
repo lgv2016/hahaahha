@@ -2,7 +2,7 @@
 .\objects\motor_chassis.o: ..\MOTOR\motor_chassis.h
 .\objects\motor_chassis.o: ..\CORE\stm32f4xx.h
 .\objects\motor_chassis.o: ..\CORE\core_cm4.h
-.\objects\motor_chassis.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\motor_chassis.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\motor_chassis.o: ..\CORE\core_cmInstr.h
 .\objects\motor_chassis.o: ..\CORE\core_cmFunc.h
 .\objects\motor_chassis.o: ..\CORE\core_cm4_simd.h

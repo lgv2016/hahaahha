@@ -2,7 +2,7 @@
 .\objects\math_pid.o: ..\MATH\math_pid.h
 .\objects\math_pid.o: ..\CORE\stm32f4xx.h
 .\objects\math_pid.o: ..\CORE\core_cm4.h
-.\objects\math_pid.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\math_pid.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\math_pid.o: ..\CORE\core_cmInstr.h
 .\objects\math_pid.o: ..\CORE\core_cmFunc.h
 .\objects\math_pid.o: ..\CORE\core_cm4_simd.h
@@ -38,6 +38,6 @@
 .\objects\math_pid.o: ..\FWLIB\inc\stm32f4xx_fmc.h
 .\objects\math_pid.o: ..\FWLIB\inc\stm32f4xx_sai.h
 .\objects\math_pid.o: ..\MATH\math_tool.h
-.\objects\math_pid.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-.\objects\math_pid.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
-.\objects\math_pid.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\math_pid.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\math_pid.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\objects\math_pid.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

@@ -28,26 +28,26 @@ void Get_3510_data(CanRxMsg rx_message)
     {
        case 0x201:
       {
-          g_data_3510.angle[0]=rx_message.Data[0]<<8|rx_message.Data[1];
-          g_data_3510.speed[0]=rx_message.Data[2]<<8|rx_message.Data[3];
+          g_data_3510.angle[LF]=rx_message.Data[0]<<8|rx_message.Data[1];
+          g_data_3510.speed[LF]=rx_message.Data[2]<<8|rx_message.Data[3];
           break;
       }
        case 0x202:
       {
-          g_data_3510.angle[1]=rx_message.Data[0]<<8|rx_message.Data[1];
-          g_data_3510.speed[1]=rx_message.Data[2]<<8|rx_message.Data[3];
+          g_data_3510.angle[LA]=rx_message.Data[0]<<8|rx_message.Data[1];
+          g_data_3510.speed[LA]=rx_message.Data[2]<<8|rx_message.Data[3];
           break;
       }
        case 0x203:
       {
-          g_data_3510.angle[2]=rx_message.Data[0]<<8|rx_message.Data[1];
-          g_data_3510.speed[2]=rx_message.Data[2]<<8|rx_message.Data[3];
+          g_data_3510.angle[RF]=rx_message.Data[0]<<8|rx_message.Data[1];
+          g_data_3510.speed[RF]=rx_message.Data[2]<<8|rx_message.Data[3];
           break;
       }
        case 0x204:
       {
-          g_data_3510.angle[3]=rx_message.Data[0]<<8|rx_message.Data[1];
-          g_data_3510.speed[3]=rx_message.Data[2]<<8|rx_message.Data[3];
+          g_data_3510.angle[RA]=rx_message.Data[0]<<8|rx_message.Data[1];
+          g_data_3510.speed[RA]=rx_message.Data[2]<<8|rx_message.Data[3];
           break;
       }
       default:

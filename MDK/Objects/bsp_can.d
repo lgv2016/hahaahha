@@ -2,7 +2,7 @@
 .\objects\bsp_can.o: ..\BSP\bsp_can.h
 .\objects\bsp_can.o: ..\CORE\stm32f4xx.h
 .\objects\bsp_can.o: ..\CORE\core_cm4.h
-.\objects\bsp_can.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\bsp_can.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\bsp_can.o: ..\CORE\core_cmInstr.h
 .\objects\bsp_can.o: ..\CORE\core_cmFunc.h
 .\objects\bsp_can.o: ..\CORE\core_cm4_simd.h

@@ -3,10 +3,21 @@
 
 #include <stm32f4xx.h>
 
+enum
+{
+    LF,    //×óÇ°
+    LA,
+    RF,
+    RA,    //ÓÒºó
+    NUM_3510
+};
+
+
+
 typedef struct
 {
-    float    speed[4];
-    u16      angle[4];
+    float    speed[NUM_3510];
+    u16      angle[NUM_3510];
 }data_3510_t;
 
 

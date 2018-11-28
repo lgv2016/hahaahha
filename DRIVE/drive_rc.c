@@ -5,7 +5,7 @@ rc_control_t g_rc_control;
 
 void RC_Data_Parse()
 {
-      g_rc_control.rc.ch0         =  (g_DMA_Dbus_Buff[0]| (g_DMA_Dbus_Buff[1] << 8)) & 0x07ff; 
+      g_rc_control.rc.ch0         =  (g_DMA_Dbus_Buff[0]       | (g_DMA_Dbus_Buff[1] << 8)) & 0x07ff; 
       g_rc_control.rc.ch1         = ((g_DMA_Dbus_Buff[1] >> 3) | (g_DMA_Dbus_Buff[2] << 5)) & 0x07ff; 
       g_rc_control.rc.ch2         = ((g_DMA_Dbus_Buff[2] >> 6) | (g_DMA_Dbus_Buff[3] << 2) | (g_DMA_Dbus_Buff[4] << 10)) & 0x07ff;  
       g_rc_control.rc.ch3         = ((g_DMA_Dbus_Buff[4] >> 1) | (g_DMA_Dbus_Buff[5] << 7)) & 0x07ff; 

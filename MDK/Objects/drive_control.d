@@ -3,7 +3,7 @@
 .\objects\drive_control.o: ..\MATH\math_pid.h
 .\objects\drive_control.o: ..\CORE\stm32f4xx.h
 .\objects\drive_control.o: ..\CORE\core_cm4.h
-.\objects\drive_control.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\drive_control.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\drive_control.o: ..\CORE\core_cmInstr.h
 .\objects\drive_control.o: ..\CORE\core_cmFunc.h
 .\objects\drive_control.o: ..\CORE\core_cm4_simd.h
@@ -39,8 +39,8 @@
 .\objects\drive_control.o: ..\FWLIB\inc\stm32f4xx_fmc.h
 .\objects\drive_control.o: ..\FWLIB\inc\stm32f4xx_sai.h
 .\objects\drive_control.o: ..\MATH\math_tool.h
-.\objects\drive_control.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-.\objects\drive_control.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
-.\objects\drive_control.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\drive_control.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\drive_control.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\objects\drive_control.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\drive_control.o: ..\MOTOR\motor_chassis.h
 .\objects\drive_control.o: ..\MOTOR\motor_cradle_head.h

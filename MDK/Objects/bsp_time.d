@@ -2,7 +2,7 @@
 .\objects\bsp_time.o: ..\BSP\bsp_time.h
 .\objects\bsp_time.o: ..\CORE\stm32f4xx.h
 .\objects\bsp_time.o: ..\CORE\core_cm4.h
-.\objects\bsp_time.o: D:\keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\bsp_time.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\bsp_time.o: ..\CORE\core_cmInstr.h
 .\objects\bsp_time.o: ..\CORE\core_cmFunc.h
 .\objects\bsp_time.o: ..\CORE\core_cm4_simd.h
