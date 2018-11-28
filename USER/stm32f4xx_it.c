@@ -187,6 +187,7 @@ void ENABLE_DMA2_Stream7_Tx(u16 DMA_Send_Buff_Size)
 	DMA_ClearITPendingBit(DMA2_Stream7,DMA_IT_TEIF7|DMA_IT_HTIF7|DMA_IT_TCIF7|DMA_IT_DMEIF7|DMA_IT_FEIF7);
 	DMA_SetCurrDataCounter(DMA2_Stream7,DMA_Send_Buff_Size);
 	DMA_Cmd(DMA2_Stream7, ENABLE);
+	
 }
 //·¢ËÍ
 void DMA2_Stream7_IRQHandler(void)  
@@ -218,7 +219,6 @@ void USART6_IRQHandler()
      }
      ENABLE_DMA2_Stream7_Tx(i);
 
-	 
     while (DMA_GetCmdStatus(DMA2_Stream1));   
 
     DMA_SetCurrDataCounter(DMA2_Stream1,DMA_Judge_Reve_Buff_Size);

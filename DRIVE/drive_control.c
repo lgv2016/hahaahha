@@ -17,7 +17,9 @@ static void PID_Reset(void)
 {
     PID_SetParam(&g_infc.pid[SHOOT_SPEED],5.0, 0.1 ,  0,  5000,   0);
     PID_SetParam(&g_infc.pid[SHOOT_ANGLE],180, 0   ,  0,  5000,   0);
+	
     PID_SetParam(&g_infc.pid[PITCH_ANGLE],5.0, 0.1 ,  0,  2000,   0);
+	
 	PID_SetParam(&g_infc.pid[LF_SPEED],   3.5, 1.26,  0,  5000,   0);
 }
 void Infan_Control_Init(void)

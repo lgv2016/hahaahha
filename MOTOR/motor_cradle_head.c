@@ -111,7 +111,6 @@ void Get_2006_data(CanRxMsg rx_message)
           angle1=g_data_2006.count*8192+g_data_2006.pre_angle-g_data_2006.offset_angle;
           g_data_2006.total_angle=angle1;
           
-          
           angle2=(g_data_2006.total_angle*360.0f)/(8192.0f*36.0f);
           g_data_2006.angle=angle2;
          
