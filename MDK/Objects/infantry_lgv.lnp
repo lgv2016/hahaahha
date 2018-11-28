@@ -25,14 +25,6 @@
 ".\objects\drive_control.o"
 ".\objects\motor_chassis.o"
 ".\objects\motor_cradle_head_1.o"
-".\objects\list.o"
-".\objects\port.o"
-".\objects\tasks.o"
-".\objects\timers.o"
-".\objects\queue.o"
-".\objects\heap_4.o"
-".\objects\croutine.o"
-".\objects\event_groups.o"
 --library_type=microlib --strict --scatter ".\Objects\infantry_lgv.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

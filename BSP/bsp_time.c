@@ -4,7 +4,7 @@ void BSP_TIME_Init()
 {
     TIM_TimeBaseInitTypeDef TIM_TimeBase_InitStructure;
     TIM_OCInitTypeDef       TIM_OCInitStructure;
-  
+    TIM_ICInitTypeDef       TIM_ICInitStructure;
     
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM5,ENABLE);
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM6,ENABLE);
