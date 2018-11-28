@@ -171,13 +171,24 @@ void SysTick_Handler(void)
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
 /************************************以下为添加的静态变量**************************************************/
 
-static u8 angle_con_flag=0;
-static u8 speed_con_flag=1;
+
 /************************************以下为添加的全局变量**************************************************/
 
 
 
 /************************************ 以下为添加的中断函数 ***********************************************/
+
+void ENABLE_DMA2_Stream7_Tx(u16 DMA_Send_Buff_Size)
+{
+	
+	DMA_Cmd(DMA2_Stream7, DISABLE);
+	while (DMA_GetCmdStatus(DMA2_Stream7)); 
+	DMA_ClearFlag(DMA2_Stream7,DMA_FLAG_TCIF7|DMA_FLAG_HTIF7|DMA_FLAG_TEIF7|DMA_FLAG_DMEIF7|DMA_FLAG_FEIF7);                                                                                                 
+	DMA_ClearITPendingBit(DMA2_Stream7,DMA_IT_TEIF7|DMA_IT_HTIF7|DMA_IT_TCIF7|DMA_IT_DMEIF7|DMA_IT_FEIF7);
+	DMA_SetCurrDataCounter(DMA2_Stream7,DMA_Send_Buff_Size);
+	DMA_Cmd(DMA2_Stream7, ENABLE);
+}
+//发送
 void DMA2_Stream7_IRQHandler(void)  
 {  
     if(DMA_GetITStatus(DMA2_Stream7,DMA_IT_TCIF7)!=RESET)
@@ -187,6 +198,35 @@ void DMA2_Stream7_IRQHandler(void)
     }  
 
 } 
+//接收
+void USART6_IRQHandler()
+{
+	u16 RxCounter;
+	u8 clear=0;
+	u16 i=0;
+	if(USART_GetITStatus(USART6,USART_IT_IDLE)!=RESET)
+	{
+		DMA_Cmd(DMA2_Stream1, DISABLE); 
+		clear=USART6->SR;
+		clear=USART6->DR;
+		RxCounter=DMA_Judge_Reve_Buff_Size-DMA_GetCurrDataCounter(DMA2_Stream1);
+		
+     while(RxCounter--)
+	 {
+         g_DMA_Judge_Send_Buff[i]=g_DMA_Judge_Reve_Buff[i];
+         i++;
+     }
+     ENABLE_DMA2_Stream7_Tx(i);
+
+	 
+    while (DMA_GetCmdStatus(DMA2_Stream1));   
+
+    DMA_SetCurrDataCounter(DMA2_Stream1,DMA_Judge_Reve_Buff_Size);
+    DMA_ClearFlag(DMA2_Stream1,DMA_FLAG_TCIF1|DMA_FLAG_HTIF1|DMA_FLAG_TEIF1|DMA_FLAG_DMEIF1|DMA_FLAG_FEIF1); 
+    DMA_Cmd(DMA2_Stream1, ENABLE); 
+  }
+}
+
 
 
 void TIM6_DAC_IRQHandler()
@@ -196,19 +236,9 @@ void TIM6_DAC_IRQHandler()
     
     if(TIM_GetITStatus( TIM6,TIM_IT_Update)!= RESET )
     {
-        if(speed_con_flag)
-        {
-            speed_measure=GET_Speed_Measure();
-            Speed_In_Control(speed_measure,0.01);  
-        }
-        if(angle_con_flag)
-        {
-            angle_measure=GET_Angle_Measure();
-            Angle_Out_Control(angle_measure,0.01);
-            speed_measure=GET_Speed_Measure();
-            Speed_In_Control(speed_measure,0.01);    
-        }            
-      TIM_ClearITPendingBit(TIM6 , TIM_IT_Update);
+		Speed_2006_Control(g_speed_target,0.01);  
+	    Speed_3510_Control(g_speed_target,0.01);
+        TIM_ClearITPendingBit(TIM6 , TIM_IT_Update);
     }
 }
 
