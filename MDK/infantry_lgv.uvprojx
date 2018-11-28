@@ -558,24 +558,14 @@
           <GroupName>FreeRTOS</GroupName>
           <Files>
             <File>
-              <FileName>croutine.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\freeRTOS\croutine.c</FilePath>
-            </File>
-            <File>
-              <FileName>event_groups.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\freeRTOS\event_groups.c</FilePath>
-            </File>
-            <File>
               <FileName>list.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\freeRTOS\list.c</FilePath>
             </File>
             <File>
-              <FileName>queue.c</FileName>
+              <FileName>port.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\freeRTOS\queue.c</FilePath>
+              <FilePath>..\freeRTOS\portable\RVDS\ARM_CM4F\port.c</FilePath>
             </File>
             <File>
               <FileName>tasks.c</FileName>
@@ -588,14 +578,24 @@
               <FilePath>..\freeRTOS\timers.c</FilePath>
             </File>
             <File>
+              <FileName>queue.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\freeRTOS\queue.c</FilePath>
+            </File>
+            <File>
               <FileName>heap_4.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\freeRTOS\portable\MemMang\heap_4.c</FilePath>
             </File>
             <File>
-              <FileName>port.c</FileName>
+              <FileName>croutine.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\freeRTOS\portable\RVDS\ARM_CM4F\port.c</FilePath>
+              <FilePath>..\freeRTOS\croutine.c</FilePath>
+            </File>
+            <File>
+              <FileName>event_groups.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\freeRTOS\event_groups.c</FilePath>
             </File>
           </Files>
         </Group>
