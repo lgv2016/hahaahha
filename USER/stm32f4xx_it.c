@@ -173,9 +173,7 @@ void DebugMon_Handler(void)
 
 
 /************************************以下为添加的全局变量**************************************************/
-
-
-
+CanRxMsg s_rx_message;
 /************************************ 以下为添加的中断函数 ***********************************************/
 
 void ENABLE_DMA2_Stream7_Tx(u16 DMA_Send_Buff_Size)
@@ -235,9 +233,6 @@ void TIM6_DAC_IRQHandler()
     if(TIM_GetITStatus( TIM6,TIM_IT_Update)!= RESET )
     {
 
-		Speed_2006_Control(g_speed_target);  
-	    Speed_3510_Control(g_speed_target);
-		
         TIM_ClearITPendingBit(TIM6 , TIM_IT_Update);
     }
 }
@@ -245,10 +240,8 @@ void TIM6_DAC_IRQHandler()
 
 void TIM5_IRQHandler()
 {
-    
     if(TIM_GetITStatus(TIM5,TIM_IT_CC3) != RESET)
     {
-        
         
         TIM_ClearITPendingBit(TIM5, TIM_IT_CC3);
     }
@@ -256,24 +249,22 @@ void TIM5_IRQHandler()
 
 void CAN1_RX0_IRQHandler(void)
 {
-    static u8 flag=1;
-    CanRxMsg rx_message;
-  if(CAN_GetITStatus(CAN1,CAN_IT_FMP0)!=RESET)
-  {
-    
-      CAN_Receive(CAN1, CAN_FIFO0, &rx_message);
-      if(flag)
-      {
-          Get_2006_Offset_angle(rx_message);
-          flag=0;
-      }
-      
-      Get_6623_data(rx_message);
-      Get_2006_data(rx_message);
-      Get_3510_data(rx_message);
-      
-      CAN_ClearITPendingBit(CAN1,CAN_IT_FMP0);
-  }
+	static u8 flag=1;
+	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+
+	if(CAN_GetITStatus(CAN1,CAN_IT_FMP0)!=RESET)
+	{
+		CAN_Receive(CAN1, CAN_FIFO0, &s_rx_message);
+		if(flag&&(s_rx_message.StdId==0x207))
+		{
+			Get_2006_Offset_angle(s_rx_message);
+			flag=0;
+		}
+		vTaskNotifyGiveFromISR(xHandleTaskCANParse, &xHigherPriorityTaskWoken);
+
+		CAN_ClearITPendingBit(CAN1,CAN_IT_FMP0);
+		portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
+	}
 }
 
 void DMA2_Stream2_IRQHandler(void)
@@ -285,7 +276,7 @@ void DMA2_Stream2_IRQHandler(void)
       DMA_ClearITPendingBit(DMA2_Stream2, DMA_IT_TCIF2);
      //遥控协议解析
       RC_Data_Parse();
-
+	   
     }
  
 }
