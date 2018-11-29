@@ -61,9 +61,9 @@ extern object_t GET_Angle_Measure(void);
 
 
 
-extern void Speed_3510_Control(object_t target,float deltaT);
+extern void Speed_3510_Control(object_t target);
 
-extern void Speed_2006_Control(object_t target,float deltaT);
-extern void Angle_2006_Control(object_t target,float deltaT);
+extern void Speed_2006_Control(object_t target);
+extern void Angle_2006_Control(object_t target);
 
 #endif

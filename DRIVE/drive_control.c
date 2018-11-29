@@ -1,6 +1,7 @@
 #include <drive_control.h>
 #include <motor_chassis.h>
 #include <motor_cradle_head.h>
+#include <drive_delay.h>
  
 infantry_control_t g_infc;
 
@@ -36,8 +37,12 @@ void Angle_6623_Control(object_t target,float deltaT)
 
 
 
-void Speed_3510_Control(object_t target,float deltaT)
+void Speed_3510_Control(object_t target)
 {
+	//函数运算间隔计算
+   	static uint64_t previousT;
+    float deltaT = (Get_SysTimeUs() - previousT) * 1e-6;
+    previousT = Get_SysTimeUs();
 	
 	//速度环目标赋值
 	g_infc.speed_inner_target.lf    = target.lf;
@@ -75,8 +80,13 @@ void Speed_3510_Control(object_t target,float deltaT)
 
 
 
-void Speed_2006_Control(object_t target,float deltaT)
+void Speed_2006_Control(object_t target)
 {
+	//函数运算间隔计算
+	static uint64_t previousT;
+    float deltaT = (Get_SysTimeUs() - previousT) * 1e-6;
+    previousT = Get_SysTimeUs();
+	
 	
 	//速度环目标赋值
     g_infc.speed_inner_target.shoot		= target.shoot;
@@ -94,12 +104,15 @@ void Speed_2006_Control(object_t target,float deltaT)
     s_speed_contorl_out.shoot         	= ConstrainFloat(s_speed_contorl_out.shoot,-10000,10000);
 	
 	//can发送控制量
-	//Cmd_2006_ESC(s_speed_contorl_out.shoot);
+	Cmd_2006_ESC(s_speed_contorl_out.shoot);
 }
 
-void Angle_2006_Control(object_t target,float deltaT)
+void Angle_2006_Control(object_t target)
 {
-	
+	//函数运算间隔计算
+    static uint64_t previousT;
+    float deltaT = (Get_SysTimeUs() - previousT) * 1e-6;
+    previousT = Get_SysTimeUs();
 	//角度环目标赋值
 	g_infc.angle_outer_target.shoot		= target.shoot;
 	
