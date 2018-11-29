@@ -19,19 +19,53 @@ static void PID_Reset(void)
     PID_SetParam(&g_infc.pid[SHOOT_SPEED],5.0, 0.1 ,  0,  5000,   0);
     PID_SetParam(&g_infc.pid[SHOOT_ANGLE],180, 0   ,  0,  5000,   0);
 	
-    PID_SetParam(&g_infc.pid[PITCH_ANGLE],5.0, 0.1 ,  0,  2000,   0);
+	
+	
+    PID_SetParam(&g_infc.pid[PITCH_ANGLE],36.0, 0 ,  0,  2000,   0);
 	
 	PID_SetParam(&g_infc.pid[LF_SPEED],   3.5, 1.26,  0,  5000,   0);
 }
 void Infan_Control_Init(void)
 {
-   g_speed_target.shoot=3500;
-   g_speed_target.lf=3200;
+	
+	g_angle_target.pitch=244;
+	
+	
+	g_speed_target.shoot=3500;
+	g_speed_target.lf=3200;
 
-   PID_Reset();
+	PID_Reset();
 }
-void Angle_6623_Control(object_t target,float deltaT)
+void Angle_6623_Control(object_t target)
 {
+    //函数运算间隔计算
+   	static uint64_t previousT;
+    float deltaT = (Get_SysTimeUs() - previousT) * 1e-6;
+    previousT = Get_SysTimeUs();
+	
+	g_infc.angle_outer_target.pitch		= target.pitch;
+	g_infc.angle_outer_target.yaw		= target.yaw;
+	
+	//计算角度控制误差
+	g_infc.angle_outer_error.pitch  	= g_infc.angle_outer_target.pitch - g_data_6623.angle[PITCH];
+	g_infc.angle_outer_error.yaw  	    = g_infc.angle_outer_target.yaw   - g_data_6623.angle[YAW];
+	
+	//死区控制
+    g_infc.angle_outer_error.pitch  	= ApplyDeadbandFloat(g_infc.angle_outer_error.pitch,0.05);
+	g_infc.angle_outer_error.yaw  	    = ApplyDeadbandFloat(g_infc.angle_outer_error.yaw,  0.05);
+	
+	
+	//PID算法，计算出角度环的控制量
+    s_angle_contorl_out.pitch         	= PID_GetPID(&g_infc.pid[PITCH_ANGLE],g_infc.angle_outer_error.pitch,deltaT);
+	s_angle_contorl_out.yaw         	= PID_GetPID(&g_infc.pid[YAW_ANGLE],  g_infc.angle_outer_error.yaw,  deltaT);
+	
+	//输出限幅
+    s_angle_contorl_out.pitch         	= ConstrainFloat(s_angle_contorl_out.pitch,-3000,3000);
+	s_angle_contorl_out.yaw         	= ConstrainFloat(s_angle_contorl_out.yaw,  -3000,3000);
+		
+  //  Cmd_6623_ESC(-s_angle_contorl_out.yaw,-s_angle_contorl_out.pitch);
+	Cmd_6623_ESC(0,0);
+	
 	
 }
 
@@ -214,7 +248,7 @@ object_t GET_Speed_Measure(void)
 {
     object_t measure;
     measure.shoot = g_data_2006.speed;
-    measure.yaw   = g_data_6623.speed[YAW];
+  //  measure.yaw   = g_data_6623.speed[YAW];
     measure.lf    = g_data_3510.speed[LF];
     
     return measure;
