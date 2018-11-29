@@ -191,7 +191,7 @@
 #define configKERNEL_INTERRUPT_PRIORITY 		( configLIBRARY_LOWEST_INTERRUPT_PRIORITY << (8 - configPRIO_BITS) ) //写入寄存器（OXE000）的实际值
 
 //实现全局的开关中断操作,<5的中断（高优先级）并不会被freeRTOS关闭
-#define configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY	 5                       //受 FreeRTOS 可管理的最高中断优先级 
+#define configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY	 2                       //受 FreeRTOS 可管理的最高中断优先级 
 #define configMAX_SYSCALL_INTERRUPT_PRIORITY 	( configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY << (8 - configPRIO_BITS) )//写入basepri寄存器的实际值
 
 /***************************************************************************************************************/

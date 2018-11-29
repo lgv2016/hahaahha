@@ -67,3 +67,4 @@
 .\objects\stm32f4xx_it.o: ..\freeRTOS\include\mpu_wrappers.h
 .\objects\stm32f4xx_it.o: ..\freeRTOS\include\task.h
 .\objects\stm32f4xx_it.o: ..\freeRTOS\include\list.h
+.\objects\stm32f4xx_it.o: ..\TASK\task_can_parse.h

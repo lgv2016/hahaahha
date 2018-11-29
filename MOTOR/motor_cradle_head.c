@@ -2,6 +2,7 @@
 //所用驱动为2016年旧版电调
 #include <motor_cradle_head.h>
 #include <math_tool.h>
+#include <drive_delay.h>
 
 static CanTxMsg s_tx_message;
 
@@ -43,12 +44,18 @@ void Cmd_2006_ESC(int16_t  current_207)
 
 void Get_6623_data(CanRxMsg rx_message)
 {
-    float speed[NUM_6623];
+
+	
+	static uint64_t previousT;
+    float deltaT = (Get_SysTimeUs() - previousT) * 1e-6;
+    previousT = Get_SysTimeUs();
+	
+	
+	
      switch(rx_message.StdId)
     {
        case 0x205:
       {
-          g_data_6623.last_angle[YAW]        =   g_data_6623.pre_angle[YAW];
           
           g_data_6623.pre_angle[YAW]         =   rx_message.Data[0]<<8|rx_message.Data[1];
           g_data_6623.actual_current[YAW]    =   rx_message.Data[2]<<8|rx_message.Data[3];
@@ -57,29 +64,15 @@ void Get_6623_data(CanRxMsg rx_message)
           g_data_6623.angle[YAW]=(g_data_6623.pre_angle[YAW]*360.0f)/8191.0f;
           
           
-          if(g_data_6623.pre_angle[YAW]-g_data_6623.last_angle[YAW]>4096)
-          {
-              speed[YAW]=(((g_data_6623.last_angle[YAW]+8191-g_data_6623.pre_angle[YAW])*360.0f)/8191.0f)*1000.0f;
-              g_data_6623.speed[YAW]=speed[YAW];
-          }
-          else if(g_data_6623.pre_angle[YAW]-g_data_6623.last_angle[YAW]<-4096)
-          {
-              speed[YAW]=-(((-g_data_6623.last_angle[YAW]+8191+g_data_6623.pre_angle[YAW])*360.0f)/8191.0f)*1000.0f;
-              g_data_6623.speed[YAW]=speed[YAW];
-          }
-          else
-          {
-              speed[YAW]=(((g_data_6623.last_angle[YAW]-g_data_6623.pre_angle[YAW])*360.0f)/8191.0f)*1000.0f;
-              g_data_6623.speed[YAW]=speed[YAW];
-          }
-              
           break;
       }
       case 0x206:
       {
-          g_data_6623.angle[PITCH]             =   rx_message.Data[0]<<8|rx_message.Data[1];
+          g_data_6623.pre_angle[PITCH]         =   rx_message.Data[0]<<8|rx_message.Data[1];
           g_data_6623.actual_current[PITCH]    =   rx_message.Data[2]<<8|rx_message.Data[3];
           g_data_6623.set_current[PITCH]       =   rx_message.Data[4]<<8|rx_message.Data[5];
+		  
+		  g_data_6623.angle[PITCH]=(g_data_6623.pre_angle[PITCH]*360.0f)/8191.0f;
     
           break;
       }
@@ -103,9 +96,9 @@ void Get_2006_data(CanRxMsg rx_message)
           g_data_2006.torque                  =   rx_message.Data[4]<<8|rx_message.Data[5];
           
           if(g_data_2006.pre_angle-g_data_2006.last_angle>4096)
-              g_data_2006.count--;
-          else if(g_data_2006.pre_angle-g_data_2006.last_angle<-4096)
               g_data_2006.count++;
+          else if(g_data_2006.pre_angle-g_data_2006.last_angle<-4096)
+              g_data_2006.count--;
           
           angle1=g_data_2006.count*8192+g_data_2006.pre_angle-g_data_2006.offset_angle;
           g_data_2006.total_angle=angle1;

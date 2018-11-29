@@ -9,5 +9,6 @@ extern void vTaskStart(void *pvParameters);
 
 
 extern TaskHandle_t xHandleTaskLED;
-extern TaskHandle_t xHandleTaskStart;	    
+extern TaskHandle_t xHandleTaskStart;	
+extern TaskHandle_t xHandleTaskCANParse;
 #endif

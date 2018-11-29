@@ -11,10 +11,10 @@ enum
 
 typedef struct
 {
-    float    speed[NUM_6623];
+    
     float    angle[NUM_6623];
     u16      pre_angle[NUM_6623];
-    u16      last_angle[NUM_6623];
+
     int16_t  set_current[NUM_6623];
     int16_t  actual_current[NUM_6623];
     
@@ -28,7 +28,6 @@ typedef struct
     u16        offset_angle;
     int32_t    total_angle;
     int32_t    count;
-    
     
     float      angle;
     

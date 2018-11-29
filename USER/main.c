@@ -8,8 +8,7 @@ int main()
                 128,        
                 NULL,                  
                 1,        
-                &xHandleTaskStart);   
-          
+                &xHandleTaskStart);
     vTaskStartScheduler();
 }
 

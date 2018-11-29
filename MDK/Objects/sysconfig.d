@@ -66,3 +66,4 @@
 .\objects\sysconfig.o: ..\freeRTOS\include\mpu_wrappers.h
 .\objects\sysconfig.o: ..\freeRTOS\include\task.h
 .\objects\sysconfig.o: ..\freeRTOS\include\list.h
+.\objects\sysconfig.o: ..\TASK\task_can_parse.h

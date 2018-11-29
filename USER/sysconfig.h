@@ -19,6 +19,7 @@
 
 
 #include <task_config.h>
+#include <task_can_parse.h>
 
 
 

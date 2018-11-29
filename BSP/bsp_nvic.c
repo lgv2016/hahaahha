@@ -8,7 +8,7 @@ void BSP_NVIC_Init()
     
     //USART1 DBUS DMAΩ” ’  
     NVIC_InitStructure.NVIC_IRQChannel                    = DMA2_Stream2_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority  =1;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority  = 1;
     NVIC_InitStructure.NVIC_IRQChannelCmd                 = ENABLE;			
     NVIC_Init(&NVIC_InitStructure);	
     DMA_ITConfig(DMA2_Stream2,DMA_IT_TC,ENABLE);
