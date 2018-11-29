@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\infantry_lgv.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\infantry_lgv.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Wed Nov 28 16:05:07 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Thu Nov 29 14:31:25 2018
 <BR><P>
 <H3>Maximum Stack Usage =        132 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -697,7 +697,7 @@ Global Symbols
 <LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Speed_2006_Control
 <LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Angle_Out_Control
 <LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Speed_In_Control
-<LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Angle_2006_Control
+<LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Angle_2006_Control
 </UL>
 
 <P><STRONG><a name="[c8]"></a>PID_SetParam</STRONG> (Thumb, 46 bytes, Stack size 0 bytes, math_pid.o(.text))
@@ -710,7 +710,7 @@ Global Symbols
 <LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Speed_2006_Control
 <LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Angle_Out_Control
 <LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Speed_In_Control
-<LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Angle_2006_Control
+<LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Angle_2006_Control
 </UL>
 
 <P><STRONG><a name="[c9]"></a>ApplyDeadbandFloat</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, math_tool.o(.text))
@@ -719,7 +719,7 @@ Global Symbols
 <LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Get_2006_data
 <LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Angle_Out_Control
 <LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Speed_In_Control
-<LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Angle_2006_Control
+<LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Angle_2006_Control
 </UL>
 
 <P><STRONG><a name="[e5]"></a>ApplyDeadbandInt</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, math_tool.o(.text), UNUSED)
@@ -781,7 +781,7 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Cmd_6623_ESC
 <LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Cmd_3510_ESC
-<LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Cmd_2006_ESC
+<LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Cmd_2006_ESC
 </UL>
 
 <P><STRONG><a name="[ed]"></a>CAN_TransmitStatus</STRONG> (Thumb, 88 bytes, Stack size 0 bytes, stm32f4xx_can.o(.text), UNUSED)
@@ -1449,30 +1449,31 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM6_DAC_IRQHandler
 </UL>
 
-<P><STRONG><a name="[9f]"></a>Speed_2006_Control</STRONG> (Thumb, 108 bytes, Stack size 40 bytes, drive_control.o(.text))
+<P><STRONG><a name="[9f]"></a>Speed_2006_Control</STRONG> (Thumb, 122 bytes, Stack size 40 bytes, drive_control.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = Speed_2006_Control &rArr; PID_GetPID &rArr; PID_GetI
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ApplyDeadbandFloat
 <LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ConstrainFloat
 <LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PID_GetPID
+<LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Cmd_2006_ESC
 </UL>
 <BR>[Called By]<UL><LI><a href="#[40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM6_DAC_IRQHandler
 </UL>
 
-<P><STRONG><a name="[cb]"></a>Angle_2006_Control</STRONG> (Thumb, 192 bytes, Stack size 56 bytes, drive_control.o(.text), UNUSED)
+<P><STRONG><a name="[cc]"></a>Angle_2006_Control</STRONG> (Thumb, 192 bytes, Stack size 56 bytes, drive_control.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ApplyDeadbandFloat
 <LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ConstrainFloat
 <LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PID_GetPID
-<LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Cmd_2006_ESC
+<LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Cmd_2006_ESC
 </UL>
 
-<P><STRONG><a name="[cd]"></a>Speed_In_Control</STRONG> (Thumb, 512 bytes, Stack size 48 bytes, drive_control.o(.text), UNUSED)
+<P><STRONG><a name="[cd]"></a>Speed_In_Control</STRONG> (Thumb, 510 bytes, Stack size 48 bytes, drive_control.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ApplyDeadbandFloat
 <LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ConstrainFloat
 <LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PID_GetPID
 <LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Cmd_6623_ESC
 <LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Cmd_3510_ESC
-<LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Cmd_2006_ESC
+<LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Cmd_2006_ESC
 </UL>
 
 <P><STRONG><a name="[cf]"></a>SET_Speed_Target</STRONG> (Thumb, 20 bytes, Stack size 24 bytes, drive_control.o(.text), UNUSED)
@@ -1521,11 +1522,14 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Speed_In_Control
 </UL>
 
-<P><STRONG><a name="[cc]"></a>Cmd_2006_ESC</STRONG> (Thumb, 34 bytes, Stack size 0 bytes, motor_cradle_head_1.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN_Transmit
+<P><STRONG><a name="[cb]"></a>Cmd_2006_ESC</STRONG> (Thumb, 34 bytes, Stack size 0 bytes, motor_cradle_head_1.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = Cmd_2006_ESC &rArr; CAN_Transmit
 </UL>
-<BR>[Called By]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Speed_In_Control
-<LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Angle_2006_Control
+<BR>[Calls]<UL><LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN_Transmit
+</UL>
+<BR>[Called By]<UL><LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Speed_2006_Control
+<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Speed_In_Control
+<LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Angle_2006_Control
 </UL>
 
 <P><STRONG><a name="[a5]"></a>Get_6623_data</STRONG> (Thumb, 190 bytes, Stack size 24 bytes, motor_cradle_head_1.o(.text))

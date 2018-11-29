@@ -267,13 +267,13 @@ Image Symbol Table
     .text                                    0x08002a4c   Section        0  stm32f4xx_usart.o(.text)
     .text                                    0x08002da4   Section        0  drive_rc.o(.text)
     .text                                    0x08002e40   Section        0  drive_control.o(.text)
-    .text                                    0x08003554   Section        0  motor_chassis.o(.text)
-    .text                                    0x08003620   Section        0  motor_cradle_head_1.o(.text)
-    .text                                    0x080038a0   Section        0  memcpya.o(.text)
-    .text                                    0x080038c4   Section       36  init.o(.text)
-    i.__scatterload_copy                     0x080038e8   Section       14  handlers.o(i.__scatterload_copy)
-    i.__scatterload_null                     0x080038f6   Section        2  handlers.o(i.__scatterload_null)
-    i.__scatterload_zeroinit                 0x080038f8   Section       14  handlers.o(i.__scatterload_zeroinit)
+    .text                                    0x08003560   Section        0  motor_chassis.o(.text)
+    .text                                    0x0800362c   Section        0  motor_cradle_head_1.o(.text)
+    .text                                    0x080038ac   Section        0  memcpya.o(.text)
+    .text                                    0x080038d0   Section       36  init.o(.text)
+    i.__scatterload_copy                     0x080038f4   Section       14  handlers.o(i.__scatterload_copy)
+    i.__scatterload_null                     0x08003902   Section        2  handlers.o(i.__scatterload_null)
+    i.__scatterload_zeroinit                 0x08003904   Section       14  handlers.o(i.__scatterload_zeroinit)
     .data                                    0x20000000   Section        4  delay.o(.data)
     fac_us                                   0x20000000   Data           1  delay.o(.data)
     fac_ms                                   0x20000002   Data           2  delay.o(.data)
@@ -677,34 +677,34 @@ Image Symbol Table
     Infan_Control_Init                       0x08002e41   Thumb Code   154  drive_control.o(.text)
     Angle_6623_Control                       0x08002edb   Thumb Code     2  drive_control.o(.text)
     Speed_3510_Control                       0x08002edd   Thumb Code   404  drive_control.o(.text)
-    Speed_2006_Control                       0x08003071   Thumb Code   108  drive_control.o(.text)
-    Angle_2006_Control                       0x080030dd   Thumb Code   192  drive_control.o(.text)
-    Speed_In_Control                         0x0800319d   Thumb Code   512  drive_control.o(.text)
-    SET_Speed_Target                         0x0800339d   Thumb Code    20  drive_control.o(.text)
-    GET_Speed_Measure                        0x080033b1   Thumb Code    54  drive_control.o(.text)
-    Angle_Out_Control                        0x080033e7   Thumb Code   280  drive_control.o(.text)
-    SET_Angle_Target                         0x080034ff   Thumb Code    18  drive_control.o(.text)
-    GET_Angle_Measure                        0x08003511   Thumb Code    42  drive_control.o(.text)
-    Cmd_3510_ESC                             0x08003555   Thumb Code    78  motor_chassis.o(.text)
-    Get_3510_data                            0x080035a3   Thumb Code   116  motor_chassis.o(.text)
-    Cmd_6623_ESC                             0x08003621   Thumb Code    38  motor_cradle_head_1.o(.text)
-    Cmd_2006_ESC                             0x08003647   Thumb Code    34  motor_cradle_head_1.o(.text)
-    Get_6623_data                            0x08003669   Thumb Code   190  motor_cradle_head_1.o(.text)
-    Get_2006_data                            0x08003727   Thumb Code   156  motor_cradle_head_1.o(.text)
-    Get_2006_Offset_angle                    0x080037c3   Thumb Code    28  motor_cradle_head_1.o(.text)
-    Snail_Calibration                        0x080037df   Thumb Code   106  motor_cradle_head_1.o(.text)
-    Snail_Stop                               0x08003849   Thumb Code    28  motor_cradle_head_1.o(.text)
-    Snail_Stat                               0x08003865   Thumb Code    28  motor_cradle_head_1.o(.text)
-    __aeabi_memcpy                           0x080038a1   Thumb Code    36  memcpya.o(.text)
-    __aeabi_memcpy4                          0x080038a1   Thumb Code     0  memcpya.o(.text)
-    __aeabi_memcpy8                          0x080038a1   Thumb Code     0  memcpya.o(.text)
-    __scatterload                            0x080038c5   Thumb Code    28  init.o(.text)
-    __scatterload_rt2                        0x080038c5   Thumb Code     0  init.o(.text)
-    __scatterload_copy                       0x080038e9   Thumb Code    14  handlers.o(i.__scatterload_copy)
-    __scatterload_null                       0x080038f7   Thumb Code     2  handlers.o(i.__scatterload_null)
-    __scatterload_zeroinit                   0x080038f9   Thumb Code    14  handlers.o(i.__scatterload_zeroinit)
-    Region$$Table$$Base                      0x08003908   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x08003928   Number         0  anon$$obj.o(Region$$Table)
+    Speed_2006_Control                       0x08003071   Thumb Code   122  drive_control.o(.text)
+    Angle_2006_Control                       0x080030eb   Thumb Code   192  drive_control.o(.text)
+    Speed_In_Control                         0x080031ab   Thumb Code   510  drive_control.o(.text)
+    SET_Speed_Target                         0x080033a9   Thumb Code    20  drive_control.o(.text)
+    GET_Speed_Measure                        0x080033bd   Thumb Code    54  drive_control.o(.text)
+    Angle_Out_Control                        0x080033f3   Thumb Code   280  drive_control.o(.text)
+    SET_Angle_Target                         0x0800350b   Thumb Code    18  drive_control.o(.text)
+    GET_Angle_Measure                        0x0800351d   Thumb Code    42  drive_control.o(.text)
+    Cmd_3510_ESC                             0x08003561   Thumb Code    78  motor_chassis.o(.text)
+    Get_3510_data                            0x080035af   Thumb Code   116  motor_chassis.o(.text)
+    Cmd_6623_ESC                             0x0800362d   Thumb Code    38  motor_cradle_head_1.o(.text)
+    Cmd_2006_ESC                             0x08003653   Thumb Code    34  motor_cradle_head_1.o(.text)
+    Get_6623_data                            0x08003675   Thumb Code   190  motor_cradle_head_1.o(.text)
+    Get_2006_data                            0x08003733   Thumb Code   156  motor_cradle_head_1.o(.text)
+    Get_2006_Offset_angle                    0x080037cf   Thumb Code    28  motor_cradle_head_1.o(.text)
+    Snail_Calibration                        0x080037eb   Thumb Code   106  motor_cradle_head_1.o(.text)
+    Snail_Stop                               0x08003855   Thumb Code    28  motor_cradle_head_1.o(.text)
+    Snail_Stat                               0x08003871   Thumb Code    28  motor_cradle_head_1.o(.text)
+    __aeabi_memcpy                           0x080038ad   Thumb Code    36  memcpya.o(.text)
+    __aeabi_memcpy4                          0x080038ad   Thumb Code     0  memcpya.o(.text)
+    __aeabi_memcpy8                          0x080038ad   Thumb Code     0  memcpya.o(.text)
+    __scatterload                            0x080038d1   Thumb Code    28  init.o(.text)
+    __scatterload_rt2                        0x080038d1   Thumb Code     0  init.o(.text)
+    __scatterload_copy                       0x080038f5   Thumb Code    14  handlers.o(i.__scatterload_copy)
+    __scatterload_null                       0x08003903   Thumb Code     2  handlers.o(i.__scatterload_null)
+    __scatterload_zeroinit                   0x08003905   Thumb Code    14  handlers.o(i.__scatterload_zeroinit)
+    Region$$Table$$Base                      0x08003914   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x08003934   Number         0  anon$$obj.o(Region$$Table)
     SystemCoreClock                          0x20000008   Data           4  system_stm32f4xx.o(.data)
     AHBPrescTable                            0x2000000c   Data          16  system_stm32f4xx.o(.data)
     g_DMA_Dbus_Buff                          0x2000002c   Data          18  bsp_dma.o(.bss)
@@ -726,9 +726,9 @@ Memory Map of the image
 
   Image Entry point : 0x080001ad
 
-  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00003954, Max: 0x00200000, ABSOLUTE)
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00003960, Max: 0x00200000, ABSOLUTE)
 
-    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x00003928, Max: 0x00200000, ABSOLUTE)
+    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x00003934, Max: 0x00200000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -764,27 +764,27 @@ Memory Map of the image
     0x08002840   0x08002840   0x0000020c   Code   RO          593    .text               stm32f4xx_gpio.o
     0x08002a4c   0x08002a4c   0x00000358   Code   RO          613    .text               stm32f4xx_usart.o
     0x08002da4   0x08002da4   0x0000009c   Code   RO          633    .text               drive_rc.o
-    0x08002e40   0x08002e40   0x00000714   Code   RO          659    .text               drive_control.o
-    0x08003554   0x08003554   0x000000cc   Code   RO          688    .text               motor_chassis.o
-    0x08003620   0x08003620   0x00000280   Code   RO          714    .text               motor_cradle_head_1.o
-    0x080038a0   0x080038a0   0x00000024   Code   RO          741    .text               mc_w.l(memcpya.o)
-    0x080038c4   0x080038c4   0x00000024   Code   RO          759    .text               mc_w.l(init.o)
-    0x080038e8   0x080038e8   0x0000000e   Code   RO          763    i.__scatterload_copy  mc_w.l(handlers.o)
-    0x080038f6   0x080038f6   0x00000002   Code   RO          764    i.__scatterload_null  mc_w.l(handlers.o)
-    0x080038f8   0x080038f8   0x0000000e   Code   RO          765    i.__scatterload_zeroinit  mc_w.l(handlers.o)
-    0x08003906   0x08003906   0x00000002   PAD
-    0x08003908   0x08003908   0x00000020   Data   RO          761    Region$$Table       anon$$obj.o
+    0x08002e40   0x08002e40   0x00000720   Code   RO          659    .text               drive_control.o
+    0x08003560   0x08003560   0x000000cc   Code   RO          688    .text               motor_chassis.o
+    0x0800362c   0x0800362c   0x00000280   Code   RO          714    .text               motor_cradle_head_1.o
+    0x080038ac   0x080038ac   0x00000024   Code   RO          741    .text               mc_w.l(memcpya.o)
+    0x080038d0   0x080038d0   0x00000024   Code   RO          759    .text               mc_w.l(init.o)
+    0x080038f4   0x080038f4   0x0000000e   Code   RO          763    i.__scatterload_copy  mc_w.l(handlers.o)
+    0x08003902   0x08003902   0x00000002   Code   RO          764    i.__scatterload_null  mc_w.l(handlers.o)
+    0x08003904   0x08003904   0x0000000e   Code   RO          765    i.__scatterload_zeroinit  mc_w.l(handlers.o)
+    0x08003912   0x08003912   0x00000002   PAD
+    0x08003914   0x08003914   0x00000020   Data   RO          761    Region$$Table       anon$$obj.o
 
 
-    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x08003928, Size: 0x00000938, Max: 0x00030000, ABSOLUTE)
+    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x08003934, Size: 0x00000938, Max: 0x00030000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000000   0x08003928   0x00000004   Data   RW          324    .data               delay.o
-    0x20000004   0x0800392c   0x00000001   Data   RW          366    .data               stm32f4xx_it.o
-    0x20000005   0x0800392d   0x00000003   PAD
-    0x20000008   0x08003930   0x00000014   Data   RW          390    .data               system_stm32f4xx.o
-    0x2000001c   0x08003944   0x00000010   Data   RW          511    .data               stm32f4xx_rcc.o
+    0x20000000   0x08003934   0x00000004   Data   RW          324    .data               delay.o
+    0x20000004   0x08003938   0x00000001   Data   RW          366    .data               stm32f4xx_it.o
+    0x20000005   0x08003939   0x00000003   PAD
+    0x20000008   0x0800393c   0x00000014   Data   RW          390    .data               system_stm32f4xx.o
+    0x2000001c   0x08003950   0x00000010   Data   RW          511    .data               stm32f4xx_rcc.o
     0x2000002c        -       0x00000210   Zero   RW          209    .bss                bsp_dma.o
     0x2000023c        -       0x0000001c   Zero   RW          634    .bss                drive_rc.o
     0x20000258        -       0x0000027c   Zero   RW          660    .bss                drive_control.o
@@ -804,12 +804,12 @@ Image component sizes
        288         20          0          0        528       1265   bsp_dma.o
        416         24          0          0          0        740   bsp_gpio.o
        268         24          0          0          0        644   bsp_nvic.o
-       168         10          0          0          0        668   bsp_time.o
+       168         10          0          0          0        640   bsp_time.o
        168         12          0          0          0        585   bsp_usart.o
        184          4          0          4          0       1433   delay.o
-      1812         96          0          0        636       5082   drive_control.o
+      1824         94          0          0        636       5098   drive_control.o
        156         10          0          0         28       1251   drive_rc.o
-        44          4          0          0          0       2924   main.o
+        44          4          0          0          0       2111   main.o
        340          8          0          0          0       2876   math_pid.o
        148         12          0          0          0       6404   math_tool.o
        176         12          0          0          0       1929   misc.o
@@ -819,7 +819,7 @@ Image component sizes
       1800         44          0          0          0       8764   stm32f4xx_can.o
        800         32          0          0          0       6949   stm32f4xx_dma.o
        524         44          0          0          0       4457   stm32f4xx_gpio.o
-       576         58          0          1          0       3039   stm32f4xx_it.o
+       576         58          0          1          0       2999   stm32f4xx_it.o
       1160         52          0         16          0      13332   stm32f4xx_rcc.o
       2524         52          0          0          0      23978   stm32f4xx_tim.o
        856         32          0          0          0       8272   stm32f4xx_usart.o
@@ -827,7 +827,7 @@ Image component sizes
        412         40          0         20          0       1883   system_stm32f4xx.o
 
     ----------------------------------------------------------------------
-     14048        656        460         44       2316     412325   Object Totals
+     14060        654        460         44       2316     411460   Object Totals
          0          0         32          0          0          0   (incl. Generated)
          0          0          0          3          0          0   (incl. Padding)
 
@@ -867,15 +867,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     14172        672        460         44       2316     407865   Grand Totals
-     14172        672        460         44       2316     407865   ELF Image Totals
-     14172        672        460         44          0          0   ROM Totals
+     14184        670        460         44       2316     407000   Grand Totals
+     14184        670        460         44       2316     407000   ELF Image Totals
+     14184        670        460         44          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                14632 (  14.29kB)
+    Total RO  Size (Code + RO Data)                14644 (  14.30kB)
     Total RW  Size (RW Data + ZI Data)              2360 (   2.30kB)
-    Total ROM Size (Code + RO Data + RW Data)      14676 (  14.33kB)
+    Total ROM Size (Code + RO Data + RW Data)      14688 (  14.34kB)
 
 ==============================================================================
 

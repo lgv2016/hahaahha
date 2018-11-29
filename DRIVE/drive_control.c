@@ -92,7 +92,7 @@ void Speed_2006_Control(object_t target,float deltaT)
     s_speed_contorl_out.shoot         	= ConstrainFloat(s_speed_contorl_out.shoot,-10000,10000);
 	
 	//can·¢ËÍ¿ØÖÆÁ¿
-	//Cmd_2006_ESC(s_speed_contorl_out.shoot);
+	Cmd_2006_ESC(s_speed_contorl_out.shoot);
 }
 
 void Angle_2006_Control(object_t target,float deltaT)

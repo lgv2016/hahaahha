@@ -231,8 +231,7 @@ void USART6_IRQHandler()
 
 void TIM6_DAC_IRQHandler()
 {
-    object_t speed_measure;
-    object_t angle_measure;
+
     
     if(TIM_GetITStatus( TIM6,TIM_IT_Update)!= RESET )
     {
