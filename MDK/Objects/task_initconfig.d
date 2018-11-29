@@ -1,0 +1,14 @@
+.\objects\task_initconfig.o: ..\TASK\task_initconfig.c
+.\objects\task_initconfig.o: ..\TASK\task_initconfig.h
+.\objects\task_initconfig.o: ..\freeRTOS\include\FreeRTOS.h
+.\objects\task_initconfig.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\task_initconfig.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\task_initconfig.o: ..\USER\FreeRTOSConfig.h
+.\objects\task_initconfig.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\task_initconfig.o: ..\freeRTOS\include\projdefs.h
+.\objects\task_initconfig.o: ..\freeRTOS\include\portable.h
+.\objects\task_initconfig.o: ..\freeRTOS\include\deprecated_definitions.h
+.\objects\task_initconfig.o: ..\freeRTOS\portable\RVDS\ARM_CM4F\portmacro.h
+.\objects\task_initconfig.o: ..\freeRTOS\include\mpu_wrappers.h
+.\objects\task_initconfig.o: ..\freeRTOS\include\task.h
+.\objects\task_initconfig.o: ..\freeRTOS\include\list.h

@@ -2,7 +2,6 @@
 //所用驱动为2016年旧版电调
 #include <motor_cradle_head.h>
 #include <math_tool.h>
-#include <delay.h>
 
 static CanTxMsg s_tx_message;
 
@@ -137,20 +136,20 @@ void Get_2006_Offset_angle(CanRxMsg rx_message)
     } 
 }
 
-void Snail_Calibration()
-{ 
-    TIM_Cmd(TIM5, DISABLE);
-    delay_ms(500);
-    TIM_Cmd(TIM5, ENABLE);	
-    TIM_SetCompare4(TIM5,2000-1);
-    TIM_SetCompare3(TIM5,2000-1);
-    delay_ms(500);
-    TIM_SetCompare4(TIM5,1000-1);
-    TIM_SetCompare3(TIM5,1000-1);
-    delay_ms(1500);
-    TIM_SetCompare4(TIM5,1200-1);
-    TIM_SetCompare3(TIM5,1200-1);
-}
+//void Snail_Calibration()
+//{ 
+//    TIM_Cmd(TIM5, DISABLE);
+//    delay_ms(500);
+//    TIM_Cmd(TIM5, ENABLE);	
+//    TIM_SetCompare4(TIM5,2000-1);
+//    TIM_SetCompare3(TIM5,2000-1);
+//    delay_ms(500);
+//    TIM_SetCompare4(TIM5,1000-1);
+//    TIM_SetCompare3(TIM5,1000-1);
+//    delay_ms(1500);
+//    TIM_SetCompare4(TIM5,1200-1);
+//    TIM_SetCompare3(TIM5,1200-1);
+//}
 
 void Snail_Stop()
 {

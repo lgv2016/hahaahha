@@ -41,4 +41,3 @@
 .\objects\motor_cradle_head_1.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\motor_cradle_head_1.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\motor_cradle_head_1.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
-.\objects\motor_cradle_head_1.o: ..\USER\delay.h

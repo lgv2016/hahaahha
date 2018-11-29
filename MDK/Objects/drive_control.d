@@ -44,3 +44,4 @@
 .\objects\drive_control.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\drive_control.o: ..\MOTOR\motor_chassis.h
 .\objects\drive_control.o: ..\MOTOR\motor_cradle_head.h
+.\objects\drive_control.o: ..\DRIVE\drive_delay.h

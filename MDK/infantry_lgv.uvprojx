@@ -337,7 +337,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F427_437xx,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\CORE;..\USER;..\FWLIB\inc;..\BSP;..\MOTOR;..\MATH;..\DRIVE;..\freeRTOS\include;..\freeRTOS\portable\RVDS\ARM_CM4F</IncludePath>
+              <IncludePath>..\CORE;..\USER;..\FWLIB\inc;..\BSP;..\MOTOR;..\MATH;..\DRIVE;..\freeRTOS\include;..\freeRTOS\portable\RVDS\ARM_CM4F;..\TASK</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -411,6 +411,11 @@
               <FileType>1</FileType>
               <FilePath>..\BSP\bsp_nvic.c</FilePath>
             </File>
+            <File>
+              <FileName>bsp_delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\bsp_delay.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -423,11 +428,6 @@
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\USER\main.c</FilePath>
-            </File>
-            <File>
-              <FileName>delay.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USER\delay.c</FilePath>
             </File>
             <File>
               <FileName>sysconfig.c</FileName>
@@ -478,6 +478,13 @@
         </Group>
         <Group>
           <GroupName>TASK</GroupName>
+          <Files>
+            <File>
+              <FileName>task_config.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\TASK\task_config.c</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>FWLIB</GroupName>
@@ -531,6 +538,11 @@
               <FileName>drive_rc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\DRIVE\drive_rc.c</FilePath>
+            </File>
+            <File>
+              <FileName>drive_delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DRIVE\drive_delay.c</FilePath>
             </File>
             <File>
               <FileName>drive_control.c</FileName>

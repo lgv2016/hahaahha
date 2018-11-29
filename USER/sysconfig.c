@@ -2,8 +2,7 @@
 
 void SYS_Config_Init()
 {
-    
-    delay_init(180);
+	BSP_DWT_Init();
     BSP_GPIO_Init();
     BSP_USART_Init();
     

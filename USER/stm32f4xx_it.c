@@ -203,7 +203,7 @@ void DMA2_Stream7_IRQHandler(void)
 void USART6_IRQHandler()
 {
 	u16 RxCounter;
-	u8 clear=0;
+	u8 clear;
 	u16 i=0;
 	if(USART_GetITStatus(USART6,USART_IT_IDLE)!=RESET)
 	{
@@ -231,13 +231,13 @@ void USART6_IRQHandler()
 
 void TIM6_DAC_IRQHandler()
 {
-    object_t speed_measure;
-    object_t angle_measure;
-    
+
     if(TIM_GetITStatus( TIM6,TIM_IT_Update)!= RESET )
     {
-		Speed_2006_Control(g_speed_target,0.01);  
-	    Speed_3510_Control(g_speed_target,0.01);
+
+		Speed_2006_Control(g_speed_target);  
+	    Speed_3510_Control(g_speed_target);
+		
         TIM_ClearITPendingBit(TIM6 , TIM_IT_Update);
     }
 }
