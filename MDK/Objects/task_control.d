@@ -55,3 +55,4 @@
 .\objects\task_control.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\task_control.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\task_control.o: ..\DRIVE\drive_delay.h
+.\objects\task_control.o: ..\USER\robotstatus.h

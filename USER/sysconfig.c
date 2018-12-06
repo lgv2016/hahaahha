@@ -3,6 +3,7 @@
 void SYS_Config_Init()
 {
 	BSP_DWT_Init();
+	
     BSP_GPIO_Init();
     BSP_USART_Init();
     
@@ -11,9 +12,9 @@ void SYS_Config_Init()
     
     BSP_TIME_Init();
     BSP_NVIC_Init();
-
+	
+			        
     Infan_Control_Init();
-    
 }
 
 int fputc(int ch, FILE *f)

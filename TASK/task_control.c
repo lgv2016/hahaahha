@@ -2,10 +2,12 @@
 #include <drive_control.h>
 #include <drive_delay.h>
 
+#include <robotstatus.h>
+
 
 void vTaskControl(void *pvParameters)
 {
-	vTaskDelay(500);
+	vTaskDelay(1000);  //6623开始时数据不正确，需要延时等待
     while(1)
     {
 		Speed_2006_Control(g_speed_target);

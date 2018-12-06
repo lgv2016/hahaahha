@@ -335,9 +335,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>STM32F427_437xx,USE_STDPERIPH_DRIVER</Define>
+              <Define>STM32F427_437xx,USE_STDPERIPH_DRIVER,MPL_LOG_NDEBUG=0,EMPL,MPU6500,EMPL_TARGET_STM32F4</Define>
               <Undefine></Undefine>
-              <IncludePath>..\CORE;..\USER;..\FWLIB\inc;..\BSP;..\MOTOR;..\MATH;..\DRIVE;..\freeRTOS\include;..\freeRTOS\portable\RVDS\ARM_CM4F;..\TASK</IncludePath>
+              <IncludePath>..\CORE;..\USER;..\FWLIB\inc;..\BSP;..\MOTOR;..\MATH;..\DRIVE;..\freeRTOS\include;..\freeRTOS\portable\RVDS\ARM_CM4F;..\TASK;..\DMP\driver\eMPL;..\DMP\driver\include;..\DMP\driver\stm32L;..\DMP\eMPL-hal;..\DMP\mllite;..\DMP\mpl</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -420,6 +420,78 @@
         </Group>
         <Group>
           <GroupName>DMP</GroupName>
+          <Files>
+            <File>
+              <FileName>mpl.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DMP\mllite\mpl.c</FilePath>
+            </File>
+            <File>
+              <FileName>mlmath.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DMP\mllite\mlmath.c</FilePath>
+            </File>
+            <File>
+              <FileName>inv_mpu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DMP\driver\eMPL\inv_mpu.c</FilePath>
+            </File>
+            <File>
+              <FileName>log_stm32.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DMP\driver\stm32L\log_stm32.c</FilePath>
+            </File>
+            <File>
+              <FileName>hal_outputs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DMP\mllite\hal_outputs.c</FilePath>
+            </File>
+            <File>
+              <FileName>data_builder.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DMP\mllite\data_builder.c</FilePath>
+            </File>
+            <File>
+              <FileName>eMPL_outputs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DMP\eMPL-hal\eMPL_outputs.c</FilePath>
+            </File>
+            <File>
+              <FileName>message_layer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DMP\mllite\message_layer.c</FilePath>
+            </File>
+            <File>
+              <FileName>ml_math_func.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DMP\mllite\ml_math_func.c</FilePath>
+            </File>
+            <File>
+              <FileName>results_holder.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DMP\mllite\results_holder.c</FilePath>
+            </File>
+            <File>
+              <FileName>start_manager.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DMP\mllite\start_manager.c</FilePath>
+            </File>
+            <File>
+              <FileName>storage_manager.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DMP\mllite\storage_manager.c</FilePath>
+            </File>
+            <File>
+              <FileName>inv_mpu_dmp_motion_driver.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DMP\driver\eMPL\inv_mpu_dmp_motion_driver.c</FilePath>
+            </File>
+            <File>
+              <FileName>libmpllib.lib</FileName>
+              <FileType>4</FileType>
+              <FilePath>..\DMP\mpl\libmpllib.lib</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>USER</GroupName>
@@ -438,6 +510,16 @@
               <FileName>stm32f4xx_it.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\USER\stm32f4xx_it.c</FilePath>
+            </File>
+            <File>
+              <FileName>robotstatus.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USER\robotstatus.c</FilePath>
+            </File>
+            <File>
+              <FileName>robotstatus.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\USER\robotstatus.h</FilePath>
             </File>
             <File>
               <FileName>FreeRTOSConfig.h</FileName>
@@ -553,6 +635,11 @@
               <FileName>drive_rc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\DRIVE\drive_rc.c</FilePath>
+            </File>
+            <File>
+              <FileName>drive_imu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DRIVE\drive_imu.c</FilePath>
             </File>
             <File>
               <FileName>drive_delay.c</FileName>

@@ -66,4 +66,8 @@ extern void Angle_6623_Control(object_t target);
 extern void Speed_2006_Control(object_t target);
 extern void Angle_2006_Control(object_t target);
 
+
+extern u8 configMPU_INIT;
+extern u8 configUSE_DMP;
+
 #endif

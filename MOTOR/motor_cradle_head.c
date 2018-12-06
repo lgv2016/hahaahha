@@ -3,6 +3,10 @@
 #include <motor_cradle_head.h>
 #include <math_tool.h>
 #include <drive_delay.h>
+#include "FreeRTOS.h"
+#include "timers.h"
+#include <robotstatus.h>
+
 
 static CanTxMsg s_tx_message;
 
@@ -56,14 +60,10 @@ void Get_6623_data(CanRxMsg rx_message)
     {
        case 0x205:
       {
-          
           g_data_6623.pre_angle[YAW]         =   rx_message.Data[0]<<8|rx_message.Data[1];
           g_data_6623.actual_current[YAW]    =   rx_message.Data[2]<<8|rx_message.Data[3];
           g_data_6623.set_current[YAW]       =   rx_message.Data[4]<<8|rx_message.Data[5];
-          
           g_data_6623.angle[YAW]=(g_data_6623.pre_angle[YAW]*360.0f)/8191.0f;
-          
-          
           break;
       }
       case 0x206:
@@ -71,9 +71,7 @@ void Get_6623_data(CanRxMsg rx_message)
           g_data_6623.pre_angle[PITCH]         =   rx_message.Data[0]<<8|rx_message.Data[1];
           g_data_6623.actual_current[PITCH]    =   rx_message.Data[2]<<8|rx_message.Data[3];
           g_data_6623.set_current[PITCH]       =   rx_message.Data[4]<<8|rx_message.Data[5];
-		  
 		  g_data_6623.angle[PITCH]=(g_data_6623.pre_angle[PITCH]*360.0f)/8191.0f;
-    
           break;
       }
       default:
@@ -129,20 +127,20 @@ void Get_2006_Offset_angle(CanRxMsg rx_message)
     } 
 }
 
-//void Snail_Calibration()
-//{ 
-//    TIM_Cmd(TIM5, DISABLE);
-//    delay_ms(500);
-//    TIM_Cmd(TIM5, ENABLE);	
-//    TIM_SetCompare4(TIM5,2000-1);
-//    TIM_SetCompare3(TIM5,2000-1);
-//    delay_ms(500);
-//    TIM_SetCompare4(TIM5,1000-1);
-//    TIM_SetCompare3(TIM5,1000-1);
-//    delay_ms(1500);
-//    TIM_SetCompare4(TIM5,1200-1);
-//    TIM_SetCompare3(TIM5,1200-1);
-//}
+void Snail_Calibration()
+{ 
+    TIM_Cmd(TIM5, DISABLE);
+    vTaskDelay(500);
+    TIM_Cmd(TIM5, ENABLE);	
+    TIM_SetCompare4(TIM5,2000-1);
+    TIM_SetCompare3(TIM5,2000-1);
+    vTaskDelay(500);
+    TIM_SetCompare4(TIM5,1000-1);
+    TIM_SetCompare3(TIM5,1000-1);
+    vTaskDelay(2000);
+    TIM_SetCompare4(TIM5,1200-1);
+    TIM_SetCompare3(TIM5,1200-1);
+}
 
 void Snail_Stop()
 {

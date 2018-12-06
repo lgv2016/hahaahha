@@ -30,6 +30,7 @@ void Get_3510_data(CanRxMsg rx_message)
       {
           g_data_3510.angle[LF]=rx_message.Data[0]<<8|rx_message.Data[1];
           g_data_3510.speed[LF]=rx_message.Data[2]<<8|rx_message.Data[3];
+		 // printf("%d\r\n",g_data_3510.speed[LF]);
           break;
       }
        case 0x202:

@@ -42,3 +42,16 @@
 .\objects\motor_cradle_head_1.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\motor_cradle_head_1.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\motor_cradle_head_1.o: ..\DRIVE\drive_delay.h
+.\objects\motor_cradle_head_1.o: ..\freeRTOS\include\FreeRTOS.h
+.\objects\motor_cradle_head_1.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\motor_cradle_head_1.o: ..\USER\FreeRTOSConfig.h
+.\objects\motor_cradle_head_1.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\motor_cradle_head_1.o: ..\freeRTOS\include\projdefs.h
+.\objects\motor_cradle_head_1.o: ..\freeRTOS\include\portable.h
+.\objects\motor_cradle_head_1.o: ..\freeRTOS\include\deprecated_definitions.h
+.\objects\motor_cradle_head_1.o: ..\freeRTOS\portable\RVDS\ARM_CM4F\portmacro.h
+.\objects\motor_cradle_head_1.o: ..\freeRTOS\include\mpu_wrappers.h
+.\objects\motor_cradle_head_1.o: ..\freeRTOS\include\timers.h
+.\objects\motor_cradle_head_1.o: ..\freeRTOS\include\task.h
+.\objects\motor_cradle_head_1.o: ..\freeRTOS\include\list.h
+.\objects\motor_cradle_head_1.o: ..\USER\robotstatus.h

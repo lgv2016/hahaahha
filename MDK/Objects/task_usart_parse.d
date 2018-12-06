@@ -49,3 +49,4 @@
 .\objects\task_usart_parse.o: ..\FWLIB\inc\stm32f4xx_dma2d.h
 .\objects\task_usart_parse.o: ..\FWLIB\inc\stm32f4xx_fmc.h
 .\objects\task_usart_parse.o: ..\FWLIB\inc\stm32f4xx_sai.h
+.\objects\task_usart_parse.o: ..\MOTOR\motor_cradle_head.h

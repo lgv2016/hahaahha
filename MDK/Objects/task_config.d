@@ -37,6 +37,7 @@
 .\objects\task_config.o: ..\FWLIB\inc\stm32f4xx_fmc.h
 .\objects\task_config.o: ..\FWLIB\inc\stm32f4xx_sai.h
 .\objects\task_config.o: ..\MOTOR\motor_cradle_head.h
+.\objects\task_config.o: ..\DRIVE\drive_imu.h
 .\objects\task_config.o: ..\DRIVE\drive_control.h
 .\objects\task_config.o: ..\MATH\math_pid.h
 .\objects\task_config.o: ..\MATH\math_tool.h
@@ -58,3 +59,6 @@
 .\objects\task_config.o: ..\TASK\task_can_parse.h
 .\objects\task_config.o: ..\TASK\task_control.h
 .\objects\task_config.o: ..\TASK\task_usart_parse.h
+.\objects\task_config.o: ..\DMP\driver\eMPL\inv_mpu.h
+.\objects\task_config.o: ..\DMP\driver\eMPL\inv_mpu_dmp_motion_driver.h
+.\objects\task_config.o: ..\USER\robotstatus.h
