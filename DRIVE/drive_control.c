@@ -3,6 +3,10 @@
 #include <motor_cradle_head.h>
 #include <drive_delay.h>
  
+ #include <robotstatus.h>
+ 
+
+
 infantry_control_t g_infc;
 
 object_t g_speed_target;
@@ -19,54 +23,72 @@ static void PID_Reset(void)
     PID_SetParam(&g_infc.pid[SHOOT_SPEED],5.0, 0.1 ,  0,  5000,   0);
     PID_SetParam(&g_infc.pid[SHOOT_ANGLE],180, 0   ,  0,  5000,   0);
 	
+    PID_SetParam(&g_infc.pid[PITCH_ANGLE],46, 253 ,  0,  3000,   0);
+	PID_SetParam(&g_infc.pid[YAW_ANGLE],35.7, 64.89 ,  0,  3000,   0);
 	
-	
-    PID_SetParam(&g_infc.pid[PITCH_ANGLE],36.0, 0 ,  0,  2000,   0);
-	
-	PID_SetParam(&g_infc.pid[LF_SPEED],   3.5, 1.26,  0,  5000,   0);
+	PID_SetParam(&g_infc.pid[LF_SPEED],  1.8, 5.6,  0,  5000,   0);
+	PID_SetParam(&g_infc.pid[LA_SPEED],  1.8, 5.6,  0,  5000,   0);
+	PID_SetParam(&g_infc.pid[RF_SPEED],  1.8, 5.6,  0,  5000,   0);
+	PID_SetParam(&g_infc.pid[RA_SPEED],  1.8, 5.6,  0,  5000,   0);
 }
 void Infan_Control_Init(void)
 {
 	
-	g_angle_target.pitch=244;
-	
+	g_angle_target.pitch=263;
+	g_angle_target.yaw=88;
 	
 	g_speed_target.shoot=3500;
-	g_speed_target.lf=3200;
+	g_speed_target.lf=4000;
+	g_speed_target.la=4000;
+	g_speed_target.rf=4000;
+	g_speed_target.ra=4000;
+	
 
 	PID_Reset();
 }
 void Angle_6623_Control(object_t target)
 {
-    //函数运算间隔计算
-   	static uint64_t previousT;
-    float deltaT = (Get_SysTimeUs() - previousT) * 1e-6;
-    previousT = Get_SysTimeUs();
-	
-	g_infc.angle_outer_target.pitch		= target.pitch;
-	g_infc.angle_outer_target.yaw		= target.yaw;
-	
-	//计算角度控制误差
-	g_infc.angle_outer_error.pitch  	= g_infc.angle_outer_target.pitch - g_data_6623.angle[PITCH];
-	g_infc.angle_outer_error.yaw  	    = g_infc.angle_outer_target.yaw   - g_data_6623.angle[YAW];
-	
-	//死区控制
-    g_infc.angle_outer_error.pitch  	= ApplyDeadbandFloat(g_infc.angle_outer_error.pitch,0.05);
-	g_infc.angle_outer_error.yaw  	    = ApplyDeadbandFloat(g_infc.angle_outer_error.yaw,  0.05);
-	
-	
-	//PID算法，计算出角度环的控制量
-    s_angle_contorl_out.pitch         	= PID_GetPID(&g_infc.pid[PITCH_ANGLE],g_infc.angle_outer_error.pitch,deltaT);
-	s_angle_contorl_out.yaw         	= PID_GetPID(&g_infc.pid[YAW_ANGLE],  g_infc.angle_outer_error.yaw,  deltaT);
-	
-	//输出限幅
-    s_angle_contorl_out.pitch         	= ConstrainFloat(s_angle_contorl_out.pitch,-3000,3000);
-	s_angle_contorl_out.yaw         	= ConstrainFloat(s_angle_contorl_out.yaw,  -3000,3000);
+	static u8 error_temp=0;
+	if(robot_status.imu_data==DATA_FALSE&&robot_status.imu_status==CORRECT)
+	{
+		//函数运算间隔计算
+		static uint64_t previousT;
+		float deltaT = (Get_SysTimeUs() - previousT) * 1e-6;
+		previousT = Get_SysTimeUs();
 		
-  //  Cmd_6623_ESC(-s_angle_contorl_out.yaw,-s_angle_contorl_out.pitch);
-	Cmd_6623_ESC(0,0);
-	
-	
+		g_infc.angle_outer_target.pitch		= target.pitch;
+		g_infc.angle_outer_target.yaw		= target.yaw;
+		
+		//计算角度控制误差
+		g_infc.angle_outer_error.pitch  	= g_infc.angle_outer_target.pitch - g_data_6623.angle[PITCH];
+		g_infc.angle_outer_error.yaw  	    = g_infc.angle_outer_target.yaw   - g_data_6623.angle[YAW];
+		
+		//死区控制
+		g_infc.angle_outer_error.pitch  	= ApplyDeadbandFloat(g_infc.angle_outer_error.pitch,0.05);
+		g_infc.angle_outer_error.yaw  	    = ApplyDeadbandFloat(g_infc.angle_outer_error.yaw,  0.05);
+		
+		if(abs(g_infc.angle_outer_error.pitch)<0.5f)//&&abs((g_infc.angle_outer_error.yaw)<0.5f//))
+		{
+			error_temp++;
+			if(error_temp>=100)
+			{
+				//robot_status.imu_status=CORRECT_START;
+				error_temp=0;
+			}
+			
+		}
+		//PID算法，计算出角度环的控制量
+		s_angle_contorl_out.pitch         	= PID_GetPID(&g_infc.pid[PITCH_ANGLE],g_infc.angle_outer_error.pitch,deltaT);
+		s_angle_contorl_out.yaw         	= PID_GetPID(&g_infc.pid[YAW_ANGLE],  g_infc.angle_outer_error.yaw,  deltaT);
+		
+		//输出限幅
+		s_angle_contorl_out.pitch         	= ConstrainFloat(s_angle_contorl_out.pitch,-3000,3000);
+		s_angle_contorl_out.yaw         	= ConstrainFloat(s_angle_contorl_out.yaw,  -3000,3000);
+		
+		Cmd_6623_ESC(0,-s_angle_contorl_out.pitch);
+    }
+//	if(robot_status.imu_data==DATA_TRUE)
+//	   Cmd_6623_ESC(0,0);
 }
 
 
@@ -91,10 +113,10 @@ void Speed_3510_Control(object_t target)
 	g_infc.speed_inner_error.ra     = g_infc.speed_inner_target.ra      - g_data_3510.speed[RA];
 	
 	//死区控制
-	g_infc.speed_inner_error.lf     = ApplyDeadbandFloat( g_infc.speed_inner_error.lf,10);
-	g_infc.speed_inner_error.la     = ApplyDeadbandFloat( g_infc.speed_inner_error.la,10);
-	g_infc.speed_inner_error.rf     = ApplyDeadbandFloat( g_infc.speed_inner_error.rf,10);
-	g_infc.speed_inner_error.ra     = ApplyDeadbandFloat( g_infc.speed_inner_error.ra,10);
+	g_infc.speed_inner_error.lf     = ApplyDeadbandFloat( g_infc.speed_inner_error.lf,5);
+	g_infc.speed_inner_error.la     = ApplyDeadbandFloat( g_infc.speed_inner_error.la,5);
+	g_infc.speed_inner_error.rf     = ApplyDeadbandFloat( g_infc.speed_inner_error.rf,5);
+	g_infc.speed_inner_error.ra     = ApplyDeadbandFloat( g_infc.speed_inner_error.ra,5);
 	
 	//PID算法，计算出速度环的控制量
 	s_speed_contorl_out.lf          = PID_GetPID(&g_infc.pid[LF_SPEED],g_infc.speed_inner_error.lf,deltaT);
@@ -262,7 +284,6 @@ object_t GET_Speed_Measure(void)
 void Angle_Out_Control(object_t measure,float deltaT)
 {
     
-   // object_t s_angle_contorl_out;
     
     //计算角度控制误差
     g_infc.angle_outer_error.shoot  = g_infc.angle_outer_target.shoot-measure.shoot;
