@@ -16,8 +16,8 @@ enum
 
 typedef struct
 {
-    float    speed[NUM_3510];
-    u16      angle[NUM_3510];
+    int16_t    speed[NUM_3510];
+    u16        angle[NUM_3510];
 }data_3510_t;
 
 
