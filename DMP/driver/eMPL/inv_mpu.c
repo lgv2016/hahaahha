@@ -3509,18 +3509,10 @@ u8 mpu_mpl_get_data()
         accel[2] = (long)accel_short[2];
         inv_build_accel(accel,0,sensor_timestamp);      //把加速度值发给MPL
     }
-    
-//    if (!mpu_get_compass_reg(compass_short, &sensor_timestamp)) 
-//    {
-//        compass[0]=(long)compass_short[0];
-//        compass[1]=(long)compass_short[1];
-//        compass[2]=(long)compass_short[2];
-//        inv_build_compass(compass,0,sensor_timestamp); //把磁力计值发给MPL
-//    }
     inv_execute_on_data();
     inv_get_sensor_type_euler(data,&accuracy,&timestamp);
 	
-    g_imu_data.pit  = -(data[0]/q16);
+    g_imu_data.pit  =  (data[0]/q16);
     g_imu_data.rol  =  (data[1]/q16);
     g_imu_data.yaw  =  data[2] / q16;
 	return 0;
