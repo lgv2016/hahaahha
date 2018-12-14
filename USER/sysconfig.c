@@ -15,6 +15,8 @@ void SYS_Config_Init()
 	
 			        
     Infan_Control_Init();
+	
+
 }
 
 int fputc(int ch, FILE *f)

@@ -24,6 +24,10 @@
 
 #include <task_config.h>
 #include <task_can_parse.h>
+#include <task_control.h>
+
+
+#include <robotstatus.h>
 
 
 #include "inv_mpu.h"

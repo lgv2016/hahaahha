@@ -68,5 +68,7 @@
 .\objects\sysconfig.o: ..\freeRTOS\include\task.h
 .\objects\sysconfig.o: ..\freeRTOS\include\list.h
 .\objects\sysconfig.o: ..\TASK\task_can_parse.h
+.\objects\sysconfig.o: ..\TASK\task_control.h
+.\objects\sysconfig.o: ..\USER\robotstatus.h
 .\objects\sysconfig.o: ..\DMP\driver\eMPL\inv_mpu.h
 .\objects\sysconfig.o: ..\DMP\driver\eMPL\inv_mpu_dmp_motion_driver.h

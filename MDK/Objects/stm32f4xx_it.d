@@ -69,5 +69,7 @@
 .\objects\stm32f4xx_it.o: ..\freeRTOS\include\task.h
 .\objects\stm32f4xx_it.o: ..\freeRTOS\include\list.h
 .\objects\stm32f4xx_it.o: ..\TASK\task_can_parse.h
+.\objects\stm32f4xx_it.o: ..\TASK\task_control.h
+.\objects\stm32f4xx_it.o: ..\USER\robotstatus.h
 .\objects\stm32f4xx_it.o: ..\DMP\driver\eMPL\inv_mpu.h
 .\objects\stm32f4xx_it.o: ..\DMP\driver\eMPL\inv_mpu_dmp_motion_driver.h

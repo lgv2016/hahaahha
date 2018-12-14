@@ -581,6 +581,16 @@
               <FileType>1</FileType>
               <FilePath>..\TASK\task_usart_parse.c</FilePath>
             </File>
+            <File>
+              <FileName>task_rc_parse.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\TASK\task_rc_parse.c</FilePath>
+            </File>
+            <File>
+              <FileName>task_imudata.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\TASK\task_imudata.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -625,6 +635,11 @@
               <FileName>stm32f4xx_usart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\FWLIB\src\stm32f4xx_usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_syscfg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\FWLIB\src\stm32f4xx_syscfg.c</FilePath>
             </File>
           </Files>
         </Group>

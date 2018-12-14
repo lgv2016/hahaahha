@@ -44,6 +44,7 @@
 .\objects\task_config.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\task_config.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\task_config.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\task_config.o: ..\DRIVE\drive_delay.h
 .\objects\task_config.o: ..\TASK\task_config.h
 .\objects\task_config.o: ..\freeRTOS\include\FreeRTOS.h
 .\objects\task_config.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
@@ -59,6 +60,9 @@
 .\objects\task_config.o: ..\TASK\task_can_parse.h
 .\objects\task_config.o: ..\TASK\task_control.h
 .\objects\task_config.o: ..\TASK\task_usart_parse.h
+.\objects\task_config.o: ..\TASK\task_rc_parse.h
+.\objects\task_config.o: ..\TASK\task_imudata.h
 .\objects\task_config.o: ..\DMP\driver\eMPL\inv_mpu.h
 .\objects\task_config.o: ..\DMP\driver\eMPL\inv_mpu_dmp_motion_driver.h
+.\objects\task_config.o: ..\BSP\bsp_nvic.h
 .\objects\task_config.o: ..\USER\robotstatus.h
