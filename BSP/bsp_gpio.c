@@ -13,7 +13,7 @@ void  BSP_GPIO_Init(void)
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOH,ENABLE);
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOI,ENABLE);
 	
-	//RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);//使用外部中断
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);//使用外部中断
     
     //IMU 模拟IIC    
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6|GPIO_Pin_7|GPIO_Pin_8|GPIO_Pin_9;   
@@ -36,7 +36,7 @@ void  BSP_GPIO_Init(void)
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
 	GPIO_Init(GPIOB, &GPIO_InitStructure);
-	//SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOB,EXTI_PinSource8);
+	SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOB,EXTI_PinSource8);
 	
     
     //LED   

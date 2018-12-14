@@ -249,37 +249,49 @@ void TIM5_IRQHandler()
 
 void CAN1_RX0_IRQHandler(void)
 {
-	static u8 flag=1;
 	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-
 	if(CAN_GetITStatus(CAN1,CAN_IT_FMP0)!=RESET)
 	{
 		CAN_Receive(CAN1, CAN_FIFO0, &s_rx_message);
-		if(flag&&(s_rx_message.StdId==0x207))
+		if(g_2006_angle_flag&&(s_rx_message.StdId==0x207))
 		{
 			Get_2006_Offset_angle(s_rx_message);
-			flag=0;
+			g_2006_angle_flag=0;
 		}
-		vTaskNotifyGiveFromISR(xHandleTaskCANParse, &xHigherPriorityTaskWoken);
-
 		CAN_ClearITPendingBit(CAN1,CAN_IT_FMP0);
+		
+		vTaskNotifyGiveFromISR(xHandleTaskCANParse, &xHigherPriorityTaskWoken);
 		portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
 	}
 }
 
 void DMA2_Stream2_IRQHandler(void)
 {
-    
-  if(DMA_GetITStatus(DMA2_Stream2, DMA_IT_TCIF2))
-   { 
-      DMA_ClearFlag(DMA2_Stream2, DMA_FLAG_TCIF2);
-      DMA_ClearITPendingBit(DMA2_Stream2, DMA_IT_TCIF2);
-     //Ò£¿ØÐ­Òé½âÎö
-      RC_Data_Parse();
-	   
-    }
+	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+	if(DMA_GetITStatus(DMA2_Stream2, DMA_IT_TCIF2)!=RESET)
+	{
+		
+		DMA_ClearFlag(DMA2_Stream2, DMA_FLAG_TCIF2);
+		DMA_ClearITPendingBit(DMA2_Stream2, DMA_IT_TCIF2);
+
+		vTaskNotifyGiveFromISR(xHandleTaskRCParse, &xHigherPriorityTaskWoken);
+		portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
+	}
  
 }
+
+void EXTI9_5_IRQHandler(void)
+{
+	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+	if(EXTI_GetITStatus(EXTI_Line8)!=RESET)
+	{
+		//printf("dfdf");
+		EXTI_ClearITPendingBit(EXTI_Line8); 
+		vTaskNotifyGiveFromISR(xHandleTaskIMUData, &xHigherPriorityTaskWoken);
+		portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
+	} 
+}
+
 
 
 
