@@ -28,18 +28,6 @@ float PID_GetI(PID_t* pid, float error, float dt)
     }
     return 0;
 }
-
-/**********************************************************************************************************
-*函 数 名: PID_ResetI
-*功能说明: 微分项清零
-*形    参: PID结构体
-*返 回 值: 无
-**********************************************************************************************************/
-void PID_ResetI(PID_t* pid)
-{
-    pid->integrator = 0;
-}
-
 /**********************************************************************************************************
 *函 数 名: PID_GetD
 *功能说明: 带一阶RC低通滤波的微分控制器，避免微分项噪声过大
@@ -63,18 +51,6 @@ float PID_GetD(PID_t* pid, float error, float dt)
     }
     return 0;
 }
-
-/**********************************************************************************************************
-*函 数 名: PID_GetPI
-*功能说明: 比例+积分控制器
-*形    参: PID结构体 误差输入 运行时间间隔
-*返 回 值: 输出PI控制
-**********************************************************************************************************/
-float PID_GetPI(PID_t* pid, float error, float dt)
-{
-    return PID_GetP(pid, error) + PID_GetI(pid, error, dt);
-}
-
 /**********************************************************************************************************
 *函 数 名: PID_GetPID
 *功能说明: 比例+积分+微分控制器
@@ -83,24 +59,28 @@ float PID_GetPI(PID_t* pid, float error, float dt)
 **********************************************************************************************************/
 float PID_GetPID(PID_t* pid, float error, float dt)
 {
-    return PID_GetP(pid, error) + PID_GetI(pid, error, dt) + PID_GetD(pid, error, dt);
+	if(abs(error)<(pid->lineval))
+		return PID_GetP(pid, error) + PID_GetI(pid, error, dt) + PID_GetD(pid, error, dt);
+	else
+		return PID_GetP(pid, error)+ PID_GetD(pid, error, dt);
 }
 
 /**********************************************************************************************************
 *函 数 名: PID_SetParam
 *功能说明: PID参数设置
-*形    参: PID结构体 比例参数 积分参数 微分参数 积分上限 微分项低通截止频率
+*形    参: PID结构体 比例参数 积分参数 微分参数 积分分离阈值 积分上限 微分项低通截止频率
 *返 回 值: 无
 **********************************************************************************************************/
-void PID_SetParam(PID_t* pid, float p, float i, float d, float imaxval, float dCutFreq)
+void PID_SetParam(PID_t* pid, float p, float i, float d, float ilineval,float imaxval,float dCutFreq)
 {
     pid->kP = p;
     pid->kI = i;
     pid->kD = d;
+	pid->lineval=ilineval;
     pid->imax = imaxval;
+	
     if(dCutFreq != 0)
         pid->dFilter = 1 / (2 * M_PI * dCutFreq);
     else
         pid->dFilter = 0;
 }
-

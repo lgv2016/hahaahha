@@ -9,12 +9,14 @@ typedef struct
     float kI;
     float kD;
 
-    float imax;
+    float imax;            //抗积分饱和阈值
     float integrator;
     float lastError;
     float lastDerivative;
-    float dFilter;         //RC
+    float dFilter;         //低通滤波截至频率
     
+	float lineval;         //积分分离阈值
+	
     float target;
     float error;
     
@@ -24,11 +26,12 @@ typedef struct
 
 float PID_GetP(PID_t* pid, float error);
 float PID_GetI(PID_t* pid, float error, float dt);
-void  PID_ResetI(PID_t* pid);
 float PID_GetD(PID_t* pid, float error, float dt);
-float PID_GetPI(PID_t* pid, float error, float dt);
+
 float PID_GetPID(PID_t* pid, float error, float dt);
-void  PID_SetParam(PID_t* pid, float p, float i, float d, float imaxval, float dCutFreq) ;
+
+
+void PID_SetParam(PID_t* pid, float p, float i, float d, float ilineval,float imaxval,float dCutFreq);
 
 
 #endif  
