@@ -3,16 +3,19 @@
 
 #include <drive_imu.h>
 #include <drive_control.h>
+#include <drive_delay.h>
 
 #include <task_config.h>
 #include <task_can_parse.h>
 #include <task_control.h>
 #include <task_usart_parse.h>
+#include <task_rc_parse.h>
+#include <task_imudata.h>
 
 #include "inv_mpu.h"
 #include "inv_mpu_dmp_motion_driver.h" 
 
-
+#include <bsp_nvic.h>
 #include <robotstatus.h>
 
 TaskHandle_t xHandleTaskLED 		= NULL;
@@ -20,10 +23,13 @@ TaskHandle_t xHandleTaskStart 	    = NULL;
 TaskHandle_t xHandleTaskCANParse 	= NULL;
 TaskHandle_t xHandleTaskControl 	= NULL;
 TaskHandle_t xHandleTaskUSARTParse 	= NULL;
-
+TaskHandle_t xHandleTaskRCParse 	= NULL;
+TaskHandle_t xHandleTaskIMUData 	= NULL;
 
 void vTaskLED(void *pvParameters)
 {	
+	robot_status.imu_status=CORRECT_START;
+	vTaskDelay(200);
     while(1)
     {
 		if(robot_status.imu_status==CORRECT_START) 
@@ -34,15 +40,7 @@ void vTaskLED(void *pvParameters)
 			taskEXIT_CRITICAL();  
 		}
 		
-		if(robot_status.imu_status==CORRECT_FINISH)
-		{
-			if(mpu_mpl_get_data()==0)
-		    {
-				MPU_Get_Gyroscope();
-				robot_status.imu_data=DATA_TRUE;
-		    }
-		}
-		vTaskDelay(5);
+		vTaskDelay(8);
     }
 }
 
@@ -51,18 +49,32 @@ void vTaskStart(void *pvParameters)
 {
 	taskENTER_CRITICAL();
 	
+	xTaskCreate(vTaskRCParse,             
+                "vTaskRCParse",           
+                512,        
+                NULL,                  
+                5,        
+                &xHandleTaskRCParse);
+	
 	xTaskCreate(vTaskCANParse,             
                 "vTaskCANParse",           
                 128,        
                 NULL,                  
-                0,        
+                6,        
                 &xHandleTaskCANParse);
 	
+	xTaskCreate(vTaskIMUData,             
+                "vTaskIMUData",           
+                384,        
+                NULL,                  
+                4,        
+                &xHandleTaskIMUData);	
+				
 	xTaskCreate(vTaskUSARTParse,             
                 "vTaskUSARTParse",           
                 256,        
                 NULL,                  
-                1,        
+                3,        
                 &xHandleTaskUSARTParse);
 	
 	xTaskCreate(vTaskControl,             
@@ -72,12 +84,11 @@ void vTaskStart(void *pvParameters)
                 2,        
                 &xHandleTaskControl);
 				
-				
 	xTaskCreate(vTaskLED,             
                 "vTaskLED",           
                 512,        
                 NULL,                  
-                3,        
+                0,        
                 &xHandleTaskLED);			
 							
 	vTaskDelete(xHandleTaskStart);
