@@ -48,14 +48,6 @@ void Cmd_2006_ESC(int16_t  current_207)
 
 void Get_6623_data(CanRxMsg rx_message)
 {
-
-	
-	static uint64_t previousT;
-    float deltaT = (Get_SysTimeUs() - previousT) * 1e-6;
-    previousT = Get_SysTimeUs();
-	
-	
-	
      switch(rx_message.StdId)
     {
        case 0x205:
@@ -94,9 +86,9 @@ void Get_2006_data(CanRxMsg rx_message)
           g_data_2006.torque                  =   rx_message.Data[4]<<8|rx_message.Data[5];
           
           if(g_data_2006.pre_angle-g_data_2006.last_angle>4096)
-              g_data_2006.count++;
-          else if(g_data_2006.pre_angle-g_data_2006.last_angle<-4096)
               g_data_2006.count--;
+          else if(g_data_2006.pre_angle-g_data_2006.last_angle<-4096)
+              g_data_2006.count++;
           
           angle1=g_data_2006.count*8192+g_data_2006.pre_angle-g_data_2006.offset_angle;
           g_data_2006.total_angle=angle1;
