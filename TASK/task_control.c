@@ -80,8 +80,15 @@ void vTaskControl(void *pvParameters)
 			{
 				Chassis_Move(1500,1500);
 			}
-
+		}
 		
+		else if(robot_status.chassis_mode==CH_ROTATE)
+		{
+			 if(robot_status.control_mode==USE_RC)
+			{
+				Speed_Rotate_Control(g_speed_target);
+				//Angle_Rotate_Control(g_angle_target);
+			}
 		}
 		vTaskDelay(10);
 	}

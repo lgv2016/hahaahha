@@ -37,10 +37,12 @@ void vTaskRCParse(void *pvParameters)
 			else if(g_rc_control.rc.s2==3)
 			{
 				s2_lastval=3;
+				robot_status.chassis_mode=CH_SPEED;
 				robot_status.shoot_mode=RELOAD;
 			}
 			else if(g_rc_control.rc.s2==2)
 			{
+				robot_status.chassis_mode=CH_ROTATE;
 				robot_status.shoot_mode=AK47;
 			}
 			
