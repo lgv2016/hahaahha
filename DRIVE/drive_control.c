@@ -26,8 +26,10 @@ static void PID_Reset(void)
 	
     PID_SetParam(&g_infc.pid[PITCH_ANGLE],120.5,865 ,0.03,8,3000,18.73);
 	//PID_SetParam(&g_infc.pid[YAW_ANGLE],  50,0 ,0,0,0,0);
-	PID_SetParam(&g_infc.pid[YAW_ANGLE],120.5,865 ,0.03,8,3000,18.73);
 	
+	
+	PID_SetParam(&g_infc.pid[YAW_SPEED],0,1540,0,1000,18000,0);
+	PID_SetParam(&g_infc.pid[YAW_ANGLE],10,0,0,0,0,0);
 	
 	PID_SetParam(&g_infc.pid[LF_SPEED],   3.26, 26.64,0.06,1000,5000,61.3);
 	PID_SetParam(&g_infc.pid[LA_SPEED],   3.26, 26.64,0.06,1000,5000,61.3);
@@ -41,62 +43,111 @@ void Infan_Control_Init(void)
 {
 	
 	g_angle_target.pitch=263;
-	g_angle_target.yaw=154;//88
-	
+    g_angle_target.yaw=50;//88
+	//g_speed_target.yaw=20;
 //	g_angle_target.ch_rotate=45;
 	g_speed_target.ch_rotate=180;
-//	g_speed_target.lf=4000;
-//	g_speed_target.la=4000;
-//	g_speed_target.rf=4000;
-//	g_speed_target.ra=4000;
+
 
 	PID_Reset();
 }
+void Speed_6623_Control(object_t target)
+{
+	//函数运算间隔计算
+	static uint64_t previousT;
+    float deltaT = (Get_SysTimeUs() - previousT) * 1e-6;
+    previousT = Get_SysTimeUs();
+	
+	//速度环目标赋值
+    g_infc.speed_inner_target.yaw		= target.yaw;
+	
+	//计算速度环控制误差
+    g_infc.speed_inner_error.yaw  	    = g_infc.speed_inner_target.yaw - g_data_6623.speed[YAW];
+	//死区控制
+    g_infc.speed_inner_error.yaw  	    = ApplyDeadbandFloat( g_infc.speed_inner_error.yaw,1);
+	
+	
+	//PID算法，计算出速度环的控制量
+    s_speed_contorl_out.yaw         	= PID_GetPID(&g_infc.pid[YAW_SPEED],g_infc.speed_inner_error.yaw,deltaT);
+	
+	//输出限幅
+    s_speed_contorl_out.yaw         	= ConstrainFloat(s_speed_contorl_out.yaw,-29200,29200);
+	
+	//can发送控制量
+	Cmd_6623_ESC(s_speed_contorl_out.yaw,0);
+	
+}
+
+
 void Angle_6623_Control(object_t target)
 {
-	static u8 error_temp=0;
+	//函数运算间隔计算
+    static uint64_t previousT;
+    float deltaT = (Get_SysTimeUs() - previousT) * 1e-6;
+    previousT = Get_SysTimeUs();
+	//角度环目标赋值
+	g_infc.angle_outer_target.yaw		= target.yaw;
 	
-	if(robot_status.imu_data==DATA_FALSE&&robot_status.imu_status==NO_CORRECT)
-	{
-		//函数运算间隔计算
-		static uint64_t previousT;
-		float deltaT = (Get_SysTimeUs() - previousT) * 1e-6;
-		previousT = Get_SysTimeUs();
-		
-		g_infc.angle_outer_target.pitch		= target.pitch;
-		g_infc.angle_outer_target.yaw		= target.yaw;
-		
-		//计算角度控制误差
-		g_infc.angle_outer_error.pitch  	= g_infc.angle_outer_target.pitch - g_data_6623.angle[PITCH];
-		g_infc.angle_outer_error.yaw  	    = g_infc.angle_outer_target.yaw   - g_data_6623.angle[YAW];
-		
-		//死区控制
-		g_infc.angle_outer_error.pitch  	= ApplyDeadbandFloat(g_infc.angle_outer_error.pitch,0.05);
-		g_infc.angle_outer_error.yaw  	    = ApplyDeadbandFloat(g_infc.angle_outer_error.yaw,  0.05);
-		
-		if(abs(g_infc.angle_outer_error.pitch)<0.5f)//&&abs((g_infc.angle_outer_error.yaw)<0.5f//))
-		{
-			error_temp++;
-			if(error_temp>=80)
-			{
-				//robot_status.imu_status=CORRECT_START;
-				error_temp=0;
-			}
-			
-		}
-		//PID算法，计算出角度环的控制量
-		s_angle_contorl_out.pitch         	= PID_GetPID(&g_infc.pid[PITCH_ANGLE],g_infc.angle_outer_error.pitch,deltaT);
-		s_angle_contorl_out.yaw         	= PID_GetPID(&g_infc.pid[YAW_ANGLE],  g_infc.angle_outer_error.yaw,  deltaT);
-		
-		//输出限幅
-		s_angle_contorl_out.pitch         	= ConstrainFloat(s_angle_contorl_out.pitch,-3000,3000);
-		s_angle_contorl_out.yaw         	= ConstrainFloat(s_angle_contorl_out.yaw,  -3000,3000);
-		
-		Cmd_6623_ESC(-s_angle_contorl_out.yaw,-s_angle_contorl_out.pitch);
-    }
-	//if(robot_status.imu_data==DATA_TRUE)
-	   //Cmd_6623_ESC(0,0);
+	//计算角度控制误差
+	g_infc.angle_outer_error.yaw  	= g_infc.angle_outer_target.yaw-g_data_6623.angle[YAW];
+	
+	//死区控制
+    g_infc.angle_outer_error.yaw  	= ApplyDeadbandFloat(g_infc.angle_outer_error.yaw,0.1);
+	
+	//PID算法，计算出角度环的控制量
+    s_angle_contorl_out.yaw         	= PID_GetPID(&g_infc.pid[YAW_ANGLE],g_infc.angle_outer_error.yaw,deltaT);
+	
+	//输出限幅
+    s_angle_contorl_out.yaw         	= ConstrainFloat(s_angle_contorl_out.yaw,-200,200);
+	
+	//将角度外环控制量作为速度内环的控制目标
+	Speed_6623_Control(s_angle_contorl_out);
 }
+//void Angle_6623_Control(object_t target)
+//{
+//	static u8 error_temp=0;
+//	
+//	if(robot_status.imu_data==DATA_FALSE&&robot_status.imu_status==NO_CORRECT)
+//	{
+//		//函数运算间隔计算
+//		static uint64_t previousT;
+//		float deltaT = (Get_SysTimeUs() - previousT) * 1e-6;
+//		previousT = Get_SysTimeUs();
+//		
+//		g_infc.angle_outer_target.pitch		= target.pitch;
+//		g_infc.angle_outer_target.yaw		= target.yaw;
+//		
+//		//计算角度控制误差
+//		g_infc.angle_outer_error.pitch  	= g_infc.angle_outer_target.pitch - g_data_6623.angle[PITCH];
+//		g_infc.angle_outer_error.yaw  	    = g_infc.angle_outer_target.yaw   - g_data_6623.angle[YAW];
+//		
+//		//死区控制
+//		g_infc.angle_outer_error.pitch  	= ApplyDeadbandFloat(g_infc.angle_outer_error.pitch,0.05);
+//		g_infc.angle_outer_error.yaw  	    = ApplyDeadbandFloat(g_infc.angle_outer_error.yaw,  0.05);
+//		
+//		if(abs(g_infc.angle_outer_error.pitch)<0.5f)//&&abs((g_infc.angle_outer_error.yaw)<0.5f//))
+//		{
+//			error_temp++;
+//			if(error_temp>=80)
+//			{
+//				//robot_status.imu_status=CORRECT_START;
+//				error_temp=0;
+//			}
+//			
+//		}
+//		//PID算法，计算出角度环的控制量
+//		s_angle_contorl_out.pitch         	= PID_GetPID(&g_infc.pid[PITCH_ANGLE],g_infc.angle_outer_error.pitch,deltaT);
+//		s_angle_contorl_out.yaw         	= PID_GetPID(&g_infc.pid[YAW_ANGLE],  g_infc.angle_outer_error.yaw,  deltaT);
+//		
+//		//输出限幅
+//		s_angle_contorl_out.pitch         	= ConstrainFloat(s_angle_contorl_out.pitch,-3000,3000);
+//		s_angle_contorl_out.yaw         	= ConstrainFloat(s_angle_contorl_out.yaw,  -3000,3000);
+//		
+//	//	Cmd_6623_ESC(-s_angle_contorl_out.yaw,-s_angle_contorl_out.pitch);
+//    }
+//	//if(robot_status.imu_data==DATA_TRUE)
+//	   //Cmd_6623_ESC(0,0);
+//}
 
 void Speed_3510_Control(object_t target)
 {

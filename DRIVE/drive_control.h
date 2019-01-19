@@ -55,6 +55,7 @@ extern object_t g_angle_target;
 
 extern void Infan_Control_Init(void);
 extern void Speed_3510_Control(object_t target);
+extern void Speed_6623_Control(object_t target);
 extern void Angle_6623_Control(object_t target);
 extern void Speed_2006_Control(object_t target);
 extern void Angle_2006_Control(object_t target);
