@@ -11,11 +11,11 @@ void vTaskRCParse(void *pvParameters)
 	    RC_Data_Parse();
 		if(g_rc_control.rc.s1==1)
 		{
-			robot_status.control_mode=USE_RC;
+			robot_status.control_mode=USE_RC;          //遥控控制模式
 		}
 		else if(g_rc_control.rc.s1==3)
 		{
-			robot_status.control_mode=USE_PC;
+			robot_status.control_mode=USE_PC;         //PC控制模式
 			
 		}
 		else if(g_rc_control.rc.s1==2)
@@ -25,16 +25,16 @@ void vTaskRCParse(void *pvParameters)
 		if(robot_status.control_mode==USE_RC)
 		{
 		
-			if(g_rc_control.rc.s2==1)
+			if(g_rc_control.rc.s2==1)              //单发控制
 			{
 				if(s2_lastval==3)
 				{
 					robot_status.shoot_mode=AWM;
-					g_2006_angle_reset=1;
+					g_2006_angle_reset=1;         //角度置零
 					s2_lastval=0;
 				}
 			}
-			else if(g_rc_control.rc.s2==3)
+			else if(g_rc_control.rc.s2==3)        //连发模式
 			{
 				s2_lastval=3;
 				robot_status.chassis_mode=CH_SPEED;

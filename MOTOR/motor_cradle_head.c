@@ -25,7 +25,6 @@ void Cmd_6623_ESC(int16_t  current_205,int16_t current_206)
     s_tx_message.Data[2] = (unsigned char)(current_206 >> 8);
     s_tx_message.Data[3] = (unsigned char)current_206;
 
-  
     CAN_Transmit(CAN1,&s_tx_message);
 }
 
@@ -53,8 +52,8 @@ void Get_6623_data(CanRxMsg rx_message)
        case 0x205:
       {
           g_data_6623.pre_angle[YAW]         =   rx_message.Data[0]<<8|rx_message.Data[1];
-          g_data_6623.actual_current[YAW]    =   rx_message.Data[2]<<8|rx_message.Data[3];
-          g_data_6623.set_current[YAW]       =   rx_message.Data[4]<<8|rx_message.Data[5];
+          g_data_6623.speed[YAW]             =   rx_message.Data[2]<<8|rx_message.Data[3];
+          g_data_6623.actual_current[YAW]    =   rx_message.Data[4]<<8|rx_message.Data[5];
           g_data_6623.angle[YAW]=(g_data_6623.pre_angle[YAW]*360.0f)/8191.0f;
           break;
       }

@@ -432,11 +432,6 @@
               <FilePath>..\DMP\mllite\mlmath.c</FilePath>
             </File>
             <File>
-              <FileName>inv_mpu.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\DMP\driver\eMPL\inv_mpu.c</FilePath>
-            </File>
-            <File>
               <FileName>log_stm32.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\DMP\driver\stm32L\log_stm32.c</FilePath>
@@ -470,6 +465,11 @@
               <FileName>results_holder.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\DMP\mllite\results_holder.c</FilePath>
+            </File>
+            <File>
+              <FileName>inv_mpu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DMP\driver\eMPL\inv_mpu.c</FilePath>
             </File>
             <File>
               <FileName>start_manager.c</FileName>

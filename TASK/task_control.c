@@ -43,29 +43,29 @@ void vTaskControl(void *pvParameters)
 	vTaskDelay(1500);  //6623开始时数据不正确，需要延时等待
     while(1)
     {
-		if(robot_status.shoot_mode==AWM)
+		if(robot_status.shoot_mode==AWM)           //单发模式
 		{
 			last_shoot_mode=AWM;
-			if(g_2006_angle_reset==1)
+			if(g_2006_angle_reset==1)             //2006角度置零
 			{
-				g_2006_angle_flag=1;
+				g_2006_angle_flag=1;              //2006偏移角度记录
 				g_2006_angle_reset=0;
-				g_data_2006.count=0;
+				g_data_2006.count=0;              //2006旋转圈数
 			}
-			g_angle_target.shoot=60;
+			g_angle_target.shoot=40;              //目标角度控制
 			Angle_2006_Control(g_angle_target);
 		}
-		else if(robot_status.shoot_mode==AK47)
+		else if(robot_status.shoot_mode==AK47)    //连发模式
 		{
 			last_shoot_mode=AK47;
-			g_speed_target.shoot=2000;
+			g_speed_target.shoot=2000;            //目标速度控制
 			Speed_2006_Control(g_speed_target);
 		}
-		else if(robot_status.shoot_mode==RELOAD)
+		else if(robot_status.shoot_mode==RELOAD)  //拨弹关闭并维持角度和速度
 		{
-			if(last_shoot_mode==AWM)
+			if(last_shoot_mode==AWM)              
 			{
-				g_angle_target.shoot=60;
+				g_angle_target.shoot=40;
 				Angle_2006_Control(g_angle_target);
 			}
 			else if(last_shoot_mode==AK47)
@@ -74,11 +74,11 @@ void vTaskControl(void *pvParameters)
 				Speed_2006_Control(g_speed_target);
 			}
 		}
-		if(robot_status.chassis_mode==CH_SPEED)
+		if(robot_status.chassis_mode==CH_SPEED)  //
 		{
 			if(robot_status.control_mode==USE_RC)
 			{
-				Chassis_Move(1500,1500);
+				Chassis_Move(3500,3500);
 			}
 		}
 		

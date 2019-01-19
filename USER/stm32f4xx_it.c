@@ -246,7 +246,6 @@ void TIM5_IRQHandler()
         TIM_ClearITPendingBit(TIM5, TIM_IT_CC3);
     }
 }
-
 void CAN1_RX0_IRQHandler(void)
 {
 	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
