@@ -20,13 +20,13 @@ void RC_Data_Parse()
       g_rc_control.mouse.press_r  =   g_DMA_Dbus_Buff[13];  
       g_rc_control.key.v          =   g_DMA_Dbus_Buff[14] | (g_DMA_Dbus_Buff[15]<< 8); 
       
-      g_rc_control.key.k[W]       =   g_rc_control.key.v&0X01<<0;
-      g_rc_control.key.k[S]       =   g_rc_control.key.v&0X01<<1;   
-      g_rc_control.key.k[A]       =   g_rc_control.key.v&0X01<<2;  
-      g_rc_control.key.k[D]       =   g_rc_control.key.v&0X01<<3;
-      g_rc_control.key.k[Q]       =   g_rc_control.key.v&0X01<<4;
-      g_rc_control.key.k[E]       =   g_rc_control.key.v&0X01<<5;
-      g_rc_control.key.k[SHIFT]   =   g_rc_control.key.v&0X01<<6;
-      g_rc_control.key.k[CTRL]    =   g_rc_control.key.v&0X01<<7;
+      g_rc_control.key.k[W]       =   (g_rc_control.key.v&(0X01<<0))>>0;
+	  g_rc_control.key.k[S]       =   (g_rc_control.key.v&(0X01<<1))>>1;   
+      g_rc_control.key.k[A]       =   (g_rc_control.key.v&(0X01<<2))>>2;  
+      g_rc_control.key.k[D]       =   (g_rc_control.key.v&(0X01<<3))>>3;
+      g_rc_control.key.k[Q]       =   (g_rc_control.key.v&(0X01<<4))>>4;
+      g_rc_control.key.k[E]       =   (g_rc_control.key.v&(0X01<<5))>>5;
+      g_rc_control.key.k[SHIFT]   =   (g_rc_control.key.v&(0X01<<6))>>6;
+      g_rc_control.key.k[CTRL]    =   (g_rc_control.key.v&(0X01<<7))>>7;
 }
 
