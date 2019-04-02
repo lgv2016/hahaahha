@@ -49,7 +49,7 @@ typedef struct
 
 } infantry_control_t;
 
-extern infantry_control_t infc;
+extern infantry_control_t g_infc;
 extern object_t g_speed_target;
 extern object_t g_angle_target;
 
@@ -60,7 +60,7 @@ extern void Angle_6623_Control(object_t target);
 extern void Speed_2006_Control(object_t target);
 extern void Angle_2006_Control(object_t target);
 
-extern void Speed_Chassis_Control(float xspeed,float yspeed,float yawspeed);
+extern void Speed_Chassis_Control(float vx,float vy,float wz);
 extern void Speed_Rotate_Control(object_t target);
 extern void Angle_Rotate_Control(object_t target);
 

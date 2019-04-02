@@ -38,3 +38,4 @@
 .\objects\bsp_gpio.o: ..\FWLIB\inc\stm32f4xx_fmc.h
 .\objects\bsp_gpio.o: ..\FWLIB\inc\stm32f4xx_sai.h
 .\objects\bsp_gpio.o: ..\BSP\bsp_iic.h
+.\objects\bsp_gpio.o: ..\DRIVE\drive_delay.h

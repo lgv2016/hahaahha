@@ -174,7 +174,64 @@ void DebugMon_Handler(void)
 
 /************************************以下为添加的全局变量**************************************************/
 CanRxMsg s_rx_message;
+
+
+union
+{
+	char C1[4];
+	float F1;
+}YUNTAI_DATA1;
+
 /************************************ 以下为添加的中断函数 ***********************************************/
+u8 SUM()
+{
+	u8 i=0,sum1=0;
+	for(i=0;i<10;i++)
+	{
+		sum1+=g_DMA_Judge_Reve_Buff[i];
+	}
+	if(sum1==g_DMA_Judge_Reve_Buff[10])
+		return 1;
+	else
+		return 0;
+}
+
+void PARSE()
+{
+	if(g_DMA_Judge_Reve_Buff[0]==0xA5)
+	{
+		if(g_DMA_Judge_Reve_Buff[1]==0x03)
+		{
+			//if(SUM())
+			if(1)
+			{
+			
+			  YUNTAI_DATA1.C1[0]=g_DMA_Judge_Reve_Buff[2];
+			  YUNTAI_DATA1.C1[1]=g_DMA_Judge_Reve_Buff[3];
+			  YUNTAI_DATA1.C1[2]=g_DMA_Judge_Reve_Buff[4];
+			  YUNTAI_DATA1.C1[3]=g_DMA_Judge_Reve_Buff[5];
+			  //g_angle_target.yaw=290.0f+YUNTAI_DATA1.F1;
+				//g_angle_target.yaw=g_data_6623.angle[YAW]+YUNTAI_DATA1.F1;
+				
+		
+				
+				
+			  g_angle_target.yaw=ConstrainFloat(g_angle_target.yaw,10,350);
+			  
+			  YUNTAI_DATA1.C1[0]=g_DMA_Judge_Reve_Buff[6];
+			  YUNTAI_DATA1.C1[1]=g_DMA_Judge_Reve_Buff[7];
+			  YUNTAI_DATA1.C1[2]=g_DMA_Judge_Reve_Buff[8];
+			  YUNTAI_DATA1.C1[3]=g_DMA_Judge_Reve_Buff[9];
+			  g_angle_target.pitch=295.0f+YUNTAI_DATA1.F1;
+		//	g_angle_target.pitch=g_data_6623.angle[PITCH]+YUNTAI_DATA1.F1;
+			  g_angle_target.pitch=ConstrainFloat(g_angle_target.pitch,277,315);
+   
+			}
+		}
+	}
+			
+		
+}
 
 void ENABLE_DMA2_Stream7_Tx(u16 DMA_Send_Buff_Size)
 {
@@ -216,6 +273,10 @@ void USART6_IRQHandler()
          i++;
      }
      ENABLE_DMA2_Stream7_Tx(i);
+		
+		
+		
+	//PARSE();
 
     while (DMA_GetCmdStatus(DMA2_Stream1));   
 
@@ -252,8 +313,10 @@ void CAN1_RX0_IRQHandler(void)
 	if(CAN_GetITStatus(CAN1,CAN_IT_FMP0)!=RESET)
 	{
 		CAN_Receive(CAN1, CAN_FIFO0, &s_rx_message);
+		
 		if(g_2006_angle_flag&&(s_rx_message.StdId==0x207))
 		{
+			
 			Get_2006_Offset_angle(s_rx_message);
 			g_2006_angle_flag=0;
 		}
@@ -284,13 +347,11 @@ void EXTI9_5_IRQHandler(void)
 	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 	if(EXTI_GetITStatus(EXTI_Line8)!=RESET)
 	{
-		//printf("dfdf");
 		EXTI_ClearITPendingBit(EXTI_Line8); 
 		vTaskNotifyGiveFromISR(xHandleTaskIMUData, &xHigherPriorityTaskWoken);
 		portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
 	} 
 }
-
 
 
 

@@ -13,7 +13,7 @@ void SYS_Config_Init()
     BSP_TIME_Init();
     BSP_NVIC_Init();
 	
-			        
+	BSP_ROBOT_Init();		        
     Infan_Control_Init();
 	
 

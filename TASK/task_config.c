@@ -39,7 +39,6 @@ void vTaskLED(void *pvParameters)
 			robot_status.imu_status=CORRECT_FINISH;
 			taskEXIT_CRITICAL();  
 		}
-		
 		vTaskDelay(8);
     }
 }
@@ -58,7 +57,7 @@ void vTaskStart(void *pvParameters)
 	
 	xTaskCreate(vTaskCANParse,             
                 "vTaskCANParse",           
-                128,        
+                256,        
                 NULL,                  
                 6,        
                 &xHandleTaskCANParse);
@@ -79,9 +78,9 @@ void vTaskStart(void *pvParameters)
 	
 	xTaskCreate(vTaskControl,             
                 "vTaskControl",           
-                128,        
+                256,        
                 NULL,                  
-                2,        
+                1,        
                 &xHandleTaskControl);
 				
 	xTaskCreate(vTaskLED,             

@@ -52,7 +52,7 @@
           <OutputName>infantry_lgv</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
-          <CreateHexFile>0</CreateHexFile>
+          <CreateHexFile>1</CreateHexFile>
           <DebugInformation>1</DebugInformation>
           <BrowseInformation>1</BrowseInformation>
           <ListingPath>.\Listings\</ListingPath>
@@ -665,6 +665,21 @@
               <FileName>drive_control.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\DRIVE\drive_control.c</FilePath>
+            </File>
+            <File>
+              <FileName>drive_chassis.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DRIVE\drive_chassis.c</FilePath>
+            </File>
+            <File>
+              <FileName>drive_shoot.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DRIVE\drive_shoot.c</FilePath>
+            </File>
+            <File>
+              <FileName>drive_gimble.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DRIVE\drive_gimble.c</FilePath>
             </File>
           </Files>
         </Group>

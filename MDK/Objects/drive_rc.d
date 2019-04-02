@@ -38,3 +38,8 @@
 .\objects\drive_rc.o: ..\FWLIB\inc\stm32f4xx_fmc.h
 .\objects\drive_rc.o: ..\FWLIB\inc\stm32f4xx_sai.h
 .\objects\drive_rc.o: ..\BSP\bsp_dma.h
+.\objects\drive_rc.o: ..\DRIVE\drive_delay.h
+.\objects\drive_rc.o: ..\MATH\math_tool.h
+.\objects\drive_rc.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\drive_rc.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\objects\drive_rc.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

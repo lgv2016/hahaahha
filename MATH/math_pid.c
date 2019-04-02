@@ -23,6 +23,8 @@ float PID_GetI(PID_t* pid, float error, float dt)
     if((pid->kI != 0) && (dt != 0))
     {
         pid->integrator += ((float)error * pid->kI) * dt;
+		
+		
         pid->integrator = ConstrainFloat(pid->integrator, -pid->imax, +pid->imax);
         return pid->integrator;
     }
@@ -84,3 +86,5 @@ void PID_SetParam(PID_t* pid, float p, float i, float d, float ilineval,float im
     else
         pid->dFilter = 0;
 }
+
+

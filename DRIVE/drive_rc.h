@@ -44,7 +44,26 @@ typedef struct
 	}key;
 }rc_control_t;
 
+
+typedef struct
+{
+	u8 lastkey;
+	u8 key;
+	
+	int16_t time;
+	int16_t rate;
+	
+	u8 input;
+	u8 output;
+	
+	
+}key_t;
+
+
 extern rc_control_t g_rc_control;
 extern void RC_Data_Parse(void);
+
+extern float g_pit_target;
+extern float g_yaw_target;
 
 #endif

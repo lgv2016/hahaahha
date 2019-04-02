@@ -1,6 +1,6 @@
 #include <bsp_gpio.h>
 #include <bsp_iic.h>
-
+#include <drive_delay.h>
 void  BSP_GPIO_Init(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure;
@@ -58,12 +58,14 @@ void  BSP_GPIO_Init(void)
     GPIO_InitStructure.GPIO_Speed  =  GPIO_Speed_100MHz;
     GPIO_Init(GPIOI, &GPIO_InitStructure);
     
-    GPIO_InitStructure.GPIO_Pin    =  GPIO_Pin_12;
+    GPIO_InitStructure.GPIO_Pin    =  GPIO_Pin_12|GPIO_Pin_10|GPIO_Pin_11;
     GPIO_Init(GPIOH, &GPIO_InitStructure);
     
     
     GPIO_PinAFConfig(GPIOI,GPIO_PinSource0, GPIO_AF_TIM5);
     GPIO_PinAFConfig(GPIOH,GPIO_PinSource12,GPIO_AF_TIM5);
+	GPIO_PinAFConfig(GPIOH,GPIO_PinSource11,GPIO_AF_TIM5);
+	GPIO_PinAFConfig(GPIOH,GPIO_PinSource10,GPIO_AF_TIM5);
     
     //USART1 
     //RX:PB7
@@ -118,5 +120,23 @@ void  BSP_GPIO_Init(void)
     GPIO_InitStructure.GPIO_Speed  =  GPIO_Speed_100MHz;
     GPIO_Init(GPIOB, &GPIO_InitStructure);
     GPIO_PinAFConfig(GPIOB,GPIO_PinSource5, GPIO_AF_TIM3);
-
+	
+	//4个24V电源控制口
+	
+    GPIO_InitStructure.GPIO_Pin    = GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5;
+    GPIO_InitStructure.GPIO_Mode   = GPIO_Mode_OUT;      
+    GPIO_InitStructure.GPIO_OType  = GPIO_OType_PP;    
+    GPIO_InitStructure.GPIO_Speed  = GPIO_Speed_100MHz; 
+    GPIO_InitStructure.GPIO_PuPd   = GPIO_PuPd_UP;       
+    GPIO_Init(GPIOH, &GPIO_InitStructure); 
+	
+	GPIO_ResetBits(GPIOH,GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5);
+	Delay_US(1000);
+	GPIO_SetBits(GPIOH,GPIO_Pin_2);
+    Delay_US(1000);
+	GPIO_SetBits(GPIOH,GPIO_Pin_3);
+	Delay_US(1000);
+	GPIO_SetBits(GPIOH,GPIO_Pin_4);
+	Delay_US(1000);
+	GPIO_SetBits(GPIOH,GPIO_Pin_5);
 }

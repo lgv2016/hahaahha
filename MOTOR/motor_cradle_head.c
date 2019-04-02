@@ -6,10 +6,17 @@
 #include "FreeRTOS.h"
 #include "timers.h"
 #include <robotstatus.h>
-
+#include <drive_control.h>
 
 static CanTxMsg s_tx_message;
 
+union
+{
+	char C[4];
+	float F;
+}YUNTAI_DATA;
+
+u8 arry[10];
 data_6623_t g_data_6623;
 data_2006_t g_data_2006;
 
@@ -22,6 +29,8 @@ void Cmd_6623_ESC(int16_t  current_205,int16_t current_206)
     
     s_tx_message.Data[0] = (unsigned char)(current_205 >> 8);
     s_tx_message.Data[1] = (unsigned char)current_205;
+
+	
     s_tx_message.Data[2] = (unsigned char)(current_206 >> 8);
     s_tx_message.Data[3] = (unsigned char)current_206;
 
@@ -39,9 +48,30 @@ void Cmd_2006_ESC(int16_t  current_207)
 	
     s_tx_message.Data[4] = (unsigned char)(current_207 >> 8);
     s_tx_message.Data[5] = (unsigned char)current_207;
+	
+	
     s_tx_message.Data[6] = 0x00;
     s_tx_message.Data[7] = 0x00;
   
+    CAN_Transmit(CAN1,&s_tx_message);
+}
+
+void Cmd_YUNTAI_ESC(u8 current_208)
+{
+	s_tx_message.StdId = 0x1FE;
+    s_tx_message.IDE = CAN_Id_Standard;
+    s_tx_message.RTR = CAN_RTR_Data;
+    s_tx_message.DLC = 0x08;
+    
+	s_tx_message.Data[0] = current_208;
+    s_tx_message.Data[1] = 0x00;
+	s_tx_message.Data[2] = 0x00;
+    s_tx_message.Data[3] = 0x00;
+	s_tx_message.Data[4] = 0x00;
+    s_tx_message.Data[5] = 0x00;
+    s_tx_message.Data[6] = 0X00;
+    s_tx_message.Data[7] = 0X00;
+	
     CAN_Transmit(CAN1,&s_tx_message);
 }
 
@@ -51,10 +81,13 @@ void Get_6623_data(CanRxMsg rx_message)
     {
        case 0x205:
       {
-          g_data_6623.pre_angle[YAW]         =   rx_message.Data[0]<<8|rx_message.Data[1];
-          g_data_6623.speed[YAW]             =   rx_message.Data[2]<<8|rx_message.Data[3];
-          g_data_6623.actual_current[YAW]    =   rx_message.Data[4]<<8|rx_message.Data[5];
-          g_data_6623.angle[YAW]=(g_data_6623.pre_angle[YAW]*360.0f)/8191.0f;
+		  if(robot_status.gimbal_data==NO_DATA)
+		  {
+			  g_data_6623.pre_angle[YAW]         =   rx_message.Data[0]<<8|rx_message.Data[1];
+			  g_data_6623.speed[YAW]             =   rx_message.Data[2]<<8|rx_message.Data[3];
+			  g_data_6623.actual_current[YAW]    =   rx_message.Data[4]<<8|rx_message.Data[5];
+			  g_data_6623.angle[YAW]=(g_data_6623.pre_angle[YAW]*360.0f)/8191.0f;
+		  }
           break;
       }
       case 0x206:
@@ -118,33 +151,39 @@ void Get_2006_Offset_angle(CanRxMsg rx_message)
     } 
 }
 
-void Snail_Calibration()
-{ 
-    TIM_Cmd(TIM5, DISABLE);
-    vTaskDelay(500);
-    TIM_Cmd(TIM5, ENABLE);	
-    TIM_SetCompare4(TIM5,2000-1);
-    TIM_SetCompare3(TIM5,2000-1);
-    vTaskDelay(500);
-    TIM_SetCompare4(TIM5,1000-1);
-    TIM_SetCompare3(TIM5,1000-1);
-    vTaskDelay(2000);
-    TIM_SetCompare4(TIM5,1200-1);
-    TIM_SetCompare3(TIM5,1200-1);
-}
-
-void Snail_Stop()
+void Get_YUNTAI_Data(CanRxMsg rx_message)
 {
-    TIM_SetCompare4(TIM5,1000-1);
-    TIM_SetCompare3(TIM5,1000-1);
+	static u8 gimbal_init_flag=1;
+	switch(rx_message.StdId)
+    {
+      case 0x208:
+      {
+		 robot_status.gimbal_data=RECEIVED_DATA;
+		  if(gimbal_init_flag==1)
+		  {
+			   g_angle_target.yaw=0;
+			   gimbal_init_flag=0;  
+		  }
+		  YUNTAI_DATA.C[0]=rx_message.Data[0];
+		  YUNTAI_DATA.C[1]=rx_message.Data[1];
+		  YUNTAI_DATA.C[2]=rx_message.Data[2];
+		  YUNTAI_DATA.C[3]=rx_message.Data[3];
+		  g_data_6623.speed[YAW]=YUNTAI_DATA.F/5.44f;
+	
+		  
+		  YUNTAI_DATA.C[0]=rx_message.Data[4];
+		  YUNTAI_DATA.C[1]=rx_message.Data[5];
+		  YUNTAI_DATA.C[2]=rx_message.Data[6];
+		  YUNTAI_DATA.C[3]=rx_message.Data[7];
+		  g_data_6623.angle[YAW]=YUNTAI_DATA.F;
+		  
+		  robot_status.gimbal_status=INIT_GOOD;
+          break;
+      }
+      default:
+        break;
+    } 
 }
-
-void Snail_Stat()
-{
-    TIM_SetCompare4(TIM5,1200-1);
-    TIM_SetCompare3(TIM5,1200-1);
-}
-
 
 
 

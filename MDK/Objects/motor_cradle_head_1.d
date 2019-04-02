@@ -55,3 +55,5 @@
 .\objects\motor_cradle_head_1.o: ..\freeRTOS\include\task.h
 .\objects\motor_cradle_head_1.o: ..\freeRTOS\include\list.h
 .\objects\motor_cradle_head_1.o: ..\USER\robotstatus.h
+.\objects\motor_cradle_head_1.o: ..\DRIVE\drive_control.h
+.\objects\motor_cradle_head_1.o: ..\MATH\math_pid.h
