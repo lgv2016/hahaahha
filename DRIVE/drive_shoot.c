@@ -6,12 +6,12 @@
 
 
 u8 AWM_Shoot_Control(float angle)
-{
-	
+{	
 	if(robot_status.shoot_mode!=AWM)
 	{
 		return 1;
 	}
+	
 	if(g_rc_control.mouse.press_l)	
 	{
 		g_angle_target.shoot=angle;              //目标角度控制
@@ -21,8 +21,9 @@ u8 AWM_Shoot_Control(float angle)
 			return 1;
 		}	
 	}
-	
 }
+
+
 void AK47_Shoot_Control(int16_t  fire_rate)
 {  
 	if(g_rc_control.mouse.press_l)
