@@ -15,23 +15,24 @@
 //底盘跟随云台
 u8 CHASSIS_Follow_Gimble_Control()
 {
-	if(robot_status.chassis_mode==CH_ROTATE)
+	
+	if(robot_status.gimbal_status!=INIT_GOOD)
+		return 1;
+		
+	if(robot_status.chassis_mode==CH_ROTATE)     //可以边旋转边移动
 		return 1;
 	
 	robot_status.chassis_mode=CH_FOLLOW_GIMBAL;
 	
 	if(g_rc_control.key.k[SHIFT])
-	{
 		return 1;
-	}
 	
 	g_angle_target.ch_rotate= g_data_6623.angle[YAW];
 	Angle_Rotate_Control(g_angle_target);
 	
 	if(abs(g_infc.angle_outer_error.ch_rotate)<2.0f)
-	{
 		return 1;
-	}
+	
 	return 0;
 }
 
@@ -77,8 +78,16 @@ void CHASSIS_Rotate_Control(int16_t rotate_speed)
 	{
 		robot_status.chassis_mode=CH_ROTATE;
 		g_speed_target.ch_rotate=rotate_speed;
+		
+		INC_fun(&g_infc.inc[CH_ROTATE_SPEED]);
+		
+		g_speed_target.ch_rotate=g_infc.inc[CH_ROTATE_SPEED].out;
+		
 		Speed_Rotate_Control(g_speed_target);
 	}
+	
+	else
+		robot_status.chassis_mode=CH_FOLLOW_GIMBAL;
 	
 }
 
