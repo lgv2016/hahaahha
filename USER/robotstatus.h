@@ -48,7 +48,7 @@ enum
 enum
 {
 	NO_INIT,       //未初始化
-	INIT_FINISH,    //初始化成功
+	INIT_FINISH,    //云台回中初始化成功
 	
 	INIT_GOOD      //云台imu初始化完成
 };
@@ -61,6 +61,13 @@ enum
 	
 };
 
+//云台控制模式
+enum
+{
+	MANUAL,     //手动
+	AUTO        //自动
+};
+
 typedef struct
 {
 	u8  imu_status;  
@@ -70,6 +77,7 @@ typedef struct
 	u8  chassis_mode;
 	u8  gimbal_status;
 	u8  gimbal_data;
+	u8  gimbal_mode;
 }robot_status_t;    
 
 

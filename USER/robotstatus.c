@@ -11,6 +11,7 @@ void BSP_ROBOT_Init(void)
 	robot_status.shoot_mode    = NO_SHOOT;
 	robot_status.gimbal_data   = NO_DATA;
 	robot_status.gimbal_status = NO_INIT;
+	robot_status.gimbal_mode   = MANUAL;
 	
 }
 
