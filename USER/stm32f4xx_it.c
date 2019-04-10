@@ -175,63 +175,8 @@ void DebugMon_Handler(void)
 /************************************以下为添加的全局变量**************************************************/
 CanRxMsg s_rx_message;
 
-
-union
-{
-	char C1[4];
-	float F1;
-}YUNTAI_DATA1;
-
 /************************************ 以下为添加的中断函数 ***********************************************/
-u8 SUM()
-{
-	u8 i=0,sum1=0;
-	for(i=0;i<10;i++)
-	{
-		sum1+=g_DMA_Judge_Reve_Buff[i];
-	}
-	if(sum1==g_DMA_Judge_Reve_Buff[10])
-		return 1;
-	else
-		return 0;
-}
 
-void PARSE()
-{
-	if(g_DMA_Judge_Reve_Buff[0]==0xA5)
-	{
-		if(g_DMA_Judge_Reve_Buff[1]==0x03)
-		{
-			//if(SUM())
-			if(1)
-			{
-			
-			  YUNTAI_DATA1.C1[0]=g_DMA_Judge_Reve_Buff[2];
-			  YUNTAI_DATA1.C1[1]=g_DMA_Judge_Reve_Buff[3];
-			  YUNTAI_DATA1.C1[2]=g_DMA_Judge_Reve_Buff[4];
-			  YUNTAI_DATA1.C1[3]=g_DMA_Judge_Reve_Buff[5];
-			  //g_angle_target.yaw=290.0f+YUNTAI_DATA1.F1;
-				//g_angle_target.yaw=g_data_6623.angle[YAW]+YUNTAI_DATA1.F1;
-				
-		
-				
-				
-			  g_angle_target.yaw=ConstrainFloat(g_angle_target.yaw,10,350);
-			  
-			  YUNTAI_DATA1.C1[0]=g_DMA_Judge_Reve_Buff[6];
-			  YUNTAI_DATA1.C1[1]=g_DMA_Judge_Reve_Buff[7];
-			  YUNTAI_DATA1.C1[2]=g_DMA_Judge_Reve_Buff[8];
-			  YUNTAI_DATA1.C1[3]=g_DMA_Judge_Reve_Buff[9];
-			  g_angle_target.pitch=295.0f+YUNTAI_DATA1.F1;
-		//	g_angle_target.pitch=g_data_6623.angle[PITCH]+YUNTAI_DATA1.F1;
-			  g_angle_target.pitch=ConstrainFloat(g_angle_target.pitch,277,315);
-   
-			}
-		}
-	}
-			
-		
-}
 
 void ENABLE_DMA2_Stream7_Tx(u16 DMA_Send_Buff_Size)
 {
@@ -244,6 +189,7 @@ void ENABLE_DMA2_Stream7_Tx(u16 DMA_Send_Buff_Size)
 	DMA_Cmd(DMA2_Stream7, ENABLE);
 	
 }
+
 //发送
 void DMA2_Stream7_IRQHandler(void)  
 {  
@@ -267,17 +213,13 @@ void USART6_IRQHandler()
 		clear=USART6->DR;
 		RxCounter=DMA_Judge_Reve_Buff_Size-DMA_GetCurrDataCounter(DMA2_Stream1);
 		
-     while(RxCounter--)
-	 {
-         g_DMA_Judge_Send_Buff[i]=g_DMA_Judge_Reve_Buff[i];
-         i++;
-     }
-     ENABLE_DMA2_Stream7_Tx(i);
+//     while(RxCounter--)
+//	 {
+//         g_DMA_Judge_Send_Buff[i]=g_DMA_Judge_Reve_Buff[i];
+//         i++;
+//   }
+//     ENABLE_DMA2_Stream7_Tx(i);
 		
-		
-		
-	//PARSE();
-
     while (DMA_GetCmdStatus(DMA2_Stream1));   
 
     DMA_SetCurrDataCounter(DMA2_Stream1,DMA_Judge_Reve_Buff_Size);
@@ -286,6 +228,46 @@ void USART6_IRQHandler()
   }
 }
 
+
+//接收MiniPC
+void UART8_IRQHandler()
+{
+	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+	u16 RxCounter;
+	u8 clear;
+	
+	if(USART_GetITStatus(UART8,USART_IT_IDLE)!=RESET)
+	{
+		DMA_Cmd(DMA1_Stream6, DISABLE); 
+		clear=UART8->SR;
+		clear=UART8->DR;
+		RxCounter=DMA_Judge_Reve_Buff_Size-DMA_GetCurrDataCounter(DMA1_Stream6);
+		
+		// memcpy();
+		
+		
+		
+		while (DMA_GetCmdStatus(DMA1_Stream6));   
+		DMA_SetCurrDataCounter(DMA1_Stream6,DMA_MiniPC_Reve_Buff_Size);
+		DMA_ClearFlag(DMA1_Stream6,DMA_FLAG_TCIF6|DMA_FLAG_HTIF6|DMA_FLAG_TEIF6|DMA_FLAG_DMEIF6|DMA_FLAG_FEIF6); 
+		DMA_Cmd(DMA1_Stream6, ENABLE);
+
+        vTaskNotifyGiveFromISR(xHandleTaskPCParse, &xHigherPriorityTaskWoken);
+		portYIELD_FROM_ISR( xHigherPriorityTaskWoken );		
+	}
+}
+
+
+//MINIPC发送
+void DMA1_Stream0_IRQHandler(void)  
+{  
+    if(DMA_GetITStatus(DMA1_Stream0,DMA_IT_TCIF0)!=RESET)
+    {   
+        DMA_ClearITPendingBit(DMA1_Stream0, DMA_IT_TCIF0);
+        DMA_Cmd(DMA1_Stream0, DISABLE); 
+    }  
+
+} 
 
 
 void TIM6_DAC_IRQHandler()
@@ -327,6 +309,7 @@ void CAN1_RX0_IRQHandler(void)
 	}
 }
 
+
 void DMA2_Stream2_IRQHandler(void)
 {
 	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
@@ -341,6 +324,7 @@ void DMA2_Stream2_IRQHandler(void)
 	}
  
 }
+
 
 void EXTI9_5_IRQHandler(void)
 {
