@@ -6,8 +6,14 @@
 #include <drive_rc.h>
 
 
-#define YAW_INIT_ANGLE    281.0f
-#define PIT_INIT_ANGLE    110.0f
+
+
+#include <drive_chassis.h>
+#include <drive_gimble.h>
+#include <drive_shoot.h>
+
+
+
 
 void Chassis_Move(u16 xmaxval,u16 ymaxval)
 {
@@ -46,7 +52,7 @@ void vTaskControl(void *pvParameters)
 
 	robot_status.chassis_mode=CH_SPEED;
 	u8 last_shoot_mode;
-	vTaskDelay(1500);  //6623开始时数据不正确，需要延时等待
+	vTaskDelay(2000);  //6623开始时数据不正确，需要延时等待
     while(1)
     {
 		if(robot_status.shoot_mode==AWM)           //单发模式
@@ -88,25 +94,15 @@ void vTaskControl(void *pvParameters)
 			}
 		}
 		
-		else if(robot_status.chassis_mode==CH_ROTATE)
-		{
-			 if(robot_status.control_mode==USE_RC)
-			{
-				//Speed_Rotate_Control(g_speed_target);
-				//Angle_Rotate_Control(g_angle_target);
-			}
-		}
 		
-		if(1)                                                //云台控制
-		{
-
-//			g_angle_target.pitch =PIT_INIT_ANGLE+g_pit_target;
-//            g_angle_target.yaw   =YAW_INIT_ANGLE+g_yaw_target;
-			
-		     Angle_6623_Control(g_angle_target);
-		}		
+		GIMBLE_Control();
 		
-		
+		//Speed_6623_Control(g_speed_target);
+		//Angle_6623_Control(g_angle_target);
+		//CHASSIS_Follow_Gimble_Control();
+		//CHASSIS_Move_Control(1500,1500);
+		//CHASSIS_Rotate_Control(160);
+	
 		vTaskDelay(3);
 	}
 }

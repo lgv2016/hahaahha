@@ -591,6 +591,11 @@
               <FileType>1</FileType>
               <FilePath>..\TASK\task_imudata.c</FilePath>
             </File>
+            <File>
+              <FileName>task_pc_parse.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\TASK\task_pc_parse.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -647,14 +652,14 @@
           <GroupName>DRIVE</GroupName>
           <Files>
             <File>
-              <FileName>drive_rc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\DRIVE\drive_rc.c</FilePath>
-            </File>
-            <File>
               <FileName>drive_imu.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\DRIVE\drive_imu.c</FilePath>
+            </File>
+            <File>
+              <FileName>drive_rc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DRIVE\drive_rc.c</FilePath>
             </File>
             <File>
               <FileName>drive_delay.c</FileName>
@@ -680,6 +685,11 @@
               <FileName>drive_gimble.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\DRIVE\drive_gimble.c</FilePath>
+            </File>
+            <File>
+              <FileName>drive_usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DRIVE\drive_usart.c</FilePath>
             </File>
           </Files>
         </Group>

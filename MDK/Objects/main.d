@@ -54,6 +54,7 @@
 .\objects\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\main.o: ..\DRIVE\drive_gimble.h
 .\objects\main.o: ..\MOTOR\motor_chassis.h
 .\objects\main.o: ..\MOTOR\motor_cradle_head.h
 .\objects\main.o: ..\TASK\task_config.h

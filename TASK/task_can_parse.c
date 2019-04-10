@@ -13,7 +13,7 @@ void vTaskCANParse(void *pvParameters)
 		Get_6623_data(s_rx_message);
         Get_2006_data(s_rx_message);
         Get_3510_data(s_rx_message); 
-		Get_YUNTAI_Data(s_rx_message);
+		Get_GIMBLE_data(s_rx_message);
     }
 }
 

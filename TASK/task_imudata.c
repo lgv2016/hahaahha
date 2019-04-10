@@ -16,6 +16,5 @@ void vTaskIMUData(void *pvParameters)
 				robot_status.imu_data=DATA_TRUE;
 		    }
 		}
-		
 	}
 }

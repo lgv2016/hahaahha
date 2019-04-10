@@ -2,7 +2,6 @@
 
 int main()
 {
-	
     SYS_Config_Init();
     xTaskCreate(vTaskStart,             
                 "vTaskStart",           

@@ -8,15 +8,22 @@
 #include <robotstatus.h>
 #include <drive_control.h>
 
+
+
+#define CMDLEN 11
+
 static CanTxMsg s_tx_message;
 
 union
 {
 	char C[4];
 	float F;
-}YUNTAI_DATA;
+}GIMBLE_DATA;
 
-u8 arry[10];
+
+
+
+u8 Gimble_PC_Data[CMDLEN];
 data_6623_t g_data_6623;
 data_2006_t g_data_2006;
 
@@ -56,7 +63,7 @@ void Cmd_2006_ESC(int16_t  current_207)
     CAN_Transmit(CAN1,&s_tx_message);
 }
 
-void Cmd_YUNTAI_ESC(u8 current_208)
+void Cmd_GIMBAL_ESC(u8 current_208)
 {
 	s_tx_message.StdId = 0x1FE;
     s_tx_message.IDE = CAN_Id_Standard;
@@ -96,6 +103,8 @@ void Get_6623_data(CanRxMsg rx_message)
           g_data_6623.actual_current[PITCH]    =   rx_message.Data[2]<<8|rx_message.Data[3];
           g_data_6623.set_current[PITCH]       =   rx_message.Data[4]<<8|rx_message.Data[5];
 		  g_data_6623.angle[PITCH]=(g_data_6623.pre_angle[PITCH]*360.0f)/8191.0f;
+		  
+		  
           break;
       }
       default:
@@ -151,7 +160,7 @@ void Get_2006_Offset_angle(CanRxMsg rx_message)
     } 
 }
 
-void Get_YUNTAI_Data(CanRxMsg rx_message)
+void Get_GIMBLE_data(CanRxMsg rx_message)
 {
 	static u8 gimbal_init_flag=1;
 	switch(rx_message.StdId)
@@ -164,18 +173,18 @@ void Get_YUNTAI_Data(CanRxMsg rx_message)
 			   g_angle_target.yaw=0;
 			   gimbal_init_flag=0;  
 		  }
-		  YUNTAI_DATA.C[0]=rx_message.Data[0];
-		  YUNTAI_DATA.C[1]=rx_message.Data[1];
-		  YUNTAI_DATA.C[2]=rx_message.Data[2];
-		  YUNTAI_DATA.C[3]=rx_message.Data[3];
-		  g_data_6623.speed[YAW]=YUNTAI_DATA.F/5.44f;
+		  GIMBLE_DATA.C[0]=rx_message.Data[0];
+		  GIMBLE_DATA.C[1]=rx_message.Data[1];
+		  GIMBLE_DATA.C[2]=rx_message.Data[2];
+		  GIMBLE_DATA.C[3]=rx_message.Data[3];
+		  g_data_6623.speed[YAW]=GIMBLE_DATA.F/5.44f;
 	
 		  
-		  YUNTAI_DATA.C[0]=rx_message.Data[4];
-		  YUNTAI_DATA.C[1]=rx_message.Data[5];
-		  YUNTAI_DATA.C[2]=rx_message.Data[6];
-		  YUNTAI_DATA.C[3]=rx_message.Data[7];
-		  g_data_6623.angle[YAW]=YUNTAI_DATA.F;
+		  GIMBLE_DATA.C[0]=rx_message.Data[4];
+		  GIMBLE_DATA.C[1]=rx_message.Data[5];
+		  GIMBLE_DATA.C[2]=rx_message.Data[6];
+		  GIMBLE_DATA.C[3]=rx_message.Data[7];
+		  g_data_6623.angle[YAW]=GIMBLE_DATA.F;
 		  
 		  robot_status.gimbal_status=INIT_GOOD;
           break;

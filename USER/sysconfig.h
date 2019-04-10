@@ -16,6 +16,7 @@
 #include <drive_imu.h>
 #include <drive_delay.h>
 #include <drive_control.h>
+#include <drive_gimble.h>
 
 
 #include <motor_chassis.h>

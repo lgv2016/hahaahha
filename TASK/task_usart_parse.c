@@ -10,9 +10,6 @@ void vTaskUSARTParse(void *pvParameters)
 	 
     while(1)
     {
-		
-		
 		vTaskDelay(500);
-
     }
 }

@@ -62,6 +62,7 @@
 .\objects\task_config.o: ..\TASK\task_usart_parse.h
 .\objects\task_config.o: ..\TASK\task_rc_parse.h
 .\objects\task_config.o: ..\TASK\task_imudata.h
+.\objects\task_config.o: ..\TASK\task_pc_parse.h
 .\objects\task_config.o: ..\DMP\driver\eMPL\inv_mpu.h
 .\objects\task_config.o: ..\DMP\driver\eMPL\inv_mpu_dmp_motion_driver.h
 .\objects\task_config.o: ..\BSP\bsp_nvic.h

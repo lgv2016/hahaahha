@@ -12,6 +12,8 @@
 #include <task_rc_parse.h>
 #include <task_imudata.h>
 
+#include <task_pc_parse.h>
+
 #include "inv_mpu.h"
 #include "inv_mpu_dmp_motion_driver.h" 
 
@@ -25,6 +27,8 @@ TaskHandle_t xHandleTaskControl 	= NULL;
 TaskHandle_t xHandleTaskUSARTParse 	= NULL;
 TaskHandle_t xHandleTaskRCParse 	= NULL;
 TaskHandle_t xHandleTaskIMUData 	= NULL;
+
+TaskHandle_t xHandleTaskPCParse 	= NULL;
 
 void vTaskLED(void *pvParameters)
 {	
@@ -76,6 +80,14 @@ void vTaskStart(void *pvParameters)
                 3,        
                 &xHandleTaskUSARTParse);
 	
+	
+	xTaskCreate(vTaskPCParse,             
+                "vTaskPCParse",           
+                128,        
+                NULL,                  
+                2,        
+                &xHandleTaskPCParse);
+				
 	xTaskCreate(vTaskControl,             
                 "vTaskControl",           
                 256,        

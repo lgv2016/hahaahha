@@ -43,9 +43,6 @@
 .\objects\drive_gimble.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\drive_gimble.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\drive_gimble.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
-.\objects\drive_gimble.o: ..\DRIVE\drive_delay.h
-.\objects\drive_gimble.o: ..\DRIVE\drive_imu.h
-.\objects\drive_gimble.o: ..\MOTOR\motor_chassis.h
 .\objects\drive_gimble.o: ..\MOTOR\motor_cradle_head.h
 .\objects\drive_gimble.o: ..\USER\robotstatus.h
 .\objects\drive_gimble.o: ..\DRIVE\drive_rc.h

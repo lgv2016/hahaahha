@@ -58,3 +58,6 @@
 .\objects\task_control.o: ..\USER\robotstatus.h
 .\objects\task_control.o: ..\MOTOR\motor_cradle_head.h
 .\objects\task_control.o: ..\DRIVE\drive_rc.h
+.\objects\task_control.o: ..\DRIVE\drive_chassis.h
+.\objects\task_control.o: ..\DRIVE\drive_gimble.h
+.\objects\task_control.o: ..\DRIVE\drive_shoot.h
