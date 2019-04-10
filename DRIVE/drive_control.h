@@ -5,6 +5,9 @@
 #include <math_tool.h>
 
 
+#define YAW_INIT_ANGLE    200.0f
+#define PIT_INIT_ANGLE    118.5f
+
 enum
 {
     YAW_ANGLE,
@@ -25,6 +28,7 @@ enum
     PIDNUM
 };
 
+
 typedef struct
 {
     float yaw;
@@ -39,19 +43,38 @@ typedef struct
 
 } object_t;
 
+
 typedef struct
 {
+	float input;
+	float out;
+	float max;
+	float min;
+	float period;
+} INC_t;
+
+
+typedef struct
+{
+	INC_t      inc[PIDNUM];
     PID_t      pid[PIDNUM];         //PID参数结构体
     object_t speed_inner_target;
     object_t angle_outer_target;
     object_t speed_inner_error;
     object_t angle_outer_error;
-
+	
 } infantry_control_t;
 
+
+
 extern infantry_control_t g_infc;
+
+
 extern object_t g_speed_target;
 extern object_t g_angle_target;
+
+
+extern void INC_fun(INC_t* inc);
 
 extern void Infan_Control_Init(void);
 extern void Speed_3510_Control(object_t target);
@@ -63,6 +86,9 @@ extern void Angle_2006_Control(object_t target);
 extern void Speed_Chassis_Control(float vx,float vy,float wz);
 extern void Speed_Rotate_Control(object_t target);
 extern void Angle_Rotate_Control(object_t target);
+
+
+extern void Angle_6623_Auto_Control(float yaw_err,float pit_err);
 
 
 

@@ -6,8 +6,8 @@
 #include <motor_cradle_head.h>
 
 #include <robotstatus.h>
-
 #include <math_tool.h>
+
 
 #define CHASSIS_W   19.8785   //cm
 #define CHASSIS_L   17.5375   //cm
@@ -21,19 +21,45 @@ static object_t s_angle_contorl_out;
 static object_t s_speed_contorl_out;
 
 
-	
+void INC_SetParam(INC_t* inc, float input, float max, float min, float out,float period)
+{
+	inc->input=input;
+	inc->max=max;
+	inc->min=min;
+	inc->out=out;
+	inc->period=period;
+}
+
+void INC_fun(INC_t* inc)
+{
+	inc->out+=inc->input*inc->period;
+	if(inc->out>inc->max)
+	{
+		inc->out=inc->max;
+	}
+	else if(inc->out<inc->min)
+	{
+		inc->out=inc->min;
+	}
+}
+
+
+static void INC_Reset(void)
+{
+	INC_SetParam(&g_infc.inc[CH_ROTATE_SPEED],80,100,-100,0,0.001);
+}
+
 static void PID_Reset(void)
 {
+	
     PID_SetParam(&g_infc.pid[SHOOT_SPEED],3.43,38.15,0.02,1000,5000,14.2);
     PID_SetParam(&g_infc.pid[SHOOT_ANGLE],100,0,0,0,0,0);
 	
-    //PID_SetParam(&g_infc.pid[PITCH_ANGLE],120.5,865 ,0.03,8,3000,18.73);
-	
-	
 	PID_SetParam(&g_infc.pid[PITCH_ANGLE],120.5,865 ,0.03,8,3000,18.73);
 
+	//PID_SetParam(&g_infc.pid[YAW_SPEED],40,800,0,48,26000,0);
 	PID_SetParam(&g_infc.pid[YAW_SPEED],40,15,0,300,30000,0);
-	PID_SetParam(&g_infc.pid[YAW_ANGLE],3.5,0,0,0,0,0);
+	PID_SetParam(&g_infc.pid[YAW_ANGLE],0.7,0,0,0,0,0);
 	
 	PID_SetParam(&g_infc.pid[LF_SPEED],   3.26, 26.64,0.06,1000,5000,61.3);
 	PID_SetParam(&g_infc.pid[LA_SPEED],   3.26, 26.64,0.06,1000,5000,61.3);
@@ -42,16 +68,17 @@ static void PID_Reset(void)
 	
 	PID_SetParam(&g_infc.pid[CH_ROTATE_SPEED],0.09,9.15,0,200,120,0);
 	PID_SetParam(&g_infc.pid[CH_ROTATE_ANGLE],10,0,0,0,0,0);
+	
 }
 void Infan_Control_Init(void)
 {
+   // g_angle_target.yaw=300;
 	
-    g_angle_target.yaw=281.0f;
-    g_angle_target.pitch=110.0f;
-
-	g_speed_target.ch_rotate=160;
-	
+	//g_speed_target.yaw=30;
 	PID_Reset();
+	INC_Reset();
+	
+	
 }
 
 
@@ -63,7 +90,8 @@ void Speed_6623_Control(object_t target)
     float deltaT = (Get_SysTimeUs() - previousT) * 1e-6;
     previousT = Get_SysTimeUs();
 	
-	
+	//YAW 赋值
+	//PID_SetParam(&g_infc.pid[YAW_SPEED],40,800,0,abs(target.yaw)*0.8,26000,0);
 	//速度环目标赋值
     g_infc.speed_inner_target.yaw		= target.yaw;
 	
@@ -79,12 +107,15 @@ void Speed_6623_Control(object_t target)
     s_speed_contorl_out.yaw         	= PID_GetPID(&g_infc.pid[YAW_SPEED],g_infc.speed_inner_error.yaw,1);
 	
 	
+	
 	//输出限幅
     s_speed_contorl_out.yaw         	= ConstrainFloat(s_speed_contorl_out.yaw,-30000,30000);
 	
 	Cmd_6623_ESC(s_speed_contorl_out.yaw,-s_angle_contorl_out.pitch);
+	
 	//Cmd_6623_ESC(0,0);
 }
+
 
 
 void Angle_6623_Control(object_t target)
@@ -95,9 +126,14 @@ void Angle_6623_Control(object_t target)
     static uint64_t previousT;
     float deltaT = (Get_SysTimeUs() - previousT) * 1e-6;
     previousT = Get_SysTimeUs();
-	//角度环目标赋值
-	g_infc.angle_outer_target.yaw		= target.yaw;
-	g_infc.angle_outer_target.pitch		= target.pitch;
+	
+	
+	//角度环目标限幅赋值
+	
+	g_infc.angle_outer_target.yaw   = ConstrainFloat(target.yaw,  YAW_INIT_ANGLE - 100.0f,YAW_INIT_ANGLE + 100.0f);
+	g_infc.angle_outer_target.pitch = ConstrainFloat(target.pitch,PIT_INIT_ANGLE - 20.0f, PIT_INIT_ANGLE + 20.0f);	 
+	
+
 	
 	//计算角度控制误差
 	g_infc.angle_outer_error.yaw  	= g_infc.angle_outer_target.yaw-g_data_6623.angle[YAW];
@@ -115,7 +151,7 @@ void Angle_6623_Control(object_t target)
 			if(error_temp>=80)
 			{
 				robot_status.gimbal_status=INIT_FINISH;
-				Cmd_YUNTAI_ESC(1);
+				Cmd_GIMBAL_ESC(1);
 				error_temp=0;
 			}
 		}
