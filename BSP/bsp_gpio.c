@@ -48,6 +48,16 @@ void  BSP_GPIO_Init(void)
     GPIO_InitStructure.GPIO_Speed  =  GPIO_Speed_100MHz;
     GPIO_Init(GPIOG, &GPIO_InitStructure);
     GPIO_ResetBits(GPIOG, GPIO_Pin_1);     //关闭
+	
+	//激光
+	GPIO_InitStructure.GPIO_Pin    =  GPIO_Pin_13;
+    GPIO_InitStructure.GPIO_Mode   =  GPIO_Mode_OUT;
+    GPIO_InitStructure.GPIO_OType  =  GPIO_OType_PP;
+    GPIO_InitStructure.GPIO_PuPd   =  GPIO_PuPd_UP;
+    GPIO_InitStructure.GPIO_Speed  =  GPIO_Speed_100MHz;
+    GPIO_Init(GPIOG, &GPIO_InitStructure);
+    GPIO_SetBits(GPIOG, GPIO_Pin_13);     //关闭
+	
     
     //TIM5 OC4  OC3
     //PI0  PH12
@@ -87,6 +97,17 @@ void  BSP_GPIO_Init(void)
     GPIO_Init(GPIOG, &GPIO_InitStructure);
     GPIO_PinAFConfig(GPIOG,GPIO_PinSource9, GPIO_AF_USART6); 
 	GPIO_PinAFConfig(GPIOG,GPIO_PinSource14,GPIO_AF_USART6);
+	
+	 //USART8
+    //TX:PE1 RX:PE0
+    GPIO_InitStructure.GPIO_Pin    =  GPIO_Pin_0 | GPIO_Pin_1;
+    GPIO_InitStructure.GPIO_Mode   =  GPIO_Mode_AF;
+    GPIO_InitStructure.GPIO_OType  =  GPIO_OType_PP;
+    GPIO_InitStructure.GPIO_PuPd   =  GPIO_PuPd_NOPULL;
+    GPIO_InitStructure.GPIO_Speed  =  GPIO_Speed_100MHz;
+    GPIO_Init(GPIOE, &GPIO_InitStructure);
+    GPIO_PinAFConfig(GPIOE,GPIO_PinSource0, GPIO_AF_UART8); 
+	GPIO_PinAFConfig(GPIOE,GPIO_PinSource1, GPIO_AF_UART8);
     
     //CAN1
     //H:PD1 L:PD0
@@ -120,6 +141,14 @@ void  BSP_GPIO_Init(void)
     GPIO_InitStructure.GPIO_Speed  =  GPIO_Speed_100MHz;
     GPIO_Init(GPIOB, &GPIO_InitStructure);
     GPIO_PinAFConfig(GPIOB,GPIO_PinSource5, GPIO_AF_TIM3);
+	//激光
+	GPIO_InitStructure.GPIO_Pin    =  GPIO_Pin_13;
+    GPIO_InitStructure.GPIO_Mode   =  GPIO_Mode_OUT;
+    GPIO_InitStructure.GPIO_OType  =  GPIO_OType_PP;
+    GPIO_InitStructure.GPIO_PuPd   =  GPIO_PuPd_UP;
+    GPIO_InitStructure.GPIO_Speed  =  GPIO_Speed_100MHz;
+    GPIO_Init(GPIOG, &GPIO_InitStructure);
+    GPIO_SetBits(GPIOG, GPIO_Pin_13);    
 	
 	//4个24V电源控制口
 	
