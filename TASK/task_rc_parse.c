@@ -10,7 +10,6 @@
 void vTaskRCParse(void *pvParameters)
 {
 	
-	u16 e_lastval=0;
 	u8 s2_lastval=0;        //单连发控制
 	
 	while(1)
@@ -20,6 +19,7 @@ void vTaskRCParse(void *pvParameters)
 		if(g_rc_control.rc.s1==1)
 		{
 			robot_status.control_mode=USE_RC;          //遥控控制模式
+			robot_status.gimbal_mode=MANUAL;
 		}
 		else if(g_rc_control.rc.s1==3)
 		{
@@ -28,7 +28,8 @@ void vTaskRCParse(void *pvParameters)
 		}
 		else if(g_rc_control.rc.s1==2)
 		{
-			
+			robot_status.control_mode=USE_RC;
+			robot_status.gimbal_mode=AUTO;
 		}
 		if(robot_status.control_mode==USE_RC)
 		{
@@ -54,30 +55,7 @@ void vTaskRCParse(void *pvParameters)
 				robot_status.shoot_mode=AK47;
 			}
 		}
-		else if(robot_status.control_mode==USE_PC)
-		{
-			if(g_rc_control.key.k[E]==0X01)
-			{
-				e_lastval++;
-			}
-			if(e_lastval%2==1)
-			{
-				if(g_rc_control.mouse.press_l)
-				{
-					robot_status.shoot_mode=AWM;   //单发
-				}
-					
-			}
-			else if(e_lastval%2==0)
-			{
-				if(g_rc_control.mouse.press_l)
-				{
-					robot_status.shoot_mode=AK47;  //连发
-				}
-				else
-					robot_status.shoot_mode=RELOAD;
-			}
-		}
+
 		
 	}
 	
