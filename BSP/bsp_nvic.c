@@ -29,6 +29,22 @@ void BSP_NVIC_Init()
     NVIC_Init(&NVIC_InitStructure);
     DMA_ClearITPendingBit(DMA2_Stream7, DMA_IT_TCIF7);
     DMA_ITConfig(DMA2_Stream7,DMA_IT_TC,ENABLE);
+	
+	
+	 //UART8 MiniPC USART接收
+    NVIC_InitStructure.NVIC_IRQChannel                    = UART8_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority  = 3;
+	NVIC_InitStructure.NVIC_IRQChannelCmd                 = ENABLE;			
+	NVIC_Init(&NVIC_InitStructure);	
+    USART_ITConfig(UART8, USART_IT_IDLE, ENABLE);
+    
+    //UART8 MiniPC DMA发送
+    NVIC_InitStructure.NVIC_IRQChannel                     = DMA1_Stream0_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannelCmd                  = ENABLE;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority   = 8;
+    NVIC_Init(&NVIC_InitStructure);
+    DMA_ClearITPendingBit(DMA1_Stream0, DMA_IT_TCIF7);
+    DMA_ITConfig(DMA1_Stream0,DMA_IT_TC,ENABLE);
     
     //CAN1 接收
     NVIC_InitStructure.NVIC_IRQChannel                      = CAN1_RX0_IRQn;    //FIFO 0
