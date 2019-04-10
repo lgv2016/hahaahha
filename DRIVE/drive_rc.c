@@ -9,11 +9,11 @@
 
 // Û±Í¡È√Ù∂»…Ë÷√
 
-#define YAW_SENSITIVITY   0.0005f
-#define PIT_SENSITIVITY   0.0005f
+#define YAW_SENSITIVITY   0.0003f
+#define PIT_SENSITIVITY   0.0003f
 
 
-rc_control_t g_rc_control;
+rc_control_t g_rc_control={0};
 
 static key_t key_e;
 
@@ -81,8 +81,6 @@ void RC_Data_Parse()
 	g_yaw_target+=-g_rc_control.mouse.x*deltaT*YAW_SENSITIVITY;
 	g_pit_target+=-g_rc_control.mouse.y*deltaT*PIT_SENSITIVITY;
 	  
-	g_yaw_target=ConstrainFloat(g_yaw_target,-100.0f,100.0f);
-	g_pit_target=ConstrainFloat(g_pit_target,-20.0f,20.0f);	  
 	  
 }
 
