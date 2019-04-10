@@ -30,6 +30,13 @@ float ApplyDeadbandFloat(float value, float deadband);
 float Radians(float deg);
 float Degrees(float rad);
 
+extern u8 Get_Check_SUM(u8* pchMessage, u16 dwLength);
+extern u8 Verify_Check_SUM(u8* pchMessage, u16 dwLength);
+extern void Append_Check_SUM(u8* pchMessage, u16 dwLength);
+
+extern float FloatHEX(u8 * pchMessage);
+extern void HEXFloat(u8 * pchMessage,float fdata);
+
 
 
 #endif  

@@ -1,5 +1,10 @@
 #include <math_tool.h>
 
+union FH_t
+{
+	char H[4];
+	float F;
+};
 /**********************************************************************************************************
 *函 数 名: constrainFloat
 *功能说明: 浮点型限幅
@@ -68,6 +73,72 @@ float Degrees(float rad)
     return rad * RAD_TO_DEG;
 }
 
+/****************************
+* 功能    ：计算校验和
+* 输入参数：pchMessage 数据数组
+*           dwLength 数据长度
+*  
+* 输出参数：ucSUM 值
+****************************/
+u8 Get_Check_SUM(u8* pchMessage, u16 dwLength)
+{
+  u8 ucSUM=0;
+  while (dwLength--)
+  {
+	 ucSUM+=(*pchMessage++);
+  }
+  return (ucSUM);
+}
+/**************************************
+* 功能    ：SUM校验
+* 输入参数：pchMessage 数据数组
+*           dwLength 数据长度
+*     
+* 输出参数：1:正确 0：错误
+***************************************/
+u8 Verify_Check_SUM(u8* pchMessage, u16 dwLength)
+{
+  u8 ucExpected = 0;
+  if ((pchMessage == 0) || (dwLength <= 2))
+    return 0;
+  ucExpected = Get_Check_SUM(pchMessage, dwLength - 1);
+  return (ucExpected == pchMessage[dwLength - 1]);
+}
+
+/******************************
+* 功能    ： 将校验和值放在数组的末尾
+* 输入参数：pchMessage 数据数组
+*           dwLength 数据长度+1（sum值存放在这里）
+*******************************/
+void Append_Check_SUM(u8* pchMessage, u16 dwLength)
+{
+  u8 ucSUM = 0;
+  if ((pchMessage == 0) || (dwLength <= 2))
+    return;
+  ucSUM                    = Get_Check_SUM((u8*)pchMessage, dwLength - 1);
+  pchMessage[dwLength - 1] = ucSUM;
+}
+
+//
+float FloatHEX(u8 * pchMessage)
+{
+	union FH_t FH;
+	FH.H[0]=*(pchMessage+0);
+	FH.H[1]=*(pchMessage+1);
+	FH.H[2]=*(pchMessage+2);
+    FH.H[3]=*(pchMessage+3);
+	return FH.F;
+}
+
+void HEXFloat(u8 * pchMessage,float fdata)
+{
+	union FH_t FH;
+	FH.F=fdata;
+    *(pchMessage+0)= FH.H[0];
+	*(pchMessage+1)= FH.H[1];
+	*(pchMessage+2)= FH.H[2];
+	*(pchMessage+3)= FH.H[3];
+}
 
 
 
