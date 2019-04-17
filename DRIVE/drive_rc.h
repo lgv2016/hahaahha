@@ -63,6 +63,11 @@ typedef struct
 extern rc_control_t g_rc_control;
 extern void RC_Data_Parse(void);
 
+extern void CH_Speed_Control(u16 xspeedmax,u16 yspeedmax);
+extern void CH_Angle_Control(float yawmax,float pitchmax);
+
+extern void PC_Angle_Control(void);
+
 extern float g_pit_target;
 extern float g_yaw_target;
 
