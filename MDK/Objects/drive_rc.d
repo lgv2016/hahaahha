@@ -43,3 +43,5 @@
 .\objects\drive_rc.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\drive_rc.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\drive_rc.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\drive_rc.o: ..\DRIVE\drive_control.h
+.\objects\drive_rc.o: ..\MATH\math_pid.h

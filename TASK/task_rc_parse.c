@@ -33,7 +33,7 @@ void vTaskRCParse(void *pvParameters)
 		}
 		if(robot_status.control_mode==USE_RC)
 		{
-		
+		     CH_Angle_Control(60,20);
 			if(g_rc_control.rc.s2==1)              //µ¥·¢¿ØÖÆ
 			{
 				if(s2_lastval==3)

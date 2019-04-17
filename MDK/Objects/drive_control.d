@@ -47,3 +47,4 @@
 .\objects\drive_control.o: ..\MOTOR\motor_chassis.h
 .\objects\drive_control.o: ..\MOTOR\motor_cradle_head.h
 .\objects\drive_control.o: ..\USER\robotstatus.h
+.\objects\drive_control.o: ..\DRIVE\drive_gimble.h
