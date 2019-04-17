@@ -5,6 +5,12 @@
 
 #include <stm32f4xx.h>
 
+
+
+
+extern float YAW_INIT_ANGLE;
+extern float PIT_INIT_ANGLE;
+
 typedef struct
 {
 	float input;
