@@ -6,6 +6,7 @@
 //рё©ьдёй╫  control_mode
 enum
 {
+	NO_CMD,
 	USE_RC,      //рё©ь
 	USE_PC       //╣Гдт
 };
