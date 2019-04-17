@@ -14,37 +14,6 @@
 
 
 
-
-void Chassis_Move(u16 xmaxval,u16 ymaxval)
-{
-	float xspeed,yspeed;
-	if(g_rc_control.rc.ch2==1684)
-	{
-		xspeed=xmaxval;
-	}
-	else if(g_rc_control.rc.ch2==364)
-	{
-		xspeed=-xmaxval;
-	}
-	else
-	{
-		xspeed=0;
-	}
-	
-	if(g_rc_control.rc.ch3==1684)
-	{
-		yspeed=ymaxval;
-	}
-	else if(g_rc_control.rc.ch3==364)
-	{
-		yspeed=-ymaxval;
-	}
-	else
-	{
-		yspeed=0;
-	}
-	Speed_Chassis_Control(xspeed,yspeed,0);
-}
 char g_2006_angle_reset=0;
 char g_2006_angle_flag=1;
 void vTaskControl(void *pvParameters)
@@ -52,7 +21,7 @@ void vTaskControl(void *pvParameters)
 
 	robot_status.chassis_mode=CH_SPEED;
 	u8 last_shoot_mode;
-	vTaskDelay(2000);  //6623开始时数据不正确，需要延时等待
+	vTaskDelay(1500);  //6623开始时数据不正确，需要延时等待
     while(1)
     {
 		if(robot_status.shoot_mode==AWM)           //单发模式
@@ -86,22 +55,24 @@ void vTaskControl(void *pvParameters)
 				Speed_2006_Control(g_speed_target);
 			}
 		}
-		if(robot_status.chassis_mode==CH_SPEED)
+		if(robot_status.control_mode==USE_RC)
 		{
-			if(robot_status.control_mode==USE_RC)
-			{
-				Chassis_Move(2000,2000);
-			}
+			
+			//CHASSIS_Move_RC_Control();
+			
+		CH_Speed_Control(2000,2000);
 		}
+
 		
 		
-		GIMBLE_Control();
+	   GIMBLE_Control();
 		
-		//Speed_6623_Control(g_speed_target);
-		//Angle_6623_Control(g_angle_target);
-		//CHASSIS_Follow_Gimble_Control();
+		
+		
+
+	//CHASSIS_Follow_Gimble_Control();
 		//CHASSIS_Move_Control(1500,1500);
-		//CHASSIS_Rotate_Control(160);
+	///CHASSIS_Rotate_Control(100);
 	
 		vTaskDelay(3);
 	}
