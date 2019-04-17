@@ -8,6 +8,8 @@
 #include <robotstatus.h>
 #include <math_tool.h>
 
+#include <drive_gimble.h>
+
 
 #define CHASSIS_W   19.8785   //cm
 #define CHASSIS_L   17.5375   //cm
@@ -55,11 +57,15 @@ static void PID_Reset(void)
     PID_SetParam(&g_infc.pid[SHOOT_SPEED],3.43,38.15,0.02,1000,5000,14.2);
     PID_SetParam(&g_infc.pid[SHOOT_ANGLE],100,0,0,0,0,0);
 	
-	PID_SetParam(&g_infc.pid[PITCH_ANGLE],120.5,865 ,0.03,8,3000,18.73);
+	
+	
 
-	//PID_SetParam(&g_infc.pid[YAW_SPEED],40,800,0,48,26000,0);
-	PID_SetParam(&g_infc.pid[YAW_SPEED],40,15,0,300,30000,0);
-	PID_SetParam(&g_infc.pid[YAW_ANGLE],0.7,0,0,0,0,0);
+	PID_SetParam(&g_infc.pid[PITCH_ANGLE],120.5,865 ,0.03,8,3000,18.73);
+	
+	
+	PID_SetParam(&g_infc.pid[YAW_ANGLE],  682,1842,12.5,6,20000, 3);
+
+	
 	
 	PID_SetParam(&g_infc.pid[LF_SPEED],   3.26, 26.64,0.06,1000,5000,61.3);
 	PID_SetParam(&g_infc.pid[LA_SPEED],   3.26, 26.64,0.06,1000,5000,61.3);
@@ -67,60 +73,24 @@ static void PID_Reset(void)
 	PID_SetParam(&g_infc.pid[RA_SPEED],   3.26, 26.64,0.06,1000,5000,61.3);
 	
 	PID_SetParam(&g_infc.pid[CH_ROTATE_SPEED],0.09,9.15,0,200,120,0);
-	PID_SetParam(&g_infc.pid[CH_ROTATE_ANGLE],10,0,0,0,0,0);
+	PID_SetParam(&g_infc.pid[CH_ROTATE_ANGLE],2.2,0,0,0,0,0);
 	
 }
 void Infan_Control_Init(void)
 {
-   // g_angle_target.yaw=300;
-	
-	//g_speed_target.yaw=30;
+
 	PID_Reset();
 	INC_Reset();
-	
-	
 }
 
 
 
-void Speed_6623_Control(object_t target)
-{
-	//函数运算间隔计算
-	static uint64_t previousT;
-    float deltaT = (Get_SysTimeUs() - previousT) * 1e-6;
-    previousT = Get_SysTimeUs();
-	
-	//YAW 赋值
-	//PID_SetParam(&g_infc.pid[YAW_SPEED],40,800,0,abs(target.yaw)*0.8,26000,0);
-	//速度环目标赋值
-    g_infc.speed_inner_target.yaw		= target.yaw;
-	
-	//计算速度环控制误差
-    g_infc.speed_inner_error.yaw  	    = g_infc.speed_inner_target.yaw - g_data_6623.speed[YAW];
-	
-	
-	//死区控制
-    g_infc.speed_inner_error.yaw  	    = ApplyDeadbandFloat( g_infc.speed_inner_error.yaw,0.5);
-	
-	
-	//PID算法，计算出速度环的控制量
-    s_speed_contorl_out.yaw         	= PID_GetPID(&g_infc.pid[YAW_SPEED],g_infc.speed_inner_error.yaw,1);
-	
-	
-	
-	//输出限幅
-    s_speed_contorl_out.yaw         	= ConstrainFloat(s_speed_contorl_out.yaw,-30000,30000);
-	
-	Cmd_6623_ESC(s_speed_contorl_out.yaw,-s_angle_contorl_out.pitch);
-	
-	//Cmd_6623_ESC(0,0);
-}
+
 
 
 
 void Angle_6623_Control(object_t target)
 {
-	
 	static u8 error_temp=0;
 	//函数运算间隔计算
     static uint64_t previousT;
@@ -139,13 +109,13 @@ void Angle_6623_Control(object_t target)
 	g_infc.angle_outer_error.yaw  	= g_infc.angle_outer_target.yaw-g_data_6623.angle[YAW];
 	g_infc.angle_outer_error.pitch  = g_infc.angle_outer_target.pitch - g_data_6623.angle[PITCH];
 	
-	//死区控制
-    g_infc.angle_outer_error.yaw  	= ApplyDeadbandFloat(g_infc.angle_outer_error.yaw,0.4f);
-	g_infc.angle_outer_error.pitch  	= ApplyDeadbandFloat(g_infc.angle_outer_error.pitch,0.4f);
+	
+    g_infc.angle_outer_error.yaw  	= ApplyDeadbandFloat(g_infc.angle_outer_error.yaw,0.1f);
+	g_infc.angle_outer_error.pitch  	= ApplyDeadbandFloat(g_infc.angle_outer_error.pitch,0.1f);
 	
 	if(robot_status.gimbal_status==NO_INIT)
 	{
-		if((abs(g_infc.angle_outer_error.yaw)<1.0f)&&(abs(g_infc.angle_outer_error.pitch)<0.8f))
+		if((abs(g_infc.angle_outer_error.yaw)<0.1f)&&(abs(g_infc.angle_outer_error.pitch)<0.1f))
 		{
 			error_temp++;
 			if(error_temp>=80)
@@ -162,11 +132,12 @@ void Angle_6623_Control(object_t target)
 	s_angle_contorl_out.pitch         	= PID_GetPID(&g_infc.pid[PITCH_ANGLE],g_infc.angle_outer_error.pitch,deltaT);
 	
 	//输出限幅
-    s_angle_contorl_out.yaw         	= ConstrainFloat(s_angle_contorl_out.yaw,-110,110);
+    s_angle_contorl_out.yaw         	= ConstrainFloat(s_angle_contorl_out.yaw,-20000,20000);
 	s_angle_contorl_out.pitch         	= ConstrainFloat(s_angle_contorl_out.pitch,-3000,3000);
 	
-	//将角度外环控制量作为速度内环的控制目标
-	Speed_6623_Control(s_angle_contorl_out);
+	
+	Cmd_6623_ESC(s_angle_contorl_out.yaw ,-s_angle_contorl_out.pitch);
+	//Cmd_6623_ESC(0,0);
 }
 
 void Speed_3510_Control(object_t target)
@@ -318,7 +289,7 @@ void Angle_Rotate_Control(object_t target)         //
     s_angle_contorl_out.ch_rotate         	= PID_GetPID(&g_infc.pid[CH_ROTATE_ANGLE],g_infc.angle_outer_error.ch_rotate,deltaT);
 	
 	//输出限幅
-    s_angle_contorl_out.ch_rotate         	= ConstrainFloat(s_angle_contorl_out.ch_rotate,-200,200);
+    s_angle_contorl_out.ch_rotate         	= ConstrainFloat(s_angle_contorl_out.ch_rotate,-66,66);
 	
 	//将角度外环控制量作为速度内环的控制目标
 	Speed_Rotate_Control(s_angle_contorl_out);

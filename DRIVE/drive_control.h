@@ -5,8 +5,7 @@
 #include <math_tool.h>
 
 
-#define YAW_INIT_ANGLE    200.0f
-#define PIT_INIT_ANGLE    118.5f
+
 
 enum
 {
