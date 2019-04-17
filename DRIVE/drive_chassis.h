@@ -23,6 +23,8 @@ extern void CHASSIS_Move_Control(int16_t vx,int16_t vy);
 
 extern void CHASSIS_Rotate_Control(int16_t rotate_speed);
 
+extern void CHASSIS_Move_RC_Control(void);
+
 #endif
 
 

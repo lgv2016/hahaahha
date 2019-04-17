@@ -22,12 +22,12 @@ u8 CHASSIS_Follow_Gimble_Control()
 	if(robot_status.chassis_mode==CH_ROTATE)     //可以边旋转边移动
 		return 1;
 	
-	robot_status.chassis_mode=CH_FOLLOW_GIMBAL;
+	//robot_status.chassis_mode=CH_FOLLOW_GIMBAL;
 	
 	if(g_rc_control.key.k[SHIFT])
 		return 1;
 	
-	g_angle_target.ch_rotate= g_data_6623.angle[YAW];
+	g_angle_target.ch_rotate=g_angle_target.yaw; //g_data_6623.angle[YAW];
 	Angle_Rotate_Control(g_angle_target);
 	
 	if(abs(g_infc.angle_outer_error.ch_rotate)<2.0f)
@@ -35,7 +35,15 @@ u8 CHASSIS_Follow_Gimble_Control()
 	
 	return 0;
 }
+//
 
+void CHASSIS_Move_RC_Control()
+{
+	if(CHASSIS_Follow_Gimble_Control())
+	{
+		CH_Speed_Control(2000,2000);
+	}
+}
 //底盘移动
 void CHASSIS_Move_Control(int16_t vx,int16_t vy)
 {
@@ -87,7 +95,12 @@ void CHASSIS_Rotate_Control(int16_t rotate_speed)
 	}
 	
 	else
+	{
+		g_infc.inc[CH_ROTATE_SPEED].out=0;
 		robot_status.chassis_mode=CH_FOLLOW_GIMBAL;
+	}
 	
 }
+
+
 
