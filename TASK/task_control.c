@@ -60,7 +60,12 @@ void vTaskControl(void *pvParameters)
 			
 			//CHASSIS_Move_RC_Control();
 			
-		CH_Speed_Control(2000,2000);
+	CHASSIS_Rotate_Control(100);
+	
+			if(robot_status.chassis_mode==CH_SPEED)
+			{
+				CH_Speed_Control(2000,2000);
+			}
 		}
 
 		
@@ -72,8 +77,8 @@ void vTaskControl(void *pvParameters)
 
 	//CHASSIS_Follow_Gimble_Control();
 		//CHASSIS_Move_Control(1500,1500);
-	///CHASSIS_Rotate_Control(100);
+	CHASSIS_Rotate_Control(100);
 	
-		vTaskDelay(3);
+		vTaskDelay(1);
 	}
 }

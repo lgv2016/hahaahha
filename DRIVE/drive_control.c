@@ -78,7 +78,6 @@ static void PID_Reset(void)
 }
 void Infan_Control_Init(void)
 {
-
 	PID_Reset();
 	INC_Reset();
 }
@@ -111,11 +110,11 @@ void Angle_6623_Control(object_t target)
 	
 	
     g_infc.angle_outer_error.yaw  	= ApplyDeadbandFloat(g_infc.angle_outer_error.yaw,0.1f);
-	g_infc.angle_outer_error.pitch  	= ApplyDeadbandFloat(g_infc.angle_outer_error.pitch,0.1f);
+	g_infc.angle_outer_error.pitch  	= ApplyDeadbandFloat(g_infc.angle_outer_error.pitch,0.4f);
 	
 	if(robot_status.gimbal_status==NO_INIT)
 	{
-		if((abs(g_infc.angle_outer_error.yaw)<0.1f)&&(abs(g_infc.angle_outer_error.pitch)<0.1f))
+		if((abs(g_infc.angle_outer_error.yaw)<0.1f)&&(abs(g_infc.angle_outer_error.pitch)<0.4f))
 		{
 			error_temp++;
 			if(error_temp>=80)

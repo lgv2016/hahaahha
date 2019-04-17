@@ -117,5 +117,4 @@ void BSP_DMA_Init()
     DMA_InitStructure.DMA_Priority                = DMA_Priority_Medium;
     DMA_Init(DMA1_Stream6,&DMA_InitStructure);
     DMA_Cmd(DMA1_Stream6, ENABLE);
-    
 }

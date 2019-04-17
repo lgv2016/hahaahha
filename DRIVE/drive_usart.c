@@ -34,7 +34,6 @@ void MiniPC_Send_Data(u8 cmd)
 		HEXFloat(&g_DMA_MiniPC_Send_Buff[2] ,  g_data_6623.angle[YAW]);
 		HEXFloat(&g_DMA_MiniPC_Send_Buff[2+4] ,g_data_6623.angle[PITCH]);
 		Append_Check_SUM(g_DMA_MiniPC_Send_Buff,2+4+4+1);
-		
 	}
 	DMA_Cmd(DMA1_Stream0, DISABLE);
 	while (DMA_GetCmdStatus(DMA1_Stream0)); 

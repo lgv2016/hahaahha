@@ -85,7 +85,7 @@ void CHASSIS_Rotate_Control(int16_t rotate_speed)
 	if(g_rc_control.key.k[Q])
 	{
 		robot_status.chassis_mode=CH_ROTATE;
-		g_speed_target.ch_rotate=rotate_speed;
+		//g_speed_target.ch_rotate=rotate_speed;
 		
 		INC_fun(&g_infc.inc[CH_ROTATE_SPEED]);
 		
@@ -97,7 +97,7 @@ void CHASSIS_Rotate_Control(int16_t rotate_speed)
 	else
 	{
 		g_infc.inc[CH_ROTATE_SPEED].out=0;
-		robot_status.chassis_mode=CH_FOLLOW_GIMBAL;
+		robot_status.chassis_mode=CH_SPEED;
 	}
 	
 }
