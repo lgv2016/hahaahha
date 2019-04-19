@@ -2,6 +2,8 @@
 #define __BSP_MOTOR_CRADLE_HEAD_H
 
 #include <stm32f4xx.h>
+
+#include <stdbool.h>
 enum
 {
     YAW,
@@ -31,7 +33,9 @@ typedef struct
     int32_t    count;
     
     float      angle;
-    
+	
+	bool       angle_reset_flag;
+ 
     int16_t    speed;
     int16_t    torque;
     
@@ -54,7 +58,7 @@ extern void Cmd_2006_ESC(int16_t  current_207);
 extern void Get_2006_data(CanRxMsg rx_message);
 extern void Get_2006_Offset_angle(CanRxMsg rx_message);
 
-extern void Cmd_GIMBAL_ESC(u8 current_208);
+extern void Cmd_GIMBAL_ESC(u8 imu_cmd,u8 fric_cmd);
 extern void Get_GIMBLE_data(CanRxMsg rx_message);
 
 extern void Snail_Calibration(void);

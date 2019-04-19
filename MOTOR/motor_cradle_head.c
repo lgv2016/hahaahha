@@ -63,15 +63,15 @@ void Cmd_2006_ESC(int16_t  current_207)
     CAN_Transmit(CAN1,&s_tx_message);
 }
 
-void Cmd_GIMBAL_ESC(u8 current_208)
+void Cmd_GIMBAL_ESC(u8 imu_cmd,u8 fric_cmd)
 {
 	s_tx_message.StdId = 0x1FE;
     s_tx_message.IDE = CAN_Id_Standard;
     s_tx_message.RTR = CAN_RTR_Data;
     s_tx_message.DLC = 0x08;
     
-	s_tx_message.Data[0] = current_208;
-    s_tx_message.Data[1] = 0x00;
+	s_tx_message.Data[0] = imu_cmd;
+    s_tx_message.Data[1] = fric_cmd;
 	s_tx_message.Data[2] = 0x00;
     s_tx_message.Data[3] = 0x00;
 	s_tx_message.Data[4] = 0x00;
