@@ -4,8 +4,23 @@
 
 #include <stm32f4xx.h>
 
-extern u8 AWM_Shoot_Control(float angle);
-extern void AK47_Shoot_Control(int16_t  fire_rate);
+#include <stdbool.h>
+
+#define SHOOT_CONTROL_CYCLE 5       //5ms
+extern void SHOOT_Loop_Control(void);
+extern void SHOOT_Init(void);
+
+extern void GET_209_Data(CanRxMsg rx_message);
+typedef struct
+{
+    bool press_l;
+    bool last_press_l;
+    uint16_t press_l_time;
+    uint16_t no_press_l_time;
+	uint16_t key_time;
+	
+	bool rest_flag;
+} shoot_motor_t;
 
 
 
