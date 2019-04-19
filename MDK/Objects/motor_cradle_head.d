@@ -37,9 +37,9 @@
 .\objects\motor_cradle_head.o: ..\FWLIB\inc\stm32f4xx_dma2d.h
 .\objects\motor_cradle_head.o: ..\FWLIB\inc\stm32f4xx_fmc.h
 .\objects\motor_cradle_head.o: ..\FWLIB\inc\stm32f4xx_sai.h
+.\objects\motor_cradle_head.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\motor_cradle_head.o: ..\MATH\math_tool.h
 .\objects\motor_cradle_head.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-.\objects\motor_cradle_head.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\motor_cradle_head.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\motor_cradle_head.o: ..\DRIVE\drive_delay.h
 .\objects\motor_cradle_head.o: ..\freeRTOS\include\FreeRTOS.h

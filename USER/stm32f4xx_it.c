@@ -296,11 +296,10 @@ void CAN1_RX0_IRQHandler(void)
 	{
 		CAN_Receive(CAN1, CAN_FIFO0, &s_rx_message);
 		
-		if(g_2006_angle_flag&&(s_rx_message.StdId==0x207))
+		if(g_data_2006.angle_reset_flag&&(s_rx_message.StdId==0x207))
 		{
-			
 			Get_2006_Offset_angle(s_rx_message);
-			g_2006_angle_flag=0;
+			g_data_2006.angle_reset_flag=0;
 		}
 		CAN_ClearITPendingBit(CAN1,CAN_IT_FMP0);
 		

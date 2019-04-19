@@ -8,10 +8,7 @@
 
 
 void vTaskRCParse(void *pvParameters)
-{
-	
-	u8 s2_lastval=0;        //单连发控制
-	
+{	
 	while(1)
 	{
 		ulTaskNotifyTake(pdTRUE,portMAX_DELAY);
@@ -33,30 +30,8 @@ void vTaskRCParse(void *pvParameters)
 		}
 		if(robot_status.control_mode==USE_RC)
 		{
-		     CH_Angle_Control(60,20);
-			if(g_rc_control.rc.s2==1)              //单发控制
-			{
-				if(s2_lastval==3)
-				{
-					robot_status.shoot_mode=AWM;
-					g_2006_angle_reset=1;         //角度置零
-					s2_lastval=0;
-				}
-			}
-			else if(g_rc_control.rc.s2==3)        //单发
-			{
-				s2_lastval=3;
-				robot_status.chassis_mode=CH_SPEED;
-				robot_status.shoot_mode=RELOAD;
-			}
-			else if(g_rc_control.rc.s2==2)        //连发
-			{
-				robot_status.chassis_mode=CH_ROTATE;
-				robot_status.shoot_mode=AK47;
-			}
+			
 		}
-
-		
 	}
 	
 }

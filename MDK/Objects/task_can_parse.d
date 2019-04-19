@@ -50,4 +50,6 @@
 .\objects\task_can_parse.o: ..\FWLIB\inc\stm32f4xx_sai.h
 .\objects\task_can_parse.o: ..\DRIVE\drive_delay.h
 .\objects\task_can_parse.o: ..\MOTOR\motor_cradle_head.h
+.\objects\task_can_parse.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\task_can_parse.o: ..\MOTOR\motor_chassis.h
+.\objects\task_can_parse.o: ..\DRIVE\drive_shoot.h

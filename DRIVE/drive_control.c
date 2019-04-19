@@ -120,7 +120,7 @@ void Angle_6623_Control(object_t target)
 			if(error_temp>=80)
 			{
 				robot_status.gimbal_status=INIT_FINISH;
-				Cmd_GIMBAL_ESC(1);
+				Cmd_GIMBAL_ESC(1,0);
 				error_temp=0;
 			}
 		}

@@ -12,8 +12,6 @@
 .\objects\task_control.o: ..\freeRTOS\include\mpu_wrappers.h
 .\objects\task_control.o: ..\freeRTOS\include\task.h
 .\objects\task_control.o: ..\freeRTOS\include\list.h
-.\objects\task_control.o: ..\DRIVE\drive_control.h
-.\objects\task_control.o: ..\MATH\math_pid.h
 .\objects\task_control.o: ..\CORE\stm32f4xx.h
 .\objects\task_control.o: ..\CORE\core_cm4.h
 .\objects\task_control.o: ..\CORE\core_cmInstr.h
@@ -50,6 +48,8 @@
 .\objects\task_control.o: ..\FWLIB\inc\stm32f4xx_dma2d.h
 .\objects\task_control.o: ..\FWLIB\inc\stm32f4xx_fmc.h
 .\objects\task_control.o: ..\FWLIB\inc\stm32f4xx_sai.h
+.\objects\task_control.o: ..\DRIVE\drive_control.h
+.\objects\task_control.o: ..\MATH\math_pid.h
 .\objects\task_control.o: ..\MATH\math_tool.h
 .\objects\task_control.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\task_control.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h

@@ -74,12 +74,7 @@ void RC_Data_Parse()
       g_rc_control.key.k[CTRL]    =   (g_rc_control.key.v&(0X0001<<5))>>5;
      
 	  g_rc_control.key.k[Q]       =   (g_rc_control.key.v&(0X0001<<6))>>6;
-	 // g_rc_control.key.k[E]       =   (g_rc_control.key.v&(0X0001<<7))>>7;
-	  KEY_Press_Verify(&key_e,(g_rc_control.key.v&(0X0001<<7))>>7);
-	  g_rc_control.key.k[E]       =    key_e.output;
-	  
-
-	 
+	  g_rc_control.key.k[E]       =   (g_rc_control.key.v&(0X0001<<7))>>7;
 }
 
 void CH_Speed_Control(u16 xspeedmax,u16 yspeedmax)

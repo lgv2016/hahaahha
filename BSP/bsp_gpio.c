@@ -38,6 +38,8 @@ void  BSP_GPIO_Init(void)
 	GPIO_Init(GPIOB, &GPIO_InitStructure);
 	SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOB,EXTI_PinSource8);
 	
+	
+	
     
     //LED   
     //PG1

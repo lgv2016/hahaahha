@@ -25,13 +25,16 @@ enum
 	DATA_FALSE,
 	DATA_TRUE
 };
-//单发连发模式    shoot_mode
+//射击模式  shoot_mode
 enum
 {
-	NO_SHOOT,
-	RELOAD,        //填弹
-	AWM,
-	AK47
+	SHOOT_NO,
+	SHOOT_AWM,     //单发
+	SHOOT_AK47,    //连发
+	SHOOT_STOP,    //发射停止
+	SHOOT_READY,   //发射准备
+	
+	
 };
 //底盘模式    chassis_mode
 enum
@@ -69,6 +72,16 @@ enum
 	AUTO        //自动
 };
 
+//摩擦轮状态
+enum
+{
+	FRIC_OFF,
+	
+	FRIC_OFF_START,
+	FRIC_ON,
+	FRIC_ON_START
+};
+
 typedef struct
 {
 	u8  imu_status;  
@@ -79,6 +92,8 @@ typedef struct
 	u8  gimbal_status;
 	u8  gimbal_data;
 	u8  gimbal_mode;
+	
+	u8 firc_status;
 }robot_status_t;    
 
 

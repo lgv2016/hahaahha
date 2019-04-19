@@ -50,9 +50,9 @@
 .\objects\task_usart_parse.o: ..\FWLIB\inc\stm32f4xx_fmc.h
 .\objects\task_usart_parse.o: ..\FWLIB\inc\stm32f4xx_sai.h
 .\objects\task_usart_parse.o: ..\MOTOR\motor_cradle_head.h
+.\objects\task_usart_parse.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\task_usart_parse.o: ..\DRIVE\drive_control.h
 .\objects\task_usart_parse.o: ..\MATH\math_pid.h
 .\objects\task_usart_parse.o: ..\MATH\math_tool.h
 .\objects\task_usart_parse.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-.\objects\task_usart_parse.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\task_usart_parse.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
