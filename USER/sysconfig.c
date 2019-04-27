@@ -21,11 +21,9 @@ void SYS_Config_Init()
 
 int fputc(int ch, FILE *f)
 {
-//    USART_SendData(USART6, (uint8_t) ch);
-//	while (USART_GetFlagStatus(USART6, USART_FLAG_TXE) == RESET);		
-//	return (ch);
-	
-	USART_SendData(UART8, (uint8_t) ch);
-	while (USART_GetFlagStatus(UART8, USART_FLAG_TXE) == RESET);		
+    USART_SendData(USART6, (uint8_t) ch);
+	while (USART_GetFlagStatus(USART6, USART_FLAG_TXE) == RESET);		
 	return (ch);
+	
+
 }

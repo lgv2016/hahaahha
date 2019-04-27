@@ -1,30 +1,32 @@
 #ifndef __DRIVE_GIMBLE_H
-
 #define __DRIVE_GIMBLE_H
-
-
 #include <stm32f4xx.h>
 
 
 
+#define GIMBLE_CONTROL_CYCLE 1
 
-extern float YAW_INIT_ANGLE;
-extern float PIT_INIT_ANGLE;
+
 
 typedef struct
 {
-	float input;
-	float out;
-	float max;
-	float min;
-	float period;
-} fric_t;
 
-extern fric_t fric1;
-extern fric_t fric2;
+	
+	u8 angle_init_time;
+	
+	float rc_control_angle;
+	float pc_control_angle;
+	float vision_control_angle;
+	
+	u16   press_r_time;
 
-extern u8 auto_flag;
+} Gimbal_Motor_t;
 
-extern void GIMBLE_Control(void);
+extern void GIMBLE_Init(void);
+extern void Get_GIMBLE_data(CanRxMsg rx_message);
+extern void GIMBLE_Loop_Control(void);
+
+
+
 
 #endif

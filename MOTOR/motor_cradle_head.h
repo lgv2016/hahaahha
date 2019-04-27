@@ -17,7 +17,7 @@ typedef struct
     float    angle[NUM_6623];
     u16      pre_angle[NUM_6623];
 	
-    int16_t  speed[NUM_6623];
+    float    speed[NUM_6623];
     int16_t  set_current[NUM_6623];
     int16_t  actual_current[NUM_6623];
     
@@ -59,7 +59,6 @@ extern void Get_2006_data(CanRxMsg rx_message);
 extern void Get_2006_Offset_angle(CanRxMsg rx_message);
 
 extern void Cmd_GIMBAL_ESC(u8 imu_cmd,u8 fric_cmd);
-extern void Get_GIMBLE_data(CanRxMsg rx_message);
 
 extern void Snail_Calibration(void);
 extern void Snail_Stop(void);

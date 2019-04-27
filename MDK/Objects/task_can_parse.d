@@ -53,3 +53,4 @@
 .\objects\task_can_parse.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\task_can_parse.o: ..\MOTOR\motor_chassis.h
 .\objects\task_can_parse.o: ..\DRIVE\drive_shoot.h
+.\objects\task_can_parse.o: ..\DRIVE\drive_gimble.h

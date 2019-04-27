@@ -4,14 +4,15 @@ robot_status_t robot_status;
 
 void BSP_ROBOT_Init(void)
 {
-	robot_status.chassis_mode  = CH_SPEED;
-	robot_status.control_mode  = NO_CMD;
-	robot_status.imu_data      = DATA_FALSE;
-	robot_status.imu_status    = NO_CORRECT;
-	robot_status.shoot_mode    = SHOOT_NO;
-	robot_status.gimbal_data   = NO_DATA;
-	robot_status.gimbal_status = NO_INIT;
-	robot_status.gimbal_mode   = MANUAL;
+	robot_status.shoot_mode=SHOOT_NO;
+	robot_status.firc_status=FRIC_OFF;
+	
+	
+    robot_status.gimbal_mode = GIMBAL_NO;
+	robot_status.motor_yaw   = MOTOR_GIMBAL_NO;
+	robot_status.motor_pit   = MOTOR_GIMBAL_NO;
+	robot_status.gimbal_data = GIMBAL_MOTOR_NO;
+
 	
 }
 

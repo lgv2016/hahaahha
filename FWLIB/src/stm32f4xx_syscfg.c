@@ -14,7 +14,7 @@
     [..] This driver provides functions for:
             
        (#) Remapping the memory accessible in the code area using SYSCFG_MemoryRemapConfig()
-            
+            \\infantry_lgv\../USER/robotstatus.c\robot_status.gimbal_data
        (#) Swapping the internal flash Bank1 and Bank2 this features is only visible for 
            STM32F42xxx/43xxx devices Devices. 
                 

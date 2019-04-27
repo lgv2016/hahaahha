@@ -4,15 +4,26 @@
 #include <math_pid.h>
 #include <math_tool.h>
 
-
-
-
 enum
 {
+	
+	
+	YAW_ENCONDE_ANGLE,
+    YAW_ENCONDE_SPEED,
+    PIT_ENCODNE_ANGLE,
+	
+    PIT_GYRO_SPEED,
+	PIT_GYRO_ANGLE,
+	
+	YAW_GYRO_ANGLE,
+    YAW_GYRO_SPEED,
+	
+	
     YAW_ANGLE,
     YAW_SPEED,
     PITCH_ANGLE,
     PITCH_SPEED,
+	
     SHOOT_ANGLE,
     SHOOT_SPEED,
     
@@ -37,7 +48,6 @@ typedef struct
     float la;
     float rf;
     float ra;
-	
 	float ch_rotate;
 
 } object_t;
@@ -73,7 +83,7 @@ extern object_t g_speed_target;
 extern object_t g_angle_target;
 
 
-extern void INC_fun(INC_t* inc);
+
 
 extern void Infan_Control_Init(void);
 extern void Speed_3510_Control(object_t target);

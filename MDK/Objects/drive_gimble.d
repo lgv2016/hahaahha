@@ -46,3 +46,4 @@
 .\objects\drive_gimble.o: ..\MOTOR\motor_cradle_head.h
 .\objects\drive_gimble.o: ..\USER\robotstatus.h
 .\objects\drive_gimble.o: ..\DRIVE\drive_rc.h
+.\objects\drive_gimble.o: ..\DRIVE\drive_usart.h

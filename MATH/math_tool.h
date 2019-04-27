@@ -34,8 +34,10 @@ extern u8 Get_Check_SUM(u8* pchMessage, u16 dwLength);
 extern u8 Verify_Check_SUM(u8* pchMessage, u16 dwLength);
 extern void Append_Check_SUM(u8* pchMessage, u16 dwLength);
 
-extern float FloatHEX(u8 * pchMessage);
-extern void HEXFloat(u8 * pchMessage,float fdata);
+
+extern float HEX_TO_Float(u8 * pchMessage);
+extern void FLOAT_TO_Hex(u8 * pchMessage,float fdata);
+
 
 
 

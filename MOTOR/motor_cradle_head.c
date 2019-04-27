@@ -84,27 +84,35 @@ void Cmd_GIMBAL_ESC(u8 imu_cmd,u8 fric_cmd)
 
 void Get_6623_data(CanRxMsg rx_message)
 {
+	int16_t speed;
      switch(rx_message.StdId)
     {
        case 0x205:
       {
-		  if(robot_status.gimbal_data==NO_DATA)
+		  if(robot_status.motor_yaw!=MOTOR_GIMBAL_GYRO)
 		  {
 			  g_data_6623.pre_angle[YAW]         =   rx_message.Data[0]<<8|rx_message.Data[1];
-			  g_data_6623.speed[YAW]             =   rx_message.Data[2]<<8|rx_message.Data[3];
+			  speed             =   rx_message.Data[2]<<8|rx_message.Data[3];
 			  g_data_6623.actual_current[YAW]    =   rx_message.Data[4]<<8|rx_message.Data[5];
-			  g_data_6623.angle[YAW]=(g_data_6623.pre_angle[YAW]*360.0f)/8191.0f;
+			  g_data_6623.angle[YAW]             =   (g_data_6623.pre_angle[YAW]*360.0f)/8191.0f;
+			  
+			  g_data_6623.speed[YAW]=(float)speed;
+			  robot_status.motor_yaw=MOTOR_GIMBAL_ENCODE;
 		  }
+		  
+		  
           break;
       }
       case 0x206:
       {
-          g_data_6623.pre_angle[PITCH]         =   rx_message.Data[0]<<8|rx_message.Data[1];
-          g_data_6623.actual_current[PITCH]    =   rx_message.Data[2]<<8|rx_message.Data[3];
-          g_data_6623.set_current[PITCH]       =   rx_message.Data[4]<<8|rx_message.Data[5];
-		  g_data_6623.angle[PITCH]=(g_data_6623.pre_angle[PITCH]*360.0f)/8191.0f;
-		  
-		  
+		  if(robot_status.motor_pit!=MOTOR_GIMBAL_GYRO)
+		  {
+			  g_data_6623.pre_angle[PITCH]         =   rx_message.Data[0]<<8|rx_message.Data[1];
+			  g_data_6623.actual_current[PITCH]    =   rx_message.Data[2]<<8|rx_message.Data[3];
+			  g_data_6623.set_current[PITCH]       =   rx_message.Data[4]<<8|rx_message.Data[5];
+			  g_data_6623.angle[PITCH             ]=   (g_data_6623.pre_angle[PITCH]*360.0f)/8191.0f;
+			  robot_status.motor_pit=MOTOR_GIMBAL_ENCODE;
+		  }
           break;
       }
       default:
@@ -160,39 +168,6 @@ void Get_2006_Offset_angle(CanRxMsg rx_message)
     } 
 }
 
-void Get_GIMBLE_data(CanRxMsg rx_message)
-{
-	static u8 gimbal_init_flag=1;
-	switch(rx_message.StdId)
-    {
-      case 0x208:
-      {
-		 robot_status.gimbal_data=RECEIVED_DATA;
-		  if(gimbal_init_flag==1)
-		  {
-			   g_angle_target.yaw=0;
-			   gimbal_init_flag=0;  
-		  }
-		  GIMBLE_DATA.C[0]=rx_message.Data[0];
-		  GIMBLE_DATA.C[1]=rx_message.Data[1];
-		  GIMBLE_DATA.C[2]=rx_message.Data[2];
-		  GIMBLE_DATA.C[3]=rx_message.Data[3];
-		  g_data_6623.speed[YAW]=GIMBLE_DATA.F/5.44f;
-	
-		  
-		  GIMBLE_DATA.C[0]=rx_message.Data[4];
-		  GIMBLE_DATA.C[1]=rx_message.Data[5];
-		  GIMBLE_DATA.C[2]=rx_message.Data[6];
-		  GIMBLE_DATA.C[3]=rx_message.Data[7];
-		  g_data_6623.angle[YAW]=GIMBLE_DATA.F;
-		  
-		  robot_status.gimbal_status=INIT_GOOD;
-          break;
-      }
-      default:
-        break;
-    } 
-}
 
 
 

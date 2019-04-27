@@ -8,46 +8,21 @@
 
 
 
-
 //鼠标灵敏度设置
+#define YAW_SENSITIVITY   3.0f
+#define PIT_SENSITIVITY   1.0f
 
-#define YAW_SENSITIVITY   0.0003f
-#define PIT_SENSITIVITY   0.0003f
 
 
 rc_control_t g_rc_control={0};
 
-static key_t key_e;
-
-
-float g_pit_target=0,g_yaw_target=0;
-
-
-void KEY_Press_Verify(key_t *k,u8 input)
-{
-	k->key=input;
-	if(k->key==k->lastkey)
-	{
-		k->time++;
-	}
-	else 
-	{
-		k->time=0;
-	}
-	
-	k->lastkey=k->key;
-	if(k->time>k->rate)
-	{
-		k->time=0;
-		k->output=k->key;
-	}
-}
 
 
 void RC_Data_Parse()
 {
-	
-
+	  static uint64_t previousT;
+      float deltaT = (Get_SysTimeUs() - previousT) * 1e-6f;
+      previousT = Get_SysTimeUs();
 	
 	
       g_rc_control.rc.ch0         =  (g_DMA_Dbus_Buff[0]       | (g_DMA_Dbus_Buff[1] << 8)) & 0x07ff; 
@@ -75,6 +50,11 @@ void RC_Data_Parse()
      
 	  g_rc_control.key.k[Q]       =   (g_rc_control.key.v&(0X0001<<6))>>6;
 	  g_rc_control.key.k[E]       =   (g_rc_control.key.v&(0X0001<<7))>>7;
+	  
+	  g_rc_control.mouse.x_distance+=-g_rc_control.mouse.x*deltaT*YAW_SENSITIVITY;
+	  g_rc_control.mouse.y_distance+=-g_rc_control.mouse.y*deltaT*PIT_SENSITIVITY;
+	  
+	  
 }
 
 void CH_Speed_Control(u16 xspeedmax,u16 yspeedmax)
@@ -98,24 +78,14 @@ void CH_Speed_Control(u16 xspeedmax,u16 yspeedmax)
 //上正
 
 
-void CH_Angle_Control(float yawmax,float pitchmax)
-{
-
-	g_yaw_target=-(yawmax/(660.0f))*(g_rc_control.rc.ch0-1024);
-	g_pit_target=(pitchmax/(660.0f))*(g_rc_control.rc.ch1-1024);
-}
-
 
 
 void PC_Angle_Control()
 {
-	static uint64_t previousT;
-    float deltaT = (Get_SysTimeUs() - previousT) * 1e-3f;
-    previousT = Get_SysTimeUs();
 	
 	
-	g_yaw_target+=-g_rc_control.mouse.x*deltaT*YAW_SENSITIVITY;
-	g_pit_target+=-g_rc_control.mouse.y*deltaT*PIT_SENSITIVITY;
+	
+	
 	
 }
 

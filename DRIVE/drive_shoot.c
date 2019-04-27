@@ -24,6 +24,8 @@
 
 static shoot_motor_t s_shoot_motor;
 
+static void SHOOT_Set_Mode(void);
+
 
 void SHOOT_Init()
 {
@@ -41,6 +43,8 @@ void SHOOT_Init()
 static void SHOOT_Set_Mode()
 {
 	static u8 last_s=RC_SW_UP;
+	
+		
 	 //上拨判断， 一次单发
 	if((switch_is_up(g_rc_control.rc.s2)&&!switch_is_up(last_s))||(s_shoot_motor.press_l&&!s_shoot_motor.last_press_l))
 	{
@@ -82,6 +86,12 @@ static void SHOOT_Set_Mode()
 			Cmd_GIMBAL_ESC(0,2);
 			robot_status.firc_status=FRIC_OFF_START;
 		}
+		robot_status.shoot_mode=SHOOT_STOP;
+	}
+	
+	//如果云台没有校准完成
+    if(robot_status.gimbal_data!=GIMBAL_MOTOR_GYRO)
+	{
 		robot_status.shoot_mode=SHOOT_STOP;
 	}
 	last_s=g_rc_control.rc.s2;
@@ -210,7 +220,7 @@ void SHOOT_Loop_Control()
  */
 void GET_209_Data(CanRxMsg rx_message)
 {
-	if(rx_message.StdId==0x209)
+	if(rx_message.StdId==0x210)
 	{
 		if(rx_message.Data[0]==0x01)
 			robot_status.firc_status=FRIC_ON;
@@ -218,3 +228,4 @@ void GET_209_Data(CanRxMsg rx_message)
 			robot_status.firc_status=FRIC_OFF;
 	}
 }
+

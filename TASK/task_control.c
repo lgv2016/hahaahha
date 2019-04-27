@@ -10,22 +10,45 @@
 #include <drive_shoot.h>
 
 
+
+float p=120,i=2,se=20;
 control_cycle_t s_control_cycle;
 void vTaskControl(void *pvParameters)
 {
-
 	SHOOT_Init();
-	vTaskDelay(1500);  //6623开始时数据不正确，需要延时等待
+	GIMBLE_Init();
+	CHASSIS_Init();
+	
+	vTaskDelay(1000);
     while(1)
     {	
-		s_control_cycle.gimble_cycle++;
+		
+		PID_SetParam(&g_infc.pid[YAW_SPEED], p,i,0,100,20000,0);
 		s_control_cycle.shoot_cycle++;
+		s_control_cycle.gimble_cycle++;
+		s_control_cycle.chassis_cycyle++;
 		
 		if(s_control_cycle.shoot_cycle==SHOOT_CONTROL_CYCLE)
 		{
 			SHOOT_Loop_Control();
 			s_control_cycle.shoot_cycle=0;
 		}
+		
+		if(s_control_cycle.gimble_cycle==GIMBLE_CONTROL_CYCLE)
+		{
+			
+		GIMBLE_Loop_Control();
+			s_control_cycle.gimble_cycle=0;
+		}
+//		
+//		if(s_control_cycle.chassis_cycyle==SHOOT_CONTROL_CYCLE)
+//		{
+//			CHASSIS_Loop_Control();
+//			s_control_cycle.chassis_cycyle=0;
+//		}
+		
+		CHASSIS_RC_Control(2000,2000);
+	
 		
 		vTaskDelay(1);
 	}

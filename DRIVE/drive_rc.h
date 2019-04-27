@@ -36,6 +36,10 @@ typedef struct
 		int16_t z;
 		u8      press_l;
 		u8      press_r;
+		
+		float x_distance;
+		float y_distance;
+		
 	}mouse;
 	struct
 	{

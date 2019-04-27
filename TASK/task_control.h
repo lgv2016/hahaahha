@@ -11,6 +11,7 @@ typedef struct
 {
     u8 shoot_cycle;
     u8 gimble_cycle;
+	u8 chassis_cycyle;
     
 } control_cycle_t;
 

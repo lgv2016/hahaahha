@@ -234,9 +234,9 @@ u8 MPU_Get_Gyroscope()
 		s_mpu_data.gy = (( s_mpu_buff[2] << 8  |  s_mpu_buff[3]) - s_mpu_data.gy_offset);
 		s_mpu_data.gz = (( s_mpu_buff[4] << 8  |  s_mpu_buff[5]) - s_mpu_data.gz_offset);
     
-		g_imu_data.pit_speed   = s_mpu_data.gx / 16.384f ;
-		g_imu_data.rol_speed   = s_mpu_data.gy / 16.384f ; 
-		g_imu_data.yaw_speed   = s_mpu_data.gz / 16.384f ;
+		g_imu_data.pit_speed   = s_mpu_data.gx / 16.384f /5.44f;
+		g_imu_data.rol_speed   = s_mpu_data.gy / 16.384f /5.44f; 
+		g_imu_data.yaw_speed   = s_mpu_data.gz / 16.384f /5.44f;
 	} 	
     return res;
 }

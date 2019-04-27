@@ -5,6 +5,7 @@
 #include <drive_control.h>
 #include <motor_cradle_head.h>
 
+minipc_data_t minipc_data;
 
 //解算妙算的数据
 void MiniPC_Rece_Resolver()
@@ -15,8 +16,8 @@ void MiniPC_Rece_Resolver()
 		{
 			if(Verify_Check_SUM(g_DMA_MiniPC_Reve_Buff,11))
 			{
-				g_angle_target.yaw    = FloatHEX(&g_DMA_MiniPC_Reve_Buff[2]);
-				g_angle_target.pitch  = FloatHEX(&g_DMA_MiniPC_Reve_Buff[6]);
+				minipc_data.get_target_angle_yaw   = HEX_TO_Float(&g_DMA_MiniPC_Reve_Buff[2]);
+				minipc_data.get_target_angle_pit   = HEX_TO_Float(&g_DMA_MiniPC_Reve_Buff[6]);
 			}
 		}
 		
@@ -31,8 +32,10 @@ void MiniPC_Send_Data(u8 cmd)
 		dwLength=11;
 		g_DMA_MiniPC_Send_Buff[0]=0XA6;
 		g_DMA_MiniPC_Send_Buff[1]=cmd;
-		HEXFloat(&g_DMA_MiniPC_Send_Buff[2] ,  g_data_6623.angle[YAW]);
-		HEXFloat(&g_DMA_MiniPC_Send_Buff[2+4] ,g_data_6623.angle[PITCH]);
+		
+		
+		FLOAT_TO_Hex(&g_DMA_MiniPC_Send_Buff[2] ,  g_data_6623.angle[YAW]);
+		FLOAT_TO_Hex(&g_DMA_MiniPC_Send_Buff[2+4] ,g_data_6623.angle[PITCH]);
 		Append_Check_SUM(g_DMA_MiniPC_Send_Buff,2+4+4+1);
 	}
 	DMA_Cmd(DMA1_Stream0, DISABLE);

@@ -27,22 +27,22 @@ TaskHandle_t xHandleTaskControl 	= NULL;
 TaskHandle_t xHandleTaskUSARTParse 	= NULL;
 TaskHandle_t xHandleTaskRCParse 	= NULL;
 TaskHandle_t xHandleTaskIMUData 	= NULL;
-
 TaskHandle_t xHandleTaskPCParse 	= NULL;
 
 void vTaskLED(void *pvParameters)
 {	
-	robot_status.imu_status=CORRECT_START;
+	
 	vTaskDelay(200);
     while(1)
     {
-		if(robot_status.imu_status==CORRECT_START) 
+		if(robot_status.mpu6500_status==MPU6500_INIT) 
 		{
 			taskENTER_CRITICAL();
 			while(mpu_dmp_init());
-			robot_status.imu_status=CORRECT_FINISH;
+			robot_status.mpu6500_status=MPU6500_SUCCESS;
 			taskEXIT_CRITICAL();  
 		}
+		
 		vTaskDelay(8);
     }
 }

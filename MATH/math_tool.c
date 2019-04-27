@@ -119,8 +119,14 @@ void Append_Check_SUM(u8* pchMessage, u16 dwLength)
   pchMessage[dwLength - 1] = ucSUM;
 }
 
-//
-float FloatHEX(u8 * pchMessage)
+/**************************************
+* 功能    ：16进制转浮点数
+* 输入参数：pchMessage 16进制数组
+*          
+*     
+* 输出参数：转化后的浮点数
+***************************************/
+float HEX_TO_Float(u8 * pchMessage)
 {
 	union FH_t FH;
 	FH.H[0]=*(pchMessage+0);
@@ -129,8 +135,14 @@ float FloatHEX(u8 * pchMessage)
     FH.H[3]=*(pchMessage+3);
 	return FH.F;
 }
-
-void HEXFloat(u8 * pchMessage,float fdata)
+/**************************************
+* 功能    ：浮点数转16进制
+* 输入参数：pchMessage 16进制数组
+*           fdata      浮点数
+*     
+* 输出参数：无
+***************************************/
+void FLOAT_TO_Hex(u8 * pchMessage,float fdata)
 {
 	union FH_t FH;
 	FH.F=fdata;

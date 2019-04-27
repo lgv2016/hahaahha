@@ -8,12 +8,11 @@ void vTaskIMUData(void *pvParameters)
 	while(1)
 	{
 		ulTaskNotifyTake(pdTRUE,portMAX_DELAY);
-		if(robot_status.imu_status==CORRECT_FINISH)
+		if(robot_status.mpu6500_status==MPU6500_SUCCESS)
 		{
 			if(mpu_mpl_get_data()==0)
 		    {
 				MPU_Get_Gyroscope();
-				robot_status.imu_data=DATA_TRUE;
 		    }
 		}
 	}

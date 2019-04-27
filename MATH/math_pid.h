@@ -5,6 +5,9 @@
 
 typedef struct
 {
+	
+	u8 mode;
+	
     float kP;
     float kI;
     float kD;
@@ -29,9 +32,13 @@ float PID_GetI(PID_t* pid, float error, float dt);
 float PID_GetD(PID_t* pid, float error, float dt);
 
 float PID_GetPID(PID_t* pid, float error, float dt);
-
+float PID_GetPIDD(PID_t* pid, float error,float error_delta,float dt);
 
 void PID_SetParam(PID_t* pid, float p, float i, float d, float ilineval,float imaxval,float dCutFreq);
+
+
+
+void PID_ResetParam(PID_t* pid);
 
 
 #endif  

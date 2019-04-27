@@ -184,6 +184,7 @@
             <hadXRAM>0</hadXRAM>
             <uocXRam>0</uocXRam>
             <RvdsVP>2</RvdsVP>
+            <RvdsMve>0</RvdsMve>
             <hadIRAM2>1</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -677,6 +678,11 @@
               <FilePath>..\DRIVE\drive_chassis.c</FilePath>
             </File>
             <File>
+              <FileName>drive_usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DRIVE\drive_usart.c</FilePath>
+            </File>
+            <File>
               <FileName>drive_shoot.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\DRIVE\drive_shoot.c</FilePath>
@@ -685,11 +691,6 @@
               <FileName>drive_gimble.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\DRIVE\drive_gimble.c</FilePath>
-            </File>
-            <File>
-              <FileName>drive_usart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\DRIVE\drive_usart.c</FilePath>
             </File>
           </Files>
         </Group>
