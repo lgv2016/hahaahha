@@ -54,3 +54,4 @@
 .\objects\task_can_parse.o: ..\MOTOR\motor_chassis.h
 .\objects\task_can_parse.o: ..\DRIVE\drive_shoot.h
 .\objects\task_can_parse.o: ..\DRIVE\drive_gimble.h
+.\objects\task_can_parse.o: ..\DRIVE\drive_chassis.h

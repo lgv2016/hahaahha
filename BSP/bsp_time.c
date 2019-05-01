@@ -25,7 +25,7 @@ void BSP_TIME_Init()
     
     TIM_OCInitStructure.TIM_OCMode                  =   TIM_OCMode_PWM1;
     TIM_OCInitStructure.TIM_OCPolarity              =   TIM_OCPolarity_High;
-    TIM_OCInitStructure.TIM_Pulse                   =   0;
+    TIM_OCInitStructure.TIM_Pulse                   =   1000;
     TIM_OCInitStructure.TIM_OutputState             =   TIM_OutputState_Enable;
     
 
@@ -37,7 +37,7 @@ void BSP_TIME_Init()
     TIM_OC1PreloadConfig(TIM5, TIM_OCPreload_Enable);
     
     TIM_ARRPreloadConfig(TIM5,ENABLE);	
-    TIM_Cmd(TIM5, DISABLE);
+    TIM_Cmd(TIM5, ENABLE);
 	
 	
 	//TIM3 OC2  加热电阻使用

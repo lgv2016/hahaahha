@@ -673,14 +673,14 @@
               <FilePath>..\DRIVE\drive_control.c</FilePath>
             </File>
             <File>
+              <FileName>drive_gimble.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DRIVE\drive_gimble.c</FilePath>
+            </File>
+            <File>
               <FileName>drive_chassis.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\DRIVE\drive_chassis.c</FilePath>
-            </File>
-            <File>
-              <FileName>drive_usart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\DRIVE\drive_usart.c</FilePath>
             </File>
             <File>
               <FileName>drive_shoot.c</FileName>
@@ -688,9 +688,9 @@
               <FilePath>..\DRIVE\drive_shoot.c</FilePath>
             </File>
             <File>
-              <FileName>drive_gimble.c</FileName>
+              <FileName>drive_usart.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\DRIVE\drive_gimble.c</FilePath>
+              <FilePath>..\DRIVE\drive_usart.c</FilePath>
             </File>
           </Files>
         </Group>

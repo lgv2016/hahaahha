@@ -3512,9 +3512,12 @@ u8 mpu_mpl_get_data()
     inv_execute_on_data();
     inv_get_sensor_type_euler(data,&accuracy,&timestamp);
 	
-    g_imu_data.pit  =  (data[0]/q16);
-    g_imu_data.rol  =  (data[1]/q16);
-    g_imu_data.yaw  =  data[2] / q16;
+	
+	g_imu_data.last_yaw =   g_imu_data.yaw;
+	
+    g_imu_data.pit      =  (data[0]/q16);
+    g_imu_data.rol      =  (data[1]/q16);
+    g_imu_data.yaw      =  data[2] / q16+180.0f;
 	return 0;
 }
 

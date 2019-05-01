@@ -3,14 +3,10 @@
 
 
 #include <stm32f4xx.h>
-
 #include <stdbool.h>
 
-#define SHOOT_CONTROL_CYCLE 5       //5ms
-extern void SHOOT_Loop_Control(void);
-extern void SHOOT_Init(void);
+#define SHOOT_CONTROL_CYCLE 1      //5ms
 
-extern void GET_209_Data(CanRxMsg rx_message);
 typedef struct
 {
     bool press_l;
@@ -22,6 +18,28 @@ typedef struct
 	bool rest_flag;
 } shoot_motor_t;
 
+
+typedef struct
+{
+	float input;
+	float out;
+	float max;
+	float min;
+	float period;
+} fric_motor_t;
+
+
+
+
+extern void SHOOT_Loop_Control(void);
+extern void SHOOT_Init(void);
+
+extern void GET_Fric_Status(CanRxMsg rx_message);
+
+
+
+extern void Fric_Motor_Speed_Init(void);
+extern void Fric_Motor_Speed_Control(void);
 
 
 #endif

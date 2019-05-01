@@ -37,8 +37,8 @@ typedef struct
 		u8      press_l;
 		u8      press_r;
 		
-		float x_distance;
-		float y_distance;
+		float   x_distance;
+		float   y_distance;
 		
 	}mouse;
 	struct

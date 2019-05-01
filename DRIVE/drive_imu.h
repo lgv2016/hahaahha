@@ -76,6 +76,14 @@ typedef struct
 	float rol;
 	float pit;
 	float yaw;
+	
+	
+	float last_yaw;
+	
+	float absolute_yaw;
+	
+	int16_t count;
+	
 }imu_data_t;
 
 extern imu_data_t   g_imu_data;

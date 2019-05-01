@@ -49,3 +49,4 @@
 .\objects\drive_chassis.o: ..\MOTOR\motor_cradle_head.h
 .\objects\drive_chassis.o: ..\USER\robotstatus.h
 .\objects\drive_chassis.o: ..\DRIVE\drive_rc.h
+.\objects\drive_chassis.o: ..\DRIVE\drive_gimble.h

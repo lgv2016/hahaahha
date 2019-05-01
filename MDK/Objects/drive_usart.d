@@ -45,3 +45,4 @@
 .\objects\drive_usart.o: ..\DRIVE\drive_control.h
 .\objects\drive_usart.o: ..\MATH\math_pid.h
 .\objects\drive_usart.o: ..\MOTOR\motor_cradle_head.h
+.\objects\drive_usart.o: ..\DRIVE\drive_imu.h

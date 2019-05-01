@@ -17,7 +17,7 @@ typedef struct
     float    angle[NUM_6623];
     u16      pre_angle[NUM_6623];
 	
-    float    speed[NUM_6623];
+    int16_t    speed[NUM_6623];
     int16_t  set_current[NUM_6623];
     int16_t  actual_current[NUM_6623];
     
@@ -71,3 +71,10 @@ extern void Send_Gimble_data(void);
 
 
 #endif  
+
+
+
+
+
+
+

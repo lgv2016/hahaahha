@@ -7,6 +7,8 @@
 #include <robotstatus.h>
 #include <drive_rc.h>
 
+#include <drive_gimble.h>
+
 #define RC_SW_UP   ((uint16_t)1)
 #define RC_SW_MID  ((uint16_t)3)
 #define RC_SW_DOWN ((uint16_t)2)
@@ -38,8 +40,7 @@ static void CHASSIS_ROTATE_Control(void);
 
 void CHASSIS_Init()
 {
-	INC_SetParam(&g_infc.inc[CH_ROTATE_SPEED],80,100,-100,0,0.001);
-	
+	INC_SetParam(&g_infc.inc[CH_ROTATE_SPEED],100,130,-130,0,0.0012);
 }
 
 
@@ -53,11 +54,11 @@ static void CHASSIS_Set_Mode()
 	
 	else
 	{
-		if(g_rc_control.key.k[Q]&&robot_status.chassis_mode==CHASSIS_STOP)
+		if(g_rc_control.key.k[Q])
 		{
 			robot_status.chassis_mode=CHASSIS_ROTATE;
 		}
-		else if(g_rc_control.key.k[CTRL]&&robot_status.chassis_mode==CHASSIS_STOP)
+		else if(g_rc_control.key.k[CTRL])
 		{
 			robot_status.chassis_mode=CHASSIS_FOLLOW_GIMBLE;
 		}
@@ -66,14 +67,13 @@ static void CHASSIS_Set_Mode()
 		{
 			robot_status.chassis_mode=CHASSIS_SPEED;
 		}
-		
 		else 
 		{
 			robot_status.chassis_mode=CHASSIS_STOP;
 			chassis_move.inc_cal_flag=1;
 		}
 	}
-	
+	chassis_move.chassis_last_mode=robot_status.chassis_mode;
 }
 
 
@@ -99,7 +99,8 @@ void CHASSIS_Loop_Control()
 	
 	if(robot_status.chassis_mode==CHASSIS_FOLLOW_GIMBLE)
 	{
-		CHASSIS_Follow_Gimble_Control(g_angle_target.yaw);
+		g_angle_target.ch_rotate=YAW_INIT_ANGLE;
+		CHASSIS_Follow_Gimble_Control(g_angle_target.ch_rotate);
 	}
 	
 	if(robot_status.chassis_mode==CHASSIS_ROTATE)
@@ -124,24 +125,21 @@ static void CHASSIS_Follow_Gimble_Control(float target)
 
 static void CHASSIS_ROTATE_Control()
 {
-	if(g_rc_control.key.k[Q]&&robot_status.chassis_mode==CHASSIS_STOP)
+	if(g_rc_control.key.k[Q])
 	{
 		if(chassis_move.inc_cal_flag==1)
 		{
 			chassis_move.inc_cal_flag=0;
-			INC_Set_Value(&g_infc.inc[CH_ROTATE_SPEED],0,100);
+			INC_Set_Value(&g_infc.inc[CH_ROTATE_SPEED],0,130);
 		}
 		
-		INC_Cal(&g_infc.inc[CH_ROTATE_SPEED],0,100);
-		g_speed_target.ch_rotate=g_infc.inc[CH_ROTATE_SPEED].out;
+		INC_Cal(&g_infc.inc[CH_ROTATE_SPEED],0,130);
+		chassis_move.rotate_speed_set=g_infc.inc[CH_ROTATE_SPEED].out;
+		
+		Speed_Chassis_Control(0,0,chassis_move.rotate_speed_set);
+		
 	}
 	
-	else if(!g_rc_control.key.k[Q])
-	{
-		g_speed_target.ch_rotate=0;
-		robot_status.chassis_mode=CHASSIS_STOP;
-	}
-	Speed_Rotate_Control(g_speed_target);
 }
 
 static void CHASSIS_SPEED_Control(int16_t vx,int16_t vy,int16_t wz)
@@ -155,7 +153,7 @@ static void CHASSIS_SPEED_Control(int16_t vx,int16_t vy,int16_t wz)
 
 	if(g_rc_control.key.k[A]==1)
 	{
-		speedx=vx;
+		speedx=-vx;
 	}
 	
 	if(g_rc_control.key.k[S]==1)
@@ -165,7 +163,7 @@ static void CHASSIS_SPEED_Control(int16_t vx,int16_t vy,int16_t wz)
 	
 	if(g_rc_control.key.k[D]==1)
 	{
-		speedx=-vx;
+		speedx=vx;
 	}
 	
 	if(g_rc_control.key.k[Q]==1)
@@ -173,7 +171,7 @@ static void CHASSIS_SPEED_Control(int16_t vx,int16_t vy,int16_t wz)
 		speedw=wz;
 	}
 	
-	Speed_Chassis_Control(vx,vy,wz);
+	Speed_Chassis_Control(speedx,speedy,speedw);
 }
 
 static void INC_SetParam(INC_t* inc, float input, float max, float min, float out,float period)
@@ -224,3 +222,21 @@ void INC_Cal(INC_t* inc,int16_t measure,int16_t target)
 		inc->out=inc->min;
 	}
 }
+
+
+
+void Get_CHASSIS_data(CanRxMsg rx_message)
+{
+    switch(rx_message.StdId)
+    {
+      case 0x208:
+      {
+		  chassis_move.rotate_speed=HEX_TO_Float(&rx_message.Data[0]);
+		  chassis_move.rotate_angle=HEX_TO_Float(&rx_message.Data[4]);
+          break;
+      }
+      default:
+        break;
+    } 
+}
+

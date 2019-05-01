@@ -8,22 +8,9 @@
 #include <robotstatus.h>
 #include <drive_control.h>
 
-
-
-#define CMDLEN 11
-
 static CanTxMsg s_tx_message;
 
-union
-{
-	char C[4];
-	float F;
-}GIMBLE_DATA;
 
-
-
-
-u8 Gimble_PC_Data[CMDLEN];
 data_6623_t g_data_6623;
 data_2006_t g_data_2006;
 
@@ -81,38 +68,41 @@ void Cmd_GIMBAL_ESC(u8 imu_cmd,u8 fric_cmd)
 	
     CAN_Transmit(CAN1,&s_tx_message);
 }
-
 void Get_6623_data(CanRxMsg rx_message)
 {
-	int16_t speed;
+	
+	float angle;
+	
      switch(rx_message.StdId)
     {
        case 0x205:
       {
-		  if(robot_status.motor_yaw!=MOTOR_GIMBAL_GYRO)
-		  {
-			  g_data_6623.pre_angle[YAW]         =   rx_message.Data[0]<<8|rx_message.Data[1];
-			  speed             =   rx_message.Data[2]<<8|rx_message.Data[3];
-			  g_data_6623.actual_current[YAW]    =   rx_message.Data[4]<<8|rx_message.Data[5];
-			  g_data_6623.angle[YAW]             =   (g_data_6623.pre_angle[YAW]*360.0f)/8191.0f;
+		  
+		  g_data_6623.pre_angle[YAW]         =   rx_message.Data[0]<<8|rx_message.Data[1];
+		  g_data_6623.speed[YAW]             =   rx_message.Data[2]<<8|rx_message.Data[3];
+		  g_data_6623.actual_current[YAW]    =   rx_message.Data[4]<<8|rx_message.Data[5];
+		  angle             =   (g_data_6623.pre_angle[YAW]*360.0f)/8191.0f;
+		 
+		  angle=angle+166.0f;
+		  if(angle>360.0f)
+		  angle=angle-360.0f;
+	  //  g_data_6623.angle[YAW]             =   (g_data_6623.pre_angle[YAW]*360.0f)/8191.0f;
+		  
+		  g_data_6623.angle[YAW]=angle;
 			  
-			  g_data_6623.speed[YAW]=(float)speed;
 			  robot_status.motor_yaw=MOTOR_GIMBAL_ENCODE;
-		  }
+	
 		  
 		  
           break;
       }
       case 0x206:
       {
-		  if(robot_status.motor_pit!=MOTOR_GIMBAL_GYRO)
-		  {
 			  g_data_6623.pre_angle[PITCH]         =   rx_message.Data[0]<<8|rx_message.Data[1];
 			  g_data_6623.actual_current[PITCH]    =   rx_message.Data[2]<<8|rx_message.Data[3];
 			  g_data_6623.set_current[PITCH]       =   rx_message.Data[4]<<8|rx_message.Data[5];
 			  g_data_6623.angle[PITCH             ]=   (g_data_6623.pre_angle[PITCH]*360.0f)/8191.0f;
 			  robot_status.motor_pit=MOTOR_GIMBAL_ENCODE;
-		  }
           break;
       }
       default:
@@ -167,6 +157,11 @@ void Get_2006_Offset_angle(CanRxMsg rx_message)
         break;
     } 
 }
+
+
+
+
+
 
 
 

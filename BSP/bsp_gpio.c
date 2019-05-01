@@ -49,7 +49,7 @@ void  BSP_GPIO_Init(void)
     GPIO_InitStructure.GPIO_PuPd   =  GPIO_PuPd_UP;
     GPIO_InitStructure.GPIO_Speed  =  GPIO_Speed_100MHz;
     GPIO_Init(GPIOG, &GPIO_InitStructure);
-    GPIO_ResetBits(GPIOG, GPIO_Pin_1);     //¹Ø±Õ
+    GPIO_SetBits(GPIOG, GPIO_Pin_1);     //¹Ø±Õ
 	
 	//¼¤¹â
 	GPIO_InitStructure.GPIO_Pin    =  GPIO_Pin_13;

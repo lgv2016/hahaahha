@@ -19,11 +19,6 @@ enum
     YAW_GYRO_SPEED,
 	
 	
-    YAW_ANGLE,
-    YAW_SPEED,
-    PITCH_ANGLE,
-    PITCH_SPEED,
-	
     SHOOT_ANGLE,
     SHOOT_SPEED,
     
@@ -87,8 +82,8 @@ extern object_t g_angle_target;
 
 extern void Infan_Control_Init(void);
 extern void Speed_3510_Control(object_t target);
-extern void Speed_6623_Control(object_t target);
-extern void Angle_6623_Control(object_t target);
+extern void GIMBLE_ENCONDE_Control(object_t target);
+extern void GIMBLE_GYRO_Control(object_t target);
 extern void Speed_2006_Control(object_t target);
 extern void Angle_2006_Control(object_t target);
 

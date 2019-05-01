@@ -56,6 +56,7 @@
 .\objects\stm32f4xx_it.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\stm32f4xx_it.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\stm32f4xx_it.o: ..\DRIVE\drive_gimble.h
+.\objects\stm32f4xx_it.o: ..\DRIVE\drive_shoot.h
 .\objects\stm32f4xx_it.o: ..\MOTOR\motor_chassis.h
 .\objects\stm32f4xx_it.o: ..\MOTOR\motor_cradle_head.h
 .\objects\stm32f4xx_it.o: ..\TASK\task_config.h

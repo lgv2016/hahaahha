@@ -5,6 +5,8 @@
 #include <drive_control.h>
 #include <motor_cradle_head.h>
 
+#include <drive_imu.h>
+
 minipc_data_t minipc_data;
 
 //解算妙算的数据
@@ -34,8 +36,10 @@ void MiniPC_Send_Data(u8 cmd)
 		g_DMA_MiniPC_Send_Buff[1]=cmd;
 		
 		
-		FLOAT_TO_Hex(&g_DMA_MiniPC_Send_Buff[2] ,  g_data_6623.angle[YAW]);
+		FLOAT_TO_Hex(&g_DMA_MiniPC_Send_Buff[2] ,   g_imu_data.absolute_yaw);
 		FLOAT_TO_Hex(&g_DMA_MiniPC_Send_Buff[2+4] ,g_data_6623.angle[PITCH]);
+		
+		
 		Append_Check_SUM(g_DMA_MiniPC_Send_Buff,2+4+4+1);
 	}
 	DMA_Cmd(DMA1_Stream0, DISABLE);

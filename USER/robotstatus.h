@@ -40,12 +40,15 @@ enum
 	GIMBLE_INIT,       //云台初始化
 	GIMBLE_CALI,       //云台校准
 	GIMBLE_ERROR,      //云台出错
-	GIMBLE_MANUAL      //手动控制
+	GIMBLE_RC,          //手动控制
+	GIMBLE_PC, 
+	
 };
 
 //mpu6500状态  mpu6500_status
 enum
 {
+	MPU6500_NO,
 	MPU6500_INIT,     //MPU6500初始化
 	MPU6500_SUCCESS   //初始化成功
 };
@@ -101,7 +104,7 @@ typedef struct
 	
 	u8  motor_yaw;
 	u8  motor_pit;
-	u8 firc_status;
+	u8 fric_status;
 	
 	
 }robot_status_t;    

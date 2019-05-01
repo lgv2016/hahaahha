@@ -1,5 +1,5 @@
 .\objects\drive_gimble.o: ..\DRIVE\drive_gimble.c
-.\objects\drive_gimble.o: ..\DRIVE\drive_gimble.h
+.\objects\drive_gimble.o: ..\DRIVE\drive_imu.h
 .\objects\drive_gimble.o: ..\CORE\stm32f4xx.h
 .\objects\drive_gimble.o: ..\CORE\core_cm4.h
 .\objects\drive_gimble.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -37,6 +37,7 @@
 .\objects\drive_gimble.o: ..\FWLIB\inc\stm32f4xx_dma2d.h
 .\objects\drive_gimble.o: ..\FWLIB\inc\stm32f4xx_fmc.h
 .\objects\drive_gimble.o: ..\FWLIB\inc\stm32f4xx_sai.h
+.\objects\drive_gimble.o: ..\DRIVE\drive_gimble.h
 .\objects\drive_gimble.o: ..\DRIVE\drive_control.h
 .\objects\drive_gimble.o: ..\MATH\math_pid.h
 .\objects\drive_gimble.o: ..\MATH\math_tool.h

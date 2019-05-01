@@ -4,27 +4,29 @@
 
 #include <stm32f4xx.h>
 
-#define SHOOT_CONTROL_CYCLE 2
 
 typedef struct
 {
-	float vx_set;
-	float vy_set;
-	float wz_set;
+
 	
 	
 	u16 key_q_time;
 	u16 key_shift_time;
 	u16 key_ctrl_time;
-	
-	float chassis_angle;
-	float chassis_angle_set;
+
 	u8    inc_cal_flag;
 	
 	u8    chassis_rotate_flag;
 	
 	float rc_control_speedx;
 	float rc_control_speedy;
+	
+	float rotate_speed;
+	
+	float rotate_speed_set;
+	float rotate_angle;
+	
+	u8 chassis_last_mode;
 	
 } chassis_move_t;
 
@@ -37,6 +39,8 @@ extern void CHASSIS_Loop_Control(void);
 extern void CHASSIS_Init(void);
 
 extern void CHASSIS_RC_Control(int16_t maxspeedx,int16_t maxspeedy);
+
+extern void Get_CHASSIS_data(CanRxMsg rx_message);
 
 
 #endif

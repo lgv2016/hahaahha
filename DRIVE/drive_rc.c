@@ -5,7 +5,7 @@
 #include <math_tool.h>
 
 #include <drive_control.h>
-
+#include <robotstatus.h>
 
 
 //鼠标灵敏度设置
@@ -51,10 +51,11 @@ void RC_Data_Parse()
 	  g_rc_control.key.k[Q]       =   (g_rc_control.key.v&(0X0001<<6))>>6;
 	  g_rc_control.key.k[E]       =   (g_rc_control.key.v&(0X0001<<7))>>7;
 	  
-	  g_rc_control.mouse.x_distance+=-g_rc_control.mouse.x*deltaT*YAW_SENSITIVITY;
-	  g_rc_control.mouse.y_distance+=-g_rc_control.mouse.y*deltaT*PIT_SENSITIVITY;
-	  
-	  
+	  if(robot_status.gimbal_mode==GIMBLE_PC)
+	  {
+		  g_rc_control.mouse.x_distance+=-g_rc_control.mouse.x*deltaT*YAW_SENSITIVITY;
+		  g_rc_control.mouse.y_distance+=-g_rc_control.mouse.y*deltaT*PIT_SENSITIVITY;
+	  }
 }
 
 void CH_Speed_Control(u16 xspeedmax,u16 yspeedmax)
@@ -74,19 +75,9 @@ void CH_Speed_Control(u16 xspeedmax,u16 yspeedmax)
 	
 	Speed_Chassis_Control(xspeed,yspeed,0);
 }
-//左正
-//上正
 
 
 
 
-void PC_Angle_Control()
-{
-	
-	
-	
-	
-	
-}
 
 

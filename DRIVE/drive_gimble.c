@@ -1,3 +1,4 @@
+#include <drive_imu.h>
 #include <drive_gimble.h>
 #include <drive_control.h>
 #include <motor_cradle_head.h>
@@ -10,18 +11,22 @@ static Gimbal_Motor_t Gimbal_Motor_yaw;
 static Gimbal_Motor_t Gimbal_Motor_pit;
 
 
-
-#define YAW_INIT_ANGLE 349.0f
-#define PIT_INIT_ANGLE 296.0f
-
-
-
+#define PIT_RC_LIMIT_ANGLE  15
 #define YAW_RC_LIMIT_ANGLE  90
-#define PIT_RC_LIMIT_ANGLE  20
 
-#define YAW_PC_LIMIT_ANGLE  160
-#define PIT_PC_LIMIT_ANGLE  20
 
+
+#define PIT_RC_LIMIT_ANGLE_DOWN  15
+#define PIT_RC_LIMIT_ANGLE_UP  60
+
+
+
+
+#define YAW_PC_LIMIT_ANGLE  90000    //最大圈数正负250圈
+
+#define PIT_PC_LIMIT_ANGLE  15
+#define PIT_PC_LIMIT_ANGLE_DOWN  15
+#define PIT_PC_LIMIT_ANGLE_UP    60
 
 
 
@@ -44,8 +49,7 @@ static void GIMBLE_PC_Control(void);
 static void GIMBLE_Data_Update(void);
 static void GIMBLE_Auto_Control(void);
 static void GIMBLE_Init_Control(void);
-static void GIMBLE_Cali_Control(void);
-static void GIMBLE_Manual_Control(void);
+
 
 
 void GIMBLE_Init()
@@ -54,10 +58,6 @@ void GIMBLE_Init()
 	robot_status.motor_yaw   = MOTOR_GIMBAL_NO;
 	robot_status.motor_pit   = MOTOR_GIMBAL_NO;
 	robot_status.gimbal_data = GIMBAL_MOTOR_NO;
-	
-	//robot_status.gimbal_data=GIMBAL_MOTOR_ENCONDE;
-	
-	
 }
 
 /*
@@ -67,8 +67,7 @@ void GIMBLE_Init()
  *返 回 值: void
  */
 
-float p1=500.0f,i1=5.0f;
-float p2=2.5f, i2= 0.6f,d2=0.0f,f2=0.0f;
+
 
 
 static void GIMBLE_Set_Mode()
@@ -86,43 +85,29 @@ static void GIMBLE_Set_Mode()
 	//云台初始化
 	if(robot_status.gimbal_data==GIMBAL_MOTOR_ENCONDE)
 	{
-         PID_SetParam(&g_infc.pid[PITCH_ANGLE],120.5,865 ,0.03,8,5000,18.73);	
 		robot_status.gimbal_mode=GIMBLE_INIT;
 	}
 	
-	//云台初始化完成
-	if(robot_status.motor_yaw==MOTOR_GIMBAL_GYRO&&robot_status.motor_pit==MOTOR_GIMBAL_GYRO&&robot_status.gimbal_data!=GIMBAL_MOTOR_GYRO)
-	{
-	    robot_status.gimbal_data=GIMBAL_MOTOR_GYRO;
-		PID_ResetParam(&g_infc.pid[YAW_SPEED]);
-		PID_ResetParam(&g_infc.pid[YAW_ANGLE]);
-		PID_ResetParam(&g_infc.pid[PITCH_SPEED]);
-		PID_ResetParam(&g_infc.pid[PITCH_ANGLE]);
-		
-		
-		
-		PID_SetParam(&g_infc.pid[PITCH_ANGLE],1,0 ,0,0,0,0);
-	
-	//	PID_SetParam(&g_infc.pid[PITCH_SPEED],80,4.2,0,100,6000,0);
-		PID_SetParam(&g_infc.pid[PITCH_SPEED],80,4.2,0,100,6000,0);
-		
-
-		PID_SetParam(&g_infc.pid[YAW_SPEED],  500,5,0,100,30000,0);
-		PID_SetParam(&g_infc.pid[YAW_ANGLE],  2.5,0,0,0,0,0.0);
-		
-	}
+    //操作手云台控制
 	if(robot_status.gimbal_data==GIMBAL_MOTOR_GYRO)
 	{
 		
-
-		
-		if(switch_is_down(g_rc_control.rc.s1)||Gimbal_Motor_yaw.press_r_time==R_PRESS_LONG_TIME)
+		if(switch_is_down(g_rc_control.rc.s1))
 		{
 			robot_status.gimbal_mode=GIMBLE_AUTO;
 		}
-		if(switch_is_up(g_rc_control.rc.s1)||switch_is_mid(g_rc_control.rc.s1))
+		if(switch_is_up(g_rc_control.rc.s1))
 		{
-			robot_status.gimbal_mode=GIMBLE_MANUAL;
+			robot_status.gimbal_mode=GIMBLE_RC;
+		}
+		if(switch_is_mid(g_rc_control.rc.s1))
+		{
+			robot_status.gimbal_mode=GIMBLE_PC;
+			
+			if(Gimbal_Motor_yaw.press_r_time==R_PRESS_LONG_TIME)
+			{
+				robot_status.gimbal_mode=GIMBLE_AUTO;
+			}
 		}
 	}	
 }
@@ -137,40 +122,10 @@ static void GIMBLE_Init_Control()
 	g_angle_target.yaw   = YAW_INIT_ANGLE;
 	g_angle_target.pitch = PIT_INIT_ANGLE;
 	
-	Angle_6623_Control(g_angle_target);
-}
-
-/*
- *函 数 名: GIMBLE_Cali_Control
- *功能说明: 云台陀螺仪校准
- *形    参: void
- *返 回 值: void
- */
-static void GIMBLE_Cali_Control()
-{
-	
-	
+	GIMBLE_ENCONDE_Control(g_angle_target);
 }
 
 
-/*
- *函 数 名: GIMBLE_Manual_Control
- *功能说明: 云台手动控制
- *形    参: void
- *返 回 值: void
- */
-static void GIMBLE_Manual_Control()
-{
-	//云台底盘遥控器控制
-	if(switch_is_up(g_rc_control.rc.s1))
-	{
-		GIMBLE_RC_Control();
-	}
-	if(switch_is_mid(g_rc_control.rc.s1))
-	{
-		GIMBLE_PC_Control();
-	}
-}
 
 /*
  *函 数 名: GIMBLE_Data_Update
@@ -207,14 +162,14 @@ static void GIMBLE_RC_Control()
 	Gimbal_Motor_pit.rc_control_angle  =  (PIT_RC_LIMIT_ANGLE/(660.0f))*(g_rc_control.rc.ch1-1024);
 	
 	//目标角度赋值
-	g_angle_target.yaw   = Gimbal_Motor_yaw.rc_control_angle;
-	g_angle_target.pitch = Gimbal_Motor_pit.rc_control_angle;
+	g_angle_target.yaw   = Gimbal_Motor_yaw.rc_control_angle+g_imu_data.count*360.0f;
+	g_angle_target.pitch = Gimbal_Motor_pit.rc_control_angle+PIT_INIT_ANGLE;
 	
 	//角度环目标限幅赋值
-	g_angle_target.yaw   = ConstrainFloat(g_angle_target.yaw,  - YAW_RC_LIMIT_ANGLE,YAW_RC_LIMIT_ANGLE);
-	g_angle_target.pitch = ConstrainFloat(g_angle_target.pitch,- PIT_RC_LIMIT_ANGLE,PIT_RC_LIMIT_ANGLE);	 
+	g_angle_target.yaw   = ConstrainFloat(g_angle_target.yaw,  - YAW_RC_LIMIT_ANGLE+g_imu_data.count*360.0f,YAW_RC_LIMIT_ANGLE+g_imu_data.count*360.0f);
+	g_angle_target.pitch = ConstrainFloat(g_angle_target.pitch,- PIT_RC_LIMIT_ANGLE_DOWN+PIT_INIT_ANGLE,PIT_RC_LIMIT_ANGLE_UP+PIT_INIT_ANGLE);	 
 	
-	Angle_6623_Control(g_angle_target);
+	GIMBLE_GYRO_Control(g_angle_target);
 }
 /*
  *函 数 名: GIMBLE_PC_Control
@@ -227,20 +182,20 @@ static void GIMBLE_PC_Control()
 	
 	//角度环目标限幅赋值
 	g_rc_control.mouse.x_distance   = ConstrainFloat(g_rc_control.mouse.x_distance,  - YAW_PC_LIMIT_ANGLE,YAW_PC_LIMIT_ANGLE);
-	g_rc_control.mouse.y_distance   = ConstrainFloat(g_rc_control.mouse.y_distance,  - PIT_PC_LIMIT_ANGLE,PIT_PC_LIMIT_ANGLE);	 
+	g_rc_control.mouse.y_distance   = ConstrainFloat(g_rc_control.mouse.y_distance,  - PIT_PC_LIMIT_ANGLE_DOWN,PIT_PC_LIMIT_ANGLE_UP);	 
 	//遥控角度计算
 	Gimbal_Motor_yaw.pc_control_angle  =  g_rc_control.mouse.x_distance;
 	Gimbal_Motor_pit.pc_control_angle  =  g_rc_control.mouse.y_distance;
 	
 	//目标角度赋值
 	g_angle_target.yaw   = Gimbal_Motor_yaw.pc_control_angle;
-	g_angle_target.pitch = Gimbal_Motor_pit.pc_control_angle;
+	g_angle_target.pitch = Gimbal_Motor_pit.pc_control_angle+PIT_INIT_ANGLE;
 	
 	//角度环目标限幅赋值
 	g_angle_target.yaw   = ConstrainFloat(g_angle_target.yaw,  - YAW_PC_LIMIT_ANGLE,YAW_PC_LIMIT_ANGLE);
-	g_angle_target.pitch = ConstrainFloat(g_angle_target.pitch,- PIT_PC_LIMIT_ANGLE,PIT_PC_LIMIT_ANGLE);	 
+	g_angle_target.pitch = ConstrainFloat(g_angle_target.pitch,- PIT_PC_LIMIT_ANGLE_DOWN+PIT_INIT_ANGLE,PIT_PC_LIMIT_ANGLE_UP+PIT_INIT_ANGLE);	 
 	
-	Angle_6623_Control(g_angle_target);
+	GIMBLE_GYRO_Control(g_angle_target);
 	
 }
 /*
@@ -254,14 +209,30 @@ static void GIMBLE_Auto_Control()
 	Gimbal_Motor_yaw.vision_control_angle = minipc_data.get_target_angle_yaw;
 	Gimbal_Motor_pit.vision_control_angle = minipc_data.get_target_angle_pit;
 	
-	g_angle_target.yaw                    = Gimbal_Motor_yaw.vision_control_angle;
-	g_angle_target.pitch                  = Gimbal_Motor_pit.vision_control_angle;
+	if(Gimbal_Motor_yaw.vision_control_angle==0.0f)
+	{
+		g_angle_target.yaw=g_imu_data.absolute_yaw;
+	}
+	
+	else
+	{
+	    g_angle_target.yaw                = Gimbal_Motor_yaw.vision_control_angle;
+	}
+	
+	if(Gimbal_Motor_pit.vision_control_angle==0.0f)
+	{
+		Gimbal_Motor_pit.vision_control_angle=g_data_6623.angle[PITCH];
+	}
+	else
+	{
+		g_angle_target.pitch                  = Gimbal_Motor_pit.vision_control_angle;
+	}
 	
 	//角度环目标限幅赋值
 	g_angle_target.yaw   = ConstrainFloat(g_angle_target.yaw,  - YAW_PC_LIMIT_ANGLE,YAW_PC_LIMIT_ANGLE);
-	g_angle_target.pitch = ConstrainFloat(g_angle_target.pitch,- PIT_PC_LIMIT_ANGLE,PIT_PC_LIMIT_ANGLE);	 
+	g_angle_target.pitch = ConstrainFloat(g_angle_target.pitch,- PIT_PC_LIMIT_ANGLE_DOWN+PIT_INIT_ANGLE,PIT_PC_LIMIT_ANGLE_UP+PIT_INIT_ANGLE);	 
 	
-	Angle_6623_Control(g_angle_target);
+	GIMBLE_GYRO_Control(g_angle_target);
 }
 
 /*
@@ -286,46 +257,19 @@ void GIMBLE_Loop_Control()
 		GIMBLE_Auto_Control();
 
 	}
-	
-	else if(robot_status.gimbal_mode==GIMBLE_MANUAL)
+	else if(robot_status.gimbal_mode==GIMBLE_RC)
 	{
-		GIMBLE_Manual_Control();
+		GIMBLE_RC_Control();
+	
+	}
+	else if(robot_status.gimbal_mode==GIMBLE_PC)
+	{
+		GIMBLE_PC_Control();
 	
 	}
 }
-/*
- *函 数 名: Get_GIMBLE_data
- *功能说明: 获取云台 YAW 轴 角速度及角度信息
- *形    参: CAN数据结构体
- *返 回 值: void
- */
 
-void Get_GIMBLE_data(CanRxMsg rx_message)
-{
-	switch(rx_message.StdId)
-    {
-		
-      case 0x208:
-      {
-		  
-		  g_data_6623.speed[YAW]   = HEX_TO_Float(&rx_message.Data[0]);
-		  g_data_6623.speed[PITCH] = HEX_TO_Float(&rx_message.Data[4]);
-		  robot_status.motor_yaw=MOTOR_GIMBAL_GYRO;
-          break;
-      }
-	  
-	  case 0x209:
-	  {
-		  g_data_6623.angle[YAW]   = HEX_TO_Float(&rx_message.Data[0]);
-		  g_data_6623.angle[PITCH] = HEX_TO_Float(&rx_message.Data[4]);
-		  robot_status.motor_pit=MOTOR_GIMBAL_GYRO;
-		 
-          break;
-	  }
-	  
-      default:
-      break;
-    } 
-}
+
+
 
 
