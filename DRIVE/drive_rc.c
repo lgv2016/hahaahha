@@ -9,12 +9,13 @@
 
 
 // Û±Í¡È√Ù∂»…Ë÷√
-#define YAW_SENSITIVITY   3.0f
-#define PIT_SENSITIVITY   1.0f
+#define YAW_SENSITIVITY   2.5f
+#define PIT_SENSITIVITY   1.5f
 
 
 
 rc_control_t g_rc_control={0};
+
 
 
 

@@ -33,6 +33,8 @@ static Gimbal_Motor_t Gimbal_Motor_pit;
 #define MOTOR_INIT_TIME   (80/GIMBLE_CONTROL_CYCLE)
 #define R_PRESS_LONG_TIME (350/GIMBLE_CONTROL_CYCLE)
 
+#define NO_CONTROL_TIME  (5/GIMBLE_CONTROL_CYCLE)
+
 #define RC_SW_UP   ((uint16_t)1)
 #define RC_SW_MID  ((uint16_t)3)
 #define RC_SW_DOWN ((uint16_t)2)
@@ -120,7 +122,7 @@ static void GIMBLE_Set_Mode()
 static void GIMBLE_Init_Control()
 {
 	g_angle_target.yaw   = YAW_INIT_ANGLE;
-	g_angle_target.pitch = PIT_INIT_ANGLE;
+	g_angle_target.pitch = PIT_INIT_ANGLE-11;
 	
 	GIMBLE_ENCONDE_Control(g_angle_target);
 }
@@ -155,10 +157,11 @@ static void GIMBLE_Data_Update()
  *形    参: void
  *返 回 值: void
  */
+
 static void GIMBLE_RC_Control()
 {
 	//遥控角度计算
-	Gimbal_Motor_yaw.rc_control_angle  = -(YAW_RC_LIMIT_ANGLE/(660.0f))*(g_rc_control.rc.ch0-1024);
+	Gimbal_Motor_yaw.rc_control_angle      = -(YAW_RC_LIMIT_ANGLE/(660.0f))*(g_rc_control.rc.ch0-1024);
 	Gimbal_Motor_pit.rc_control_angle  =  (PIT_RC_LIMIT_ANGLE/(660.0f))*(g_rc_control.rc.ch1-1024);
 	
 	//目标角度赋值
@@ -177,18 +180,32 @@ static void GIMBLE_RC_Control()
  *形    参: void
  *返 回 值: void
  */
+
+
 static void GIMBLE_PC_Control()
 {
-	
+
 	//角度环目标限幅赋值
 	g_rc_control.mouse.x_distance   = ConstrainFloat(g_rc_control.mouse.x_distance,  - YAW_PC_LIMIT_ANGLE,YAW_PC_LIMIT_ANGLE);
 	g_rc_control.mouse.y_distance   = ConstrainFloat(g_rc_control.mouse.y_distance,  - PIT_PC_LIMIT_ANGLE_DOWN,PIT_PC_LIMIT_ANGLE_UP);	 
 	//遥控角度计算
-	Gimbal_Motor_yaw.pc_control_angle  =  g_rc_control.mouse.x_distance;
-	Gimbal_Motor_pit.pc_control_angle  =  g_rc_control.mouse.y_distance;
 	
-	//目标角度赋值
-	g_angle_target.yaw   = Gimbal_Motor_yaw.pc_control_angle;
+	
+	Gimbal_Motor_yaw.pc_control_angle      =  g_rc_control.mouse.x_distance;
+	Gimbal_Motor_pit.pc_control_angle      =  g_rc_control.mouse.y_distance;
+
+	if(!g_rc_control.mouse.x&&abs(g_infc.speed_inner_error.yaw)<0.13f)
+	{
+		 GPIO_ResetBits(GPIOG, GPIO_Pin_1);     //关闭
+		g_angle_target.yaw   = g_imu_data.absolute_yaw;
+	}
+	else
+	{
+		 GPIO_SetBits(GPIOG, GPIO_Pin_1);     //关闭
+		g_angle_target.yaw   = Gimbal_Motor_yaw.pc_control_angle;
+	}
+	//目标角度赋
+	//g_angle_target.yaw   = Gimbal_Motor_yaw.pc_control_angle;
 	g_angle_target.pitch = Gimbal_Motor_pit.pc_control_angle+PIT_INIT_ANGLE;
 	
 	//角度环目标限幅赋值
@@ -216,7 +233,7 @@ static void GIMBLE_Auto_Control()
 	
 	else
 	{
-	    g_angle_target.yaw                = Gimbal_Motor_yaw.vision_control_angle;
+	    g_angle_target.yaw  = Gimbal_Motor_yaw.vision_control_angle;
 	}
 	
 	if(Gimbal_Motor_pit.vision_control_angle==0.0f)

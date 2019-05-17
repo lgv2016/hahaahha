@@ -18,7 +18,14 @@ typedef struct
 	float rc_control_angle;
 	float pc_control_angle;
 	float vision_control_angle;
+	
+	float last_rc_control_angle;
+	float last_pc_control_angle;
+	float last_vision_control_angle;
+	
 	float angle;
+	
+	u16 no_control_time;
 	
 	u16   press_r_time;
 } Gimbal_Motor_t;

@@ -52,3 +52,4 @@
 .\objects\task_imudata.o: ..\DMP\driver\eMPL\inv_mpu_dmp_motion_driver.h
 .\objects\task_imudata.o: ..\DRIVE\drive_imu.h
 .\objects\task_imudata.o: ..\USER\robotstatus.h
+.\objects\task_imudata.o: ..\DRIVE\drive_usart.h

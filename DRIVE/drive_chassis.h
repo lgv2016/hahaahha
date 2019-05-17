@@ -17,6 +17,13 @@ typedef struct
 	u8    inc_cal_flag;
 	
 	u8    chassis_rotate_flag;
+	u8    chassis_follow_flag;
+	
+	int16_t x;
+	int16_t y;
+	int16_t w;
+	
+	int16_t add;
 	
 	float rc_control_speedx;
 	float rc_control_speedy;
@@ -27,6 +34,8 @@ typedef struct
 	float rotate_angle;
 	
 	u8 chassis_last_mode;
+	
+	u8 last_w;
 	
 } chassis_move_t;
 

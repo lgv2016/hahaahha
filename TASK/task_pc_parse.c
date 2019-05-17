@@ -12,7 +12,7 @@ void vTaskPCParse(void *pvParameters)
 		ulTaskNotifyTake(pdTRUE,xBlockTime);
 		
 		MiniPC_Rece_Resolver();
-		MiniPC_Send_Data(0x03);
+	
 	}
 }
 

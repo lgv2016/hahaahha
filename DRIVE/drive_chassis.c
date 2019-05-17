@@ -20,12 +20,9 @@
 
 #define KEY_NO_Q_TIME （80/SHOOT_CONTROL_CYCLE）
 
-#define CHASSIS_MAX_SPEED_X 2000
-#define CHASSIS_MAX_SPEED_Y 2000
 
-#define CHASSIS_MAX_SPEED_W 50
-
-#define CHASSIS_ADD_SPEEED 1000
+#define CHASSIS_SPEED_SET 3000
+#define CHASSIS_SPEED_ADD 1500
 
 chassis_move_t chassis_move;
 
@@ -41,12 +38,14 @@ static void CHASSIS_ROTATE_Control(void);
 void CHASSIS_Init()
 {
 	INC_SetParam(&g_infc.inc[CH_ROTATE_SPEED],100,130,-130,0,0.0012);
+	chassis_move.x=CHASSIS_SPEED_SET;
+	chassis_move.y=CHASSIS_SPEED_SET;
+
 }
 
 
 static void CHASSIS_Set_Mode()
 {
-	
 	if(switch_is_up(g_rc_control.rc.s1))
 	{
 		robot_status.chassis_mode=CHASSIS_SPEED;
@@ -54,32 +53,60 @@ static void CHASSIS_Set_Mode()
 	
 	else
 	{
-		if(g_rc_control.key.k[Q])
+		if(!chassis_move.last_w&&g_rc_control.key.k[W])     
 		{
-			robot_status.chassis_mode=CHASSIS_ROTATE;
+			chassis_move.chassis_follow_flag=1;
 		}
-		else if(g_rc_control.key.k[CTRL])
+		
+		
+		if(g_rc_control.key.k[CTRL])                             //优先级第二
 		{
 			robot_status.chassis_mode=CHASSIS_FOLLOW_GIMBLE;
 		}
+		else if(g_rc_control.key.k[Q])                      
+		{
+			robot_status.chassis_mode=CHASSIS_ROTATE;
+		}
 		
-		else if((g_rc_control.key.k[W]||g_rc_control.key.k[A]||g_rc_control.key.k[S]||g_rc_control.key.k[D]))
+		else if((g_rc_control.key.k[W]||g_rc_control.key.k[A]||g_rc_control.key.k[S]||g_rc_control.key.k[D])&&!chassis_move.chassis_follow_flag)
 		{
 			robot_status.chassis_mode=CHASSIS_SPEED;
 		}
+		
 		else 
 		{
 			robot_status.chassis_mode=CHASSIS_STOP;
 			chassis_move.inc_cal_flag=1;
 		}
+		
+		if(chassis_move.chassis_follow_flag)                     //云台跟随优先级最高
+		{
+			robot_status.chassis_mode=CHASSIS_FOLLOW_GIMBLE;
+		}
+		
+		if(g_rc_control.key.k[SHIFT])                   //加速
+		{
+			chassis_move.add=CHASSIS_SPEED_ADD;
+		}
+		
+		else
+		{
+			chassis_move.add=0;
+		}
 	}
-	chassis_move.chassis_last_mode=robot_status.chassis_mode;
+	
+	//如果云台没有校准完成
+    if(robot_status.gimbal_data!=GIMBAL_MOTOR_GYRO)
+	{
+		robot_status.chassis_mode=CHASSIS_STOP;
+	}
+	
+	chassis_move.last_w=g_rc_control.key.k[W];
 }
 
 
 void CHASSIS_Loop_Control()
 {
-	
 	CHASSIS_Set_Mode();
 	if(robot_status.chassis_mode==CHASSIS_STOP)
 	{
@@ -89,11 +116,11 @@ void CHASSIS_Loop_Control()
 	{
 		if(switch_is_up(g_rc_control.rc.s1))
 		{
-			CHASSIS_RC_Control(CHASSIS_MAX_SPEED_X,CHASSIS_MAX_SPEED_Y);
+			CHASSIS_RC_Control(chassis_move.x,chassis_move.y);
 		}
 		else
 		{
-			CHASSIS_SPEED_Control(CHASSIS_MAX_SPEED_X,CHASSIS_MAX_SPEED_Y,CHASSIS_MAX_SPEED_W);
+			CHASSIS_SPEED_Control(chassis_move.x+chassis_move.add,chassis_move.y+chassis_move.add,chassis_move.w);
 		}
 	}
 	

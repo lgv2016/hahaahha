@@ -3,7 +3,7 @@
 #include "inv_mpu_dmp_motion_driver.h" 
 #include <drive_imu.h>
 #include <robotstatus.h>
-
+#include <drive_usart.h>
 extern void yaw_angle_cal(void);
 
 void vTaskIMUData(void *pvParameters)
@@ -16,7 +16,9 @@ void vTaskIMUData(void *pvParameters)
 			if(mpu_mpl_get_data()==0)
 		    {
 				MPU_Get_Gyroscope();
+			    
 				yaw_angle_cal();
+				MiniPC_Send_Data(0x03);
 				robot_status.gimbal_data=GIMBAL_MOTOR_GYRO;
 		    }
 		}

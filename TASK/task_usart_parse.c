@@ -5,7 +5,7 @@
 
 #include <robotstatus.h>
 
-float s=5;
+
 //裁判系统数据解算任务
 void vTaskUSARTParse(void *pvParameters)
 {
@@ -13,6 +13,6 @@ void vTaskUSARTParse(void *pvParameters)
     {
 
 		
-	 vTaskDelay(10);
+	 vTaskDelay(100);
     }
 }

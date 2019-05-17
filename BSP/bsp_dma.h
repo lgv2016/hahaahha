@@ -8,8 +8,8 @@
 #define DMA_Judge_Reve_Buff_Size 255
 
 
-#define DMA_MiniPC_Send_Buff_Size 20
-#define DMA_MiniPC_Reve_Buff_Size 20
+#define DMA_MiniPC_Send_Buff_Size 30
+#define DMA_MiniPC_Reve_Buff_Size 30
 
 extern u8 g_DMA_Dbus_Buff[DMA_Dbus_Buff_Size];
 extern u8 g_DMA_Judge_Send_Buff[DMA_Judge_Send_Buff_Size];

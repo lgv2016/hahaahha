@@ -70,44 +70,41 @@ void Cmd_GIMBAL_ESC(u8 imu_cmd,u8 fric_cmd)
 }
 void Get_6623_data(CanRxMsg rx_message)
 {
-	
-	float angle;
-	
-     switch(rx_message.StdId)
-    {
-       case 0x205:
-      {
-		  
-		  g_data_6623.pre_angle[YAW]         =   rx_message.Data[0]<<8|rx_message.Data[1];
-		  g_data_6623.speed[YAW]             =   rx_message.Data[2]<<8|rx_message.Data[3];
-		  g_data_6623.actual_current[YAW]    =   rx_message.Data[4]<<8|rx_message.Data[5];
-		  angle             =   (g_data_6623.pre_angle[YAW]*360.0f)/8191.0f;
-		 
-		  angle=angle+166.0f;
-		  if(angle>360.0f)
-		  angle=angle-360.0f;
-	  //  g_data_6623.angle[YAW]             =   (g_data_6623.pre_angle[YAW]*360.0f)/8191.0f;
-		  
-		  g_data_6623.angle[YAW]=angle;
-			  
-			  robot_status.motor_yaw=MOTOR_GIMBAL_ENCODE;
-	
-		  
-		  
-          break;
+	float angle;	
+    switch(rx_message.StdId)
+	{
+		case 0x205:
+       {
+			g_data_6623.pre_angle[YAW]         =   rx_message.Data[0]<<8|rx_message.Data[1];
+			g_data_6623.speed[YAW]             =   rx_message.Data[2]<<8|rx_message.Data[3];
+		
+			angle             =   (g_data_6623.pre_angle[YAW]*360.0f)/8191.0f;
+
+			angle=angle+166.0f;
+			if(angle>360.0f)
+			angle=angle-360.0f;
+			g_data_6623.angle[YAW]=angle;
+			robot_status.motor_yaw=MOTOR_GIMBAL_ENCODE; 
+			break;
       }
-      case 0x206:
-      {
-			  g_data_6623.pre_angle[PITCH]         =   rx_message.Data[0]<<8|rx_message.Data[1];
-			  g_data_6623.actual_current[PITCH]    =   rx_message.Data[2]<<8|rx_message.Data[3];
-			  g_data_6623.set_current[PITCH]       =   rx_message.Data[4]<<8|rx_message.Data[5];
-			  g_data_6623.angle[PITCH             ]=   (g_data_6623.pre_angle[PITCH]*360.0f)/8191.0f;
-			  robot_status.motor_pit=MOTOR_GIMBAL_ENCODE;
-          break;
+	
+		case 0x206:
+       {
+			g_data_6623.last_angle[PITCH]  =  g_data_6623.pre_angle[PITCH];
+			g_data_6623.pre_angle[PITCH]   =  rx_message.Data[0]<<8|rx_message.Data[1];
+		  
+		  if((abs( g_data_6623.last_angle[PITCH]- g_data_6623.pre_angle[PITCH])>500)&&g_data_6623.last_angle[PITCH])
+		  {
+			   g_data_6623.pre_angle[PITCH]=g_data_6623.last_angle[PITCH];
+		  }
+
+			g_data_6623.angle[PITCH]=   (g_data_6623.pre_angle[PITCH]*360.0f)/8191.0f;
+			robot_status.motor_pit=MOTOR_GIMBAL_ENCODE;
+			break;
       }
-      default:
+	    default:
         break;
-    } 
+  }
 }
 
 void Get_2006_data(CanRxMsg rx_message)

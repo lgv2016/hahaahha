@@ -18,6 +18,7 @@ void vTaskControl(void *pvParameters)
 	GIMBLE_Init();
 	CHASSIS_Init();
 	SHOOT_Init();
+
 	
 	vTaskDelay(1000);
     while(1)
@@ -44,6 +45,8 @@ void vTaskControl(void *pvParameters)
 			CHASSIS_Loop_Control();
 			s_control_cycle.chassis_cycyle=0;
 		}
+
+
 		vTaskDelay(1);
 	}
 }

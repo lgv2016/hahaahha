@@ -98,11 +98,7 @@ static void SHOOT_Set_Mode()
 		robot_status.shoot_mode=SHOOT_STOP;
 	}
 	
-	//如果云台没有校准完成
-    if(robot_status.gimbal_data!=GIMBAL_MOTOR_GYRO)
-	{
-		robot_status.shoot_mode=SHOOT_STOP;
-	}
+	
 	last_s=g_rc_control.rc.s2;
 }
 

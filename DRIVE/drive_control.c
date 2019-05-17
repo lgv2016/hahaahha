@@ -9,13 +9,14 @@
 #include <math_tool.h>
 
 #include <drive_gimble.h>
+#include <drive_chassis.h>
 
 
 #define CHASSIS_W   19.8785   //cm
 #define CHASSIS_L   17.5375   //cm
 
-#define YAW_INIT_ERROR 1.0f
-#define PIT_INIT_ERROR 0.5f
+#define YAW_INIT_ERROR 0.5f
+#define PIT_INIT_ERROR 0.2f
 
 
 
@@ -55,7 +56,7 @@ static void PID_Reset(void)
 	
 	
 	PID_SetParam(&g_infc.pid[CH_ROTATE_SPEED],0.09,9.15,0,200,120,0);
-	PID_SetParam(&g_infc.pid[CH_ROTATE_ANGLE],2.2,0,0,0,0,0);
+	PID_SetParam(&g_infc.pid[CH_ROTATE_ANGLE],2.0,0,0,0,0,0);//3.2
 	
 }
 
@@ -75,18 +76,18 @@ void GIMBLE_ENCONDE_Control(object_t target)
 	
 	g_infc.angle_outer_target.yaw       = target.yaw;
 	g_infc.angle_outer_error.yaw  	    = g_infc.angle_outer_target.yaw-g_data_6623.angle[YAW];
-    g_infc.angle_outer_error.yaw  	    = ApplyDeadbandFloat(g_infc.angle_outer_error.yaw,0.1f);
+    g_infc.angle_outer_error.yaw  	    = ApplyDeadbandFloat(g_infc.angle_outer_error.yaw,0.5f);
 
 
 	g_infc.angle_outer_target.pitch     = target.pitch;
 	g_infc.angle_outer_error.pitch      = g_infc.angle_outer_target.pitch - g_data_6623.angle[PITCH];
-	g_infc.angle_outer_error.pitch  	= ApplyDeadbandFloat(g_infc.angle_outer_error.pitch,0.1f);
+	g_infc.angle_outer_error.pitch  	= ApplyDeadbandFloat(g_infc.angle_outer_error.pitch,0.001f);
 	
 	
 	
 	if(robot_status.gimbal_mode==GIMBLE_INIT&&robot_status.mpu6500_status==MPU6500_NO)
 	{
-		if((abs(g_infc.angle_outer_error.yaw)<YAW_INIT_ERROR)||(abs(g_infc.angle_outer_error.pitch)<PIT_INIT_ERROR))
+		if((abs(g_infc.angle_outer_error.yaw)<YAW_INIT_ERROR)&&(abs(g_infc.angle_outer_error.pitch)<PIT_INIT_ERROR))
 		{
 			error_temp++;
 			if(error_temp>160)
@@ -105,7 +106,6 @@ void GIMBLE_ENCONDE_Control(object_t target)
 	s_angle_contorl_out.pitch         	= ConstrainFloat(s_angle_contorl_out.pitch,-6666,6666);
 	
 	
-	
 	g_infc.speed_inner_error.yaw  	    =  s_angle_contorl_out.yaw -g_data_6623.speed[YAW];
 
 	//死区控制
@@ -115,12 +115,12 @@ void GIMBLE_ENCONDE_Control(object_t target)
 	//输出限幅
     s_speed_contorl_out.yaw         	= ConstrainFloat(s_speed_contorl_out.yaw,-22222,22222);
 	
-   Cmd_6623_ESC(s_speed_contorl_out.yaw,0);
+    Cmd_6623_ESC(s_speed_contorl_out.yaw,-s_angle_contorl_out.pitch);
 }
-
 
 void GIMBLE_GYRO_Control(object_t target)
 {
+	
 	//函数运算间隔计算
     static uint64_t previousT;
     float deltaT = (Get_SysTimeUs() - previousT) * 1e-6;
@@ -135,8 +135,8 @@ void GIMBLE_GYRO_Control(object_t target)
 	
 	g_infc.angle_outer_error.pitch      = g_infc.angle_outer_target.pitch - g_data_6623.angle[PITCH];
 	
-    g_infc.angle_outer_error.yaw  	    = ApplyDeadbandFloat(g_infc.angle_outer_error.yaw,0.01f);
-	g_infc.angle_outer_error.pitch  	= ApplyDeadbandFloat(g_infc.angle_outer_error.pitch,0.01f);
+    g_infc.angle_outer_error.yaw  	    = ApplyDeadbandFloat(g_infc.angle_outer_error.yaw,0.1f);
+	g_infc.angle_outer_error.pitch  	= ApplyDeadbandFloat(g_infc.angle_outer_error.pitch,0);
 	
 	
 	s_angle_contorl_out.yaw         	= PID_GetPID(&g_infc.pid[YAW_GYRO_ANGLE],g_infc.angle_outer_error.yaw,deltaT);
@@ -151,8 +151,8 @@ void GIMBLE_GYRO_Control(object_t target)
 	g_infc.speed_inner_error.pitch  	= s_angle_contorl_out.pitch  - g_imu_data.pit_speed;
 	
 	//死区控制
-    g_infc.speed_inner_error.yaw  	    = ApplyDeadbandFloat( g_infc.speed_inner_error.yaw,0.01);
-	g_infc.speed_inner_error.pitch  	= ApplyDeadbandFloat( g_infc.speed_inner_error.pitch,0.01);
+    g_infc.speed_inner_error.yaw  	    = ApplyDeadbandFloat( g_infc.speed_inner_error.yaw,0);
+	g_infc.speed_inner_error.pitch  	= ApplyDeadbandFloat( g_infc.speed_inner_error.pitch,0);
 	
 	//PID算法，计算出速度环的控制量
     s_speed_contorl_out.yaw         	= PID_GetPID(&g_infc.pid[YAW_GYRO_SPEED],g_infc.speed_inner_error.yaw,1);
@@ -208,7 +208,6 @@ void Speed_3510_Control(object_t target)
 	//can发送控制量
 	Cmd_3510_ESC(s_speed_contorl_out.lf,s_speed_contorl_out.la,s_speed_contorl_out.rf,s_speed_contorl_out.ra);
 	
-	//Cmd_3510_ESC(0,0,0,0);
 }
 
 void Speed_2006_Control(object_t target)
@@ -304,6 +303,7 @@ void Speed_Rotate_Control(object_t target)       //自旋speed
 
 
 
+
 void Angle_Rotate_Control(object_t target)         //
 {
     static uint64_t previousT;
@@ -316,13 +316,18 @@ void Angle_Rotate_Control(object_t target)         //
 	g_infc.angle_outer_error.ch_rotate  	= g_infc.angle_outer_target.ch_rotate-g_data_6623.angle[YAW];
 	
 	//死区控制
-    g_infc.angle_outer_error.ch_rotate  	= ApplyDeadbandFloat(g_infc.angle_outer_error.ch_rotate,1);
+    g_infc.angle_outer_error.ch_rotate  	= ApplyDeadbandFloat(g_infc.angle_outer_error.ch_rotate,1.2);
+	
+	if(!g_infc.angle_outer_error.ch_rotate)
+	{
+		chassis_move.chassis_follow_flag=0;
+	}
 	
 	//PID算法，计算出角度环的控制量
     s_angle_contorl_out.ch_rotate         	= PID_GetPID(&g_infc.pid[CH_ROTATE_ANGLE],g_infc.angle_outer_error.ch_rotate,deltaT);
 	
 	//输出限幅
-    s_angle_contorl_out.ch_rotate         	= ConstrainFloat(s_angle_contorl_out.ch_rotate,-100,100);
+    s_angle_contorl_out.ch_rotate         	= ConstrainFloat(s_angle_contorl_out.ch_rotate,-120,120);
 	
 	//将角度外环控制量作为速度内环的控制目标
 	//Speed_Rotate_Control(s_angle_contorl_out);

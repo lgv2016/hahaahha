@@ -38,6 +38,8 @@ extern void Append_Check_SUM(u8* pchMessage, u16 dwLength);
 extern float HEX_TO_Float(u8 * pchMessage);
 extern void FLOAT_TO_Hex(u8 * pchMessage,float fdata);
 
+extern void FILTER_Limit(u16 lastdata,u16 predata,u16 limit);
+
 
 
 
