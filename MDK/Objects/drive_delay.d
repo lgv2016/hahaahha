@@ -1,11 +1,15 @@
 .\objects\drive_delay.o: ..\DRIVE\drive_delay.c
 .\objects\drive_delay.o: ..\DRIVE\drive_delay.h
 .\objects\drive_delay.o: ..\CORE\stm32f4xx.h
+.\objects\drive_delay.o: ..\DSP\Include\arm_math.h
 .\objects\drive_delay.o: ..\CORE\core_cm4.h
 .\objects\drive_delay.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\drive_delay.o: ..\CORE\core_cmInstr.h
 .\objects\drive_delay.o: ..\CORE\core_cmFunc.h
 .\objects\drive_delay.o: ..\CORE\core_cm4_simd.h
+.\objects\drive_delay.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\drive_delay.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\drive_delay.o: ..\CORE\core_cm4.h
 .\objects\drive_delay.o: ..\CORE\system_stm32f4xx.h
 .\objects\drive_delay.o: ..\CORE\stm32f4xx_conf.h
 .\objects\drive_delay.o: ..\FWLIB\inc\stm32f4xx_adc.h

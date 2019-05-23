@@ -7,7 +7,31 @@
 #include <robotstatus.h>
 #include <drive_rc.h>
 
+
 #include <drive_gimble.h>
+#ifdef  RED1
+#define M3510_3508_RATE 1.0f
+#endif
+
+#ifdef  RED2
+#define M3510_3508_RATE 0.704f
+#endif
+
+#define NORMAL_MAX_CHASSIS_SPEED_X  3000*M3510_3508_RATE
+#define NORMAL_MAX_CHASSIS_SPEED_Y  3000*M3510_3508_RATE
+#define CHASSIS_MAX_FOLLOW_SPEED_Z  110*M3510_3508_RATE
+#define CHASSIS_FOLLOW_LIMIT        20.0f
+
+#define CHASSIS_ROTATE_SPEED_Z        130.0f*M3510_3508_RATE
+#define CHASSIS_ROTATE_RUN_SPEED_Z    90.0f*M3510_3508_RATE
+#define CHASSIS_ROTATE_RUN_SPEED_X    1100*M3510_3508_RATE
+#define CHASSIS_ROTATE_RUN_SPEED_Y    750*M3510_3508_RATE
+
+#define ADD_CHASSIS_SPEED  1500*M3510_3508_RATE
+
+#define CHASSIS_ACCEL_X_NUM 0.1666666667f
+#define CHASSIS_ACCEL_Y_NUM 0.1666666667f
+#define CHASSIS_ACCEL_W_NUM 0.1666666667f
 
 #define RC_SW_UP   ((uint16_t)1)
 #define RC_SW_MID  ((uint16_t)3)
@@ -17,239 +41,317 @@
 #define switch_is_down(s) (s == RC_SW_DOWN)
 #define switch_is_mid(s)  (s == RC_SW_MID)
 #define switch_is_up(s)   (s == RC_SW_UP)
-
-#define KEY_NO_Q_TIME （80/SHOOT_CONTROL_CYCLE）
-
-
-#define CHASSIS_SPEED_SET 3000
-#define CHASSIS_SPEED_ADD 1500
-
 chassis_move_t chassis_move;
 
-static void INC_SetParam(INC_t* inc, float input, float max, float min, float out,float period);
-static void INC_Set_Value(INC_t* inc,int16_t measure,int16_t target);
-static void INC_Cal(INC_t* inc,int16_t measure,int16_t target);
 
-static void CHASSIS_Follow_Gimble_Control(float target);
-static void CHASSIS_SPEED_Control(int16_t vx,int16_t vy,int16_t wz);
-static void CHASSIS_ROTATE_Control(void);
-
+static float motor_ecd_to_angle_change(float ecd, float offset_ecd);
 
 void CHASSIS_Init()
 {
-	INC_SetParam(&g_infc.inc[CH_ROTATE_SPEED],100,130,-130,0,0.0012);
-	chassis_move.x=CHASSIS_SPEED_SET;
-	chassis_move.y=CHASSIS_SPEED_SET;
+	static float chassis_x_order_filter[1] = {CHASSIS_ACCEL_X_NUM};
+    static float chassis_y_order_filter[1] = {CHASSIS_ACCEL_Y_NUM};
+	static float chassis_w_order_filter[1] = {CHASSIS_ACCEL_W_NUM};
+	
+	robot_status.chassis_mode = CHASSIS_STOP;
+	
+	//用一阶滤波代替斜波函数生成
+    first_order_filter_init(&chassis_move.chassis_cmd_slow_set_vx, CHASSIS_CONTROL_CYCLE/1000.0f, chassis_x_order_filter);
+    first_order_filter_init(&chassis_move.chassis_cmd_slow_set_vy, CHASSIS_CONTROL_CYCLE/1000.0f, chassis_y_order_filter);
+	first_order_filter_init(&chassis_move.chassis_cmd_slow_set_wz, CHASSIS_CONTROL_CYCLE/1000.0f, chassis_w_order_filter);
 
+	    //最大 最小速度
+    chassis_move.vx_max_speed =  NORMAL_MAX_CHASSIS_SPEED_X;
+    chassis_move.vx_min_speed = -NORMAL_MAX_CHASSIS_SPEED_X;
+
+    chassis_move.vy_max_speed =  NORMAL_MAX_CHASSIS_SPEED_Y;
+    chassis_move.vy_min_speed = -NORMAL_MAX_CHASSIS_SPEED_Y;
 }
 
 
-static void CHASSIS_Set_Mode()
-{
+void CHASSIS_Set_Mode()
+{	
+    if(g_rc_control.key.k[W]||g_rc_control.key.k[A]||g_rc_control.key.k[S]||g_rc_control.key.k[D])
+    {
+        robot_status.chassis_mode=CHASSIS_FOLLOW_GIMBLE;
+    }
+	
+	if(!g_rc_control.key.k[W]&&!g_rc_control.key.k[A]&&!g_rc_control.key.k[S]&&!g_rc_control.key.k[D])
+	{
+		robot_status.chassis_mode=CHASSIS_NO_FOLLOW_GIMBLE;
+	}
+	
+	//底盘不跟随
+    if (g_rc_control.key.k[CTRL])
+    {
+        robot_status.chassis_mode=CHASSIS_NO_FOLLOW_GIMBLE;
+    }
+	
+    if(g_rc_control.key.k[Q])
+    {
+        robot_status.chassis_mode=CHASSIS_ROTATE;
+    }
+	
+	
+	if(g_rc_control.key.k[Q]&&(g_rc_control.key.k[W]||g_rc_control.key.k[A]||g_rc_control.key.k[S]||g_rc_control.key.k[D]))
+	{
+		robot_status.chassis_mode=CHASSIS_ROTATE_RUN;
+	}
+	
+
+
+	
 	if(switch_is_up(g_rc_control.rc.s1))
 	{
-		robot_status.chassis_mode=CHASSIS_SPEED;
+		robot_status.chassis_mode=CHASSIS_FOLLOW_GIMBLE;
+	}
+	
+	if(switch_is_down(g_rc_control.rc.s1))
+	{
+		robot_status.chassis_mode=CHASSIS_NO_FOLLOW_GIMBLE;
+	}
+	
+	    //如果云台没有校准完成
+    if(robot_status.gimbal_data!=GIMBAL_MOTOR_GYRO)
+	{
+		  robot_status.chassis_mode = CHASSIS_STOP;
+	}
+}
+
+//遥控器的数据处理成底盘的前进vx速度，vy速度
+void CHASSIS_RC_Control_Value(float *vx_set, float *vy_set)
+{
+
+    //遥控器原始通道值
+    float vx_set_channel, vy_set_channel;
+	
+	if(g_rc_control.rc.ch3&&g_rc_control.rc.ch2)
+	{
+		vx_set_channel = (chassis_move.vx_max_speed/(660.0f))*(g_rc_control.rc.ch3-1024);
+		vy_set_channel= -(chassis_move.vy_max_speed/(660.0f))*(g_rc_control.rc.ch2-1024);
+	}
+   
+	
+    if(g_rc_control.key.k[SHIFT])
+	{
+		chassis_move.chassis_speed_add=ADD_CHASSIS_SPEED;
+	}
+	else
+	{
+		chassis_move.chassis_speed_add=0;
+	}
+	
+    if (g_rc_control.key.k[W])
+    {
+		if(robot_status.chassis_mode==CHASSIS_ROTATE_RUN)
+		{
+			vx_set_channel=CHASSIS_ROTATE_RUN_SPEED_X;
+		}
+		else
+		{
+			vx_set_channel = chassis_move.vx_max_speed+chassis_move.chassis_speed_add;
+		}
+
+    }
+    else if (g_rc_control.key.k[S])
+    {
+		if(robot_status.chassis_mode==CHASSIS_ROTATE_RUN)
+		{
+			vx_set_channel=-CHASSIS_ROTATE_RUN_SPEED_X;
+		}
+		else
+		{
+			vx_set_channel = chassis_move.vx_min_speed-chassis_move.chassis_speed_add;
+		}
+    }
+
+    if (g_rc_control.key.k[A])
+    {
+		if(robot_status.chassis_mode==CHASSIS_ROTATE_RUN)
+		{
+			vy_set_channel=CHASSIS_ROTATE_RUN_SPEED_Y;
+		}
+		else
+		{
+			vy_set_channel = chassis_move.vy_max_speed+chassis_move.chassis_speed_add;
+		}
+    }
+    else if (g_rc_control.key.k[D])
+    {
+		if(robot_status.chassis_mode==CHASSIS_ROTATE_RUN)
+		{
+			vy_set_channel=-CHASSIS_ROTATE_RUN_SPEED_Y;
+		}
+		else
+		{
+			vy_set_channel = chassis_move.vy_min_speed-chassis_move.chassis_speed_add;
+		}
+    }
+
+	if(robot_status.chassis_mode==CHASSIS_ROTATE_RUN)
+	{
+		chassis_move.chassis_rotate_speed_set=CHASSIS_ROTATE_RUN_SPEED_Z;
 	}
 	
 	else
 	{
-		if(!chassis_move.last_w&&g_rc_control.key.k[W])     
-		{
-			chassis_move.chassis_follow_flag=1;
-		}
-		
-		
-		if(g_rc_control.key.k[CTRL])                             //优先级第二
-		{
-			robot_status.chassis_mode=CHASSIS_FOLLOW_GIMBLE;
-		}
-		else if(g_rc_control.key.k[Q])                      
-		{
-			robot_status.chassis_mode=CHASSIS_ROTATE;
-		}
-		
-		else if((g_rc_control.key.k[W]||g_rc_control.key.k[A]||g_rc_control.key.k[S]||g_rc_control.key.k[D])&&!chassis_move.chassis_follow_flag)
-		{
-			robot_status.chassis_mode=CHASSIS_SPEED;
-		}
-		
-		else 
-		{
-			robot_status.chassis_mode=CHASSIS_STOP;
-			chassis_move.inc_cal_flag=1;
-		}
-		
-		if(chassis_move.chassis_follow_flag)                     //云台跟随优先级最高
-		{
-			robot_status.chassis_mode=CHASSIS_FOLLOW_GIMBLE;
-		}
-		
-		if(g_rc_control.key.k[SHIFT])                   //加速
-		{
-			chassis_move.add=CHASSIS_SPEED_ADD;
-		}
-		
-		else
-		{
-			chassis_move.add=0;
-		}
-	}
-	
-	//如果云台没有校准完成
-    if(robot_status.gimbal_data!=GIMBAL_MOTOR_GYRO)
-	{
-		robot_status.chassis_mode=CHASSIS_STOP;
-	}
-	
-	chassis_move.last_w=g_rc_control.key.k[W];
-}
-
-
-void CHASSIS_Loop_Control()
-{
-	CHASSIS_Set_Mode();
-	if(robot_status.chassis_mode==CHASSIS_STOP)
-	{
-		Speed_Chassis_Control(0,0,0);
-	}
-	if(robot_status.chassis_mode==CHASSIS_SPEED)
-	{
-		if(switch_is_up(g_rc_control.rc.s1))
-		{
-			CHASSIS_RC_Control(chassis_move.x,chassis_move.y);
-		}
-		else
-		{
-			CHASSIS_SPEED_Control(chassis_move.x+chassis_move.add,chassis_move.y+chassis_move.add,chassis_move.w);
-		}
-	}
-	
-	if(robot_status.chassis_mode==CHASSIS_FOLLOW_GIMBLE)
-	{
-		g_angle_target.ch_rotate=YAW_INIT_ANGLE;
-		CHASSIS_Follow_Gimble_Control(g_angle_target.ch_rotate);
+		chassis_move.chassis_rotate_speed_set=0.0f;
 	}
 	
 	if(robot_status.chassis_mode==CHASSIS_ROTATE)
 	{
-		CHASSIS_ROTATE_Control();
+	    chassis_move.chassis_rotate_speed_set=CHASSIS_ROTATE_SPEED_Z;
+	}
+
+	
+    //一阶低通滤波代替斜波作为底盘速度输入
+	first_order_filter_cali(&chassis_move.chassis_cmd_slow_set_wz,chassis_move.chassis_rotate_speed_set);
+    first_order_filter_cali(&chassis_move.chassis_cmd_slow_set_vx, vx_set_channel);
+    first_order_filter_cali(&chassis_move.chassis_cmd_slow_set_vy, vy_set_channel);
+
+    //停止信号，不需要缓慢加速，直接减速到零
+	
+    if (abs(vx_set_channel) < 100)
+    {
+        chassis_move.chassis_cmd_slow_set_vx.out = 0.0f;
+    }
+
+    if (abs(vy_set_channel) < 100)
+    {
+        chassis_move.chassis_cmd_slow_set_vy.out = 0.0f;
+    }
+
+    *vx_set = chassis_move.chassis_cmd_slow_set_vx.out;
+    *vy_set = chassis_move.chassis_cmd_slow_set_vy.out;
+}
+void CHASSIS_Rotate_Control(float *vx_set, float *vy_set, float *wz_set)
+{	
+	CHASSIS_RC_Control_Value(vx_set,vy_set);
+	
+    *wz_set =chassis_move.chassis_cmd_slow_set_wz.out;
+}
+
+void CHASSIS_Stop_Control(float *vx_set, float *vy_set, float *wz_set)
+{
+	*vx_set = 0.0f;
+    *vy_set = 0.0f;
+    *wz_set = 0.0f;
+}
+
+void CHASSIS_Follow_Gimble_Control(float *vx_set, float *vy_set, float *angle_set)
+{
+	CHASSIS_RC_Control_Value(vx_set,vy_set);
+	*angle_set =180.0f;
+}
+
+void CHASSIS_NO_Follow_Gimble_Control(float *vx_set, float *vy_set, float *wz_set)
+{
+	CHASSIS_RC_Control_Value(vx_set,vy_set);
+}
+void CHASSIS_Rotate_Run_Control(float *vx_set, float *vy_set, float *wz_set)
+{
+	CHASSIS_RC_Control_Value(vx_set,vy_set);
+    *wz_set =chassis_move.chassis_cmd_slow_set_wz.out;
+}
+
+void CHASSIS_Mode_Control_Set(float *vx_set, float *vy_set, float *angle_set)
+{
+	if(robot_status.chassis_mode==CHASSIS_FOLLOW_GIMBLE)
+	{
+		CHASSIS_Follow_Gimble_Control(vx_set,vy_set,angle_set);
+	}
+	
+	else if(robot_status.chassis_mode==CHASSIS_NO_FOLLOW_GIMBLE)
+	{
+		CHASSIS_NO_Follow_Gimble_Control(vx_set,vy_set,angle_set);
+	}
+	
+	else if(robot_status.chassis_mode==CHASSIS_ROTATE)
+	{
+		CHASSIS_Rotate_Control(vx_set,vy_set,angle_set);
+	}
+	
+	else if(robot_status.chassis_mode==CHASSIS_STOP)
+	{
+		CHASSIS_Stop_Control(vx_set,vy_set,angle_set);
+	}
+	
+	else if(robot_status.chassis_mode==CHASSIS_ROTATE_RUN)
+	{
+		CHASSIS_Rotate_Run_Control(vx_set,vy_set,angle_set);
 	}
 }
 
-void CHASSIS_RC_Control(int16_t maxspeedx,int16_t maxspeedy)
-{
-	chassis_move.rc_control_speedx= (maxspeedx/(660.0f))*(g_rc_control.rc.ch2-1024);
-	chassis_move.rc_control_speedy= (maxspeedx/(660.0f))*(g_rc_control.rc.ch3-1024);
-	Speed_Chassis_Control(chassis_move.rc_control_speedx,chassis_move.rc_control_speedy,0);
-}
 
-static void CHASSIS_Follow_Gimble_Control(float target)
+//////设置遥控器输入控制量
+static void CHASSIS_Set_Control()
 {
-	g_angle_target.ch_rotate=target;
+
+    //设置速度
+    float vx_set = 0.0f, vy_set = 0.0f, angle_set = 0.0f;
+	float sin_yaw=0.0f,cos_yaw=0.0f;
+    CHASSIS_Mode_Control_Set(&vx_set, &vy_set, &angle_set);
 	
-	Angle_Rotate_Control(g_angle_target);
-}
-
-static void CHASSIS_ROTATE_Control()
-{
-	if(g_rc_control.key.k[Q])
+//	aaaaa=-motor_ecd_to_angle_change(g_data_6623.angle[YAW],180.0f);
+//	bbbbb=chassis_move.chassis_yaw-(g_imu_data.yaw-180.0f);	
+	
+	if(robot_status.chassis_mode==CHASSIS_FOLLOW_GIMBLE)
 	{
-		if(chassis_move.inc_cal_flag==1)
+		float relative_angle=-motor_ecd_to_angle_change(g_data_6623.angle[YAW],180.0f);
+	    chassis_move.chassis_relative_angle=Radians(relative_angle);
+		
+        sin_yaw = arm_sin_f32(chassis_move.chassis_relative_angle);
+        cos_yaw = arm_cos_f32(chassis_move.chassis_relative_angle);
+		
+		
+		g_angle_target.ch_rotate=angle_set;
+		chassis_move.wz_set =-Angle_Rotate_Control(g_angle_target);
+		chassis_move.wz_set=Constrainfloat(chassis_move.wz_set,-CHASSIS_MAX_FOLLOW_SPEED_Z,CHASSIS_MAX_FOLLOW_SPEED_Z);
+		if(abs(g_infc.angle_outer_error.ch_rotate)<CHASSIS_FOLLOW_LIMIT)
 		{
-			chassis_move.inc_cal_flag=0;
-			INC_Set_Value(&g_infc.inc[CH_ROTATE_SPEED],0,130);
+			chassis_move.vx_set = cos_yaw * vx_set + sin_yaw * vy_set;
+			chassis_move.vy_set = -sin_yaw * vx_set + cos_yaw * vy_set;
 		}
 		
-		INC_Cal(&g_infc.inc[CH_ROTATE_SPEED],0,130);
-		chassis_move.rotate_speed_set=g_infc.inc[CH_ROTATE_SPEED].out;
+		else
+		{
+			chassis_move.vx_set=0.0f;
+			chassis_move.vy_set=0.0f;
+		}
+	}
+	
+	else if(robot_status.chassis_mode==CHASSIS_NO_FOLLOW_GIMBLE)
+	{
+		chassis_move.wz_set = angle_set;
+		chassis_move.vx_set = vx_set;
+        chassis_move.vy_set = vy_set;
+	}
+	else if((robot_status.chassis_mode==CHASSIS_ROTATE)||(robot_status.chassis_mode==CHASSIS_ROTATE_RUN))
+	{
+		float relative_angle=-motor_ecd_to_angle_change(g_data_6623.angle[YAW],180.0f);
+	    chassis_move.chassis_relative_angle=Radians(relative_angle);
+	
+        sin_yaw = arm_sin_f32(chassis_move.chassis_relative_angle);
+        cos_yaw = arm_cos_f32(chassis_move.chassis_relative_angle);
 		
-		Speed_Chassis_Control(0,0,chassis_move.rotate_speed_set);
+		chassis_move.wz_set = angle_set;
+		chassis_move.vx_set = cos_yaw * vx_set + sin_yaw * vy_set;
+        chassis_move.vy_set = -sin_yaw * vx_set + cos_yaw * vy_set;
+	}
+	
+	else if(robot_status.chassis_mode==CHASSIS_STOP)
+	{
+		chassis_move.wz_set = angle_set;
+		chassis_move.vx_set = vx_set;
+        chassis_move.vy_set = vy_set;
+	}
+}
 		
-	}
-	
-}
-
-static void CHASSIS_SPEED_Control(int16_t vx,int16_t vy,int16_t wz)
+void CHASSIS_Loop_Control()
 {
-	int16_t speedx=0,speedy=0,speedw=0;
-	
-	if(g_rc_control.key.k[W]==1)
-	{
-		speedy=vy;
-	}
-
-	if(g_rc_control.key.k[A]==1)
-	{
-		speedx=-vx;
-	}
-	
-	if(g_rc_control.key.k[S]==1)
-	{
-		speedy=-vy;
-	}
-	
-	if(g_rc_control.key.k[D]==1)
-	{
-		speedx=vx;
-	}
-	
-	if(g_rc_control.key.k[Q]==1)
-	{
-		speedw=wz;
-	}
-	
-	Speed_Chassis_Control(speedx,speedy,speedw);
+	CHASSIS_Set_Mode();
+	CHASSIS_Set_Control();
+	Speed_Chassis_Control(chassis_move.vx_set,chassis_move.vy_set,chassis_move.wz_set);
 }
-
-static void INC_SetParam(INC_t* inc, float input, float max, float min, float out,float period)
-{
-	inc->input=input;
-	inc->max=max;
-	inc->min=min;
-	inc->out=out;
-	inc->period=period;
-}
-
-
-void INC_Set_Value(INC_t* inc,int16_t measure,int16_t target)
-{
-	if(target>measure)
-	{
-		inc->out=measure;
-		inc->max=target;
-	}
-	else
-	{
-		inc->out=measure;
-		inc->min=target;
-	}
-}
-
-void INC_Cal(INC_t* inc,int16_t measure,int16_t target)
-{
-
-	if(target>measure)
-	{
-		inc->out+=inc->input*inc->period;
-	}
-	
-	else if(target<measure)
-	{
-		inc->out-=inc->input*inc->period;
-	}
-	
-	
-	if(inc->out>inc->max)
-	{
-		inc->out=inc->max;
-	}
-	
-	else if(inc->out<inc->min)
-	{
-		inc->out=inc->min;
-	}
-}
-
 
 
 void Get_CHASSIS_data(CanRxMsg rx_message)
@@ -258,8 +360,7 @@ void Get_CHASSIS_data(CanRxMsg rx_message)
     {
       case 0x208:
       {
-		  chassis_move.rotate_speed=HEX_TO_Float(&rx_message.Data[0]);
-		  chassis_move.rotate_angle=HEX_TO_Float(&rx_message.Data[4]);
+		  chassis_move.chassis_yaw=HEX_TO_float(&rx_message.Data[4]);
           break;
       }
       default:
@@ -267,3 +368,19 @@ void Get_CHASSIS_data(CanRxMsg rx_message)
     } 
 }
 
+
+//计算相对角度
+static float motor_ecd_to_angle_change(float ecd, float offset_ecd)
+{
+    int32_t relative_ecd = ecd - offset_ecd;
+    if (relative_ecd > 180.0f)
+    {
+        relative_ecd -= 360.0f;
+    }
+    else if (relative_ecd < -180.0f)
+    {
+        relative_ecd += 360.0f;
+    }
+
+    return relative_ecd;
+}

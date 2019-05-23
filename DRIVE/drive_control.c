@@ -12,6 +12,8 @@
 #include <drive_chassis.h>
 
 
+
+
 #define CHASSIS_W   19.8785   //cm
 #define CHASSIS_L   17.5375   //cm
 
@@ -45,14 +47,14 @@ static void PID_Reset(void)
 	PID_SetParam(&g_infc.pid[YAW_GYRO_SPEED],  399,18,0,100,20000,0);
 	
 	
-    PID_SetParam(&g_infc.pid[SHOOT_SPEED],3.43,38.15,0.02,1000,5000,14.2);
+    PID_SetParam(&g_infc.pid[SHOOT_SPEED],3.43,38.15,0.02,5000,6666,14.2);
     PID_SetParam(&g_infc.pid[SHOOT_ANGLE],100,0,0,0,0,0);
 	
 	
-	PID_SetParam(&g_infc.pid[LF_SPEED],   3.26, 26.64,0.06,1000,5000,61.3);
-	PID_SetParam(&g_infc.pid[LA_SPEED],   3.26, 26.64,0.06,1000,5000,61.3);
-	PID_SetParam(&g_infc.pid[RF_SPEED],   3.26, 26.64,0.06,1000,5000,61.3);
-	PID_SetParam(&g_infc.pid[RA_SPEED],   3.26, 26.64,0.06,1000,5000,61.3);
+	PID_SetParam(&g_infc.pid[LF_SPEED],   3.26, 26.64,0.06,1500,5000,61.3);
+	PID_SetParam(&g_infc.pid[LA_SPEED],   3.26, 26.64,0.06,1500,5000,61.3);
+	PID_SetParam(&g_infc.pid[RF_SPEED],   3.26, 26.64,0.06,1500,5000,61.3);
+	PID_SetParam(&g_infc.pid[RA_SPEED],   3.26, 26.64,0.06,1500,5000,61.3);
 	
 	
 	PID_SetParam(&g_infc.pid[CH_ROTATE_SPEED],0.09,9.15,0,200,120,0);
@@ -76,12 +78,11 @@ void GIMBLE_ENCONDE_Control(object_t target)
 	
 	g_infc.angle_outer_target.yaw       = target.yaw;
 	g_infc.angle_outer_error.yaw  	    = g_infc.angle_outer_target.yaw-g_data_6623.angle[YAW];
-    g_infc.angle_outer_error.yaw  	    = ApplyDeadbandFloat(g_infc.angle_outer_error.yaw,0.5f);
-
+    g_infc.angle_outer_error.yaw  	    = ApplyDeadbandfloat(g_infc.angle_outer_error.yaw,0.5f);
 
 	g_infc.angle_outer_target.pitch     = target.pitch;
 	g_infc.angle_outer_error.pitch      = g_infc.angle_outer_target.pitch - g_data_6623.angle[PITCH];
-	g_infc.angle_outer_error.pitch  	= ApplyDeadbandFloat(g_infc.angle_outer_error.pitch,0.001f);
+	g_infc.angle_outer_error.pitch  	= ApplyDeadbandfloat(g_infc.angle_outer_error.pitch,0.001f);
 	
 	
 	
@@ -100,22 +101,24 @@ void GIMBLE_ENCONDE_Control(object_t target)
 	}
 	
 	s_angle_contorl_out.yaw         	= PID_GetPID(&g_infc.pid[YAW_ENCONDE_ANGLE],g_infc.angle_outer_error.yaw,deltaT);
-    s_angle_contorl_out.yaw         	= ConstrainFloat(s_angle_contorl_out.yaw,-66,66);
+    s_angle_contorl_out.yaw         	= Constrainfloat(s_angle_contorl_out.yaw,-66,66);
 	
 	s_angle_contorl_out.pitch         	= PID_GetPID(&g_infc.pid[PIT_ENCODNE_ANGLE],g_infc.angle_outer_error.pitch,deltaT);
-	s_angle_contorl_out.pitch         	= ConstrainFloat(s_angle_contorl_out.pitch,-6666,6666);
+	s_angle_contorl_out.pitch         	= Constrainfloat(s_angle_contorl_out.pitch,-6666,6666);
 	
 	
 	g_infc.speed_inner_error.yaw  	    =  s_angle_contorl_out.yaw -g_data_6623.speed[YAW];
 
 	//死区控制
-    g_infc.speed_inner_error.yaw  	    = ApplyDeadbandFloat( g_infc.speed_inner_error.yaw,0.5);
+    g_infc.speed_inner_error.yaw  	    = ApplyDeadbandfloat( g_infc.speed_inner_error.yaw,0.5);
 	//PID算法，计算出速度环的控制量
     s_speed_contorl_out.yaw         	= PID_GetPID(&g_infc.pid[YAW_ENCONDE_SPEED],g_infc.speed_inner_error.yaw,1);
 	//输出限幅
-    s_speed_contorl_out.yaw         	= ConstrainFloat(s_speed_contorl_out.yaw,-22222,22222);
+    s_speed_contorl_out.yaw         	= Constrainfloat(s_speed_contorl_out.yaw,-22222,22222);
 	
     Cmd_6623_ESC(s_speed_contorl_out.yaw,-s_angle_contorl_out.pitch);
+	
+	//Cmd_6623_ESC(0,0);
 }
 
 void GIMBLE_GYRO_Control(object_t target)
@@ -135,15 +138,17 @@ void GIMBLE_GYRO_Control(object_t target)
 	
 	g_infc.angle_outer_error.pitch      = g_infc.angle_outer_target.pitch - g_data_6623.angle[PITCH];
 	
-    g_infc.angle_outer_error.yaw  	    = ApplyDeadbandFloat(g_infc.angle_outer_error.yaw,0.1f);
-	g_infc.angle_outer_error.pitch  	= ApplyDeadbandFloat(g_infc.angle_outer_error.pitch,0);
+    g_infc.angle_outer_error.yaw  	    = ApplyDeadbandfloat(g_infc.angle_outer_error.yaw,0.1f);
+	g_infc.angle_outer_error.pitch  	= ApplyDeadbandfloat(g_infc.angle_outer_error.pitch,0);
 	
 	
 	s_angle_contorl_out.yaw         	= PID_GetPID(&g_infc.pid[YAW_GYRO_ANGLE],g_infc.angle_outer_error.yaw,deltaT);
 	s_angle_contorl_out.pitch         	= PID_GetPID(&g_infc.pid[PIT_GYRO_ANGLE],g_infc.angle_outer_error.pitch,deltaT);
 	
-    s_angle_contorl_out.yaw         	= ConstrainFloat(s_angle_contorl_out.yaw,-50,50);
-	s_angle_contorl_out.pitch         	= ConstrainFloat(s_angle_contorl_out.pitch,-50,50);
+
+	
+    s_angle_contorl_out.yaw         	= Constrainfloat(s_angle_contorl_out.yaw,-50,50);
+	s_angle_contorl_out.pitch         	= Constrainfloat(s_angle_contorl_out.pitch,-50,50);
 	
 	
 	
@@ -151,19 +156,18 @@ void GIMBLE_GYRO_Control(object_t target)
 	g_infc.speed_inner_error.pitch  	= s_angle_contorl_out.pitch  - g_imu_data.pit_speed;
 	
 	//死区控制
-    g_infc.speed_inner_error.yaw  	    = ApplyDeadbandFloat( g_infc.speed_inner_error.yaw,0);
-	g_infc.speed_inner_error.pitch  	= ApplyDeadbandFloat( g_infc.speed_inner_error.pitch,0);
+    g_infc.speed_inner_error.yaw  	    = ApplyDeadbandfloat( g_infc.speed_inner_error.yaw,0);
+	g_infc.speed_inner_error.pitch  	= ApplyDeadbandfloat( g_infc.speed_inner_error.pitch,0);
 	
 	//PID算法，计算出速度环的控制量
     s_speed_contorl_out.yaw         	= PID_GetPID(&g_infc.pid[YAW_GYRO_SPEED],g_infc.speed_inner_error.yaw,1);
 	s_speed_contorl_out.pitch         	= PID_GetPID(&g_infc.pid[PIT_GYRO_SPEED],g_infc.speed_inner_error.pitch,1);
 	//输出限幅
-    s_speed_contorl_out.yaw         	= ConstrainFloat(s_speed_contorl_out.yaw,-22222,22222);
-	s_speed_contorl_out.pitch         	= ConstrainFloat(s_speed_contorl_out.pitch,-6666,6666);
+    s_speed_contorl_out.yaw         	= Constrainfloat(s_speed_contorl_out.yaw,-22222,22222);
+	s_speed_contorl_out.pitch         	= Constrainfloat(s_speed_contorl_out.pitch,-6666,6666);
 	
     Cmd_6623_ESC(s_speed_contorl_out.yaw,-s_speed_contorl_out.pitch);
-	
-	// Cmd_6623_ESC(0,0);
+	//Cmd_6623_ESC(0,0);
 	
 }
 
@@ -188,10 +192,10 @@ void Speed_3510_Control(object_t target)
 	g_infc.speed_inner_error.ra     = g_infc.speed_inner_target.ra      - g_data_3510.speed[RA];
 	
 	//死区控制
-	g_infc.speed_inner_error.lf     = ApplyDeadbandFloat( g_infc.speed_inner_error.lf,5);
-	g_infc.speed_inner_error.la     = ApplyDeadbandFloat( g_infc.speed_inner_error.la,5);
-	g_infc.speed_inner_error.rf     = ApplyDeadbandFloat( g_infc.speed_inner_error.rf,5);
-	g_infc.speed_inner_error.ra     = ApplyDeadbandFloat( g_infc.speed_inner_error.ra,5);
+	g_infc.speed_inner_error.lf     = ApplyDeadbandfloat( g_infc.speed_inner_error.lf,5);
+	g_infc.speed_inner_error.la     = ApplyDeadbandfloat( g_infc.speed_inner_error.la,5);
+	g_infc.speed_inner_error.rf     = ApplyDeadbandfloat( g_infc.speed_inner_error.rf,5);
+	g_infc.speed_inner_error.ra     = ApplyDeadbandfloat( g_infc.speed_inner_error.ra,5);
 	
 	//PID算法，计算出速度环的控制量
 	s_speed_contorl_out.lf          = PID_GetPID(&g_infc.pid[LF_SPEED],g_infc.speed_inner_error.lf,deltaT);
@@ -200,14 +204,14 @@ void Speed_3510_Control(object_t target)
 	s_speed_contorl_out.ra          = PID_GetPID(&g_infc.pid[RA_SPEED],g_infc.speed_inner_error.ra,deltaT);
 	
 	//输出限幅
-	s_speed_contorl_out.lf          = ConstrainFloat(s_speed_contorl_out.lf,-6666,6666);
-	s_speed_contorl_out.la          = ConstrainFloat(s_speed_contorl_out.la,-6666,6666);
-	s_speed_contorl_out.rf          = ConstrainFloat(s_speed_contorl_out.rf,-6666,6666);
-	s_speed_contorl_out.ra          = ConstrainFloat(s_speed_contorl_out.ra,-6666,6666);
+	s_speed_contorl_out.lf          = Constrainfloat(s_speed_contorl_out.lf,-5000,5000);
+	s_speed_contorl_out.la          = Constrainfloat(s_speed_contorl_out.la,-5000,5000);
+	s_speed_contorl_out.rf          = Constrainfloat(s_speed_contorl_out.rf,-5000,5000);
+	s_speed_contorl_out.ra          = Constrainfloat(s_speed_contorl_out.ra,-5000,5000);
 	
 	//can发送控制量
 	Cmd_3510_ESC(s_speed_contorl_out.lf,s_speed_contorl_out.la,s_speed_contorl_out.rf,s_speed_contorl_out.ra);
-	
+	//Cmd_3510_ESC(0,0,0,0);
 }
 
 void Speed_2006_Control(object_t target)
@@ -224,13 +228,13 @@ void Speed_2006_Control(object_t target)
     g_infc.speed_inner_error.shoot  	= g_infc.speed_inner_target.shoot - g_data_2006.speed;
 	
 	//死区控制
-    g_infc.speed_inner_error.shoot  	= ApplyDeadbandFloat( g_infc.speed_inner_error.shoot,10);
+    g_infc.speed_inner_error.shoot  	= ApplyDeadbandfloat( g_infc.speed_inner_error.shoot,10);
 	
 	//PID算法，计算出速度环的控制量
     s_speed_contorl_out.shoot         	= PID_GetPID(&g_infc.pid[SHOOT_SPEED],g_infc.speed_inner_error.shoot,deltaT);
 	
 	//输出限幅
-    s_speed_contorl_out.shoot         	= ConstrainFloat(s_speed_contorl_out.shoot,-6666,6666);
+    s_speed_contorl_out.shoot         	= Constrainfloat(s_speed_contorl_out.shoot,-6666,6666);
 	
 	//can发送控制量
 	Cmd_2006_ESC(s_speed_contorl_out.shoot);
@@ -239,10 +243,10 @@ void Speed_2006_Control(object_t target)
 
 void Angle_2006_Control(object_t target)
 {
-	//函数运算间隔计算
-    static uint64_t previousT;
-    float deltaT = (Get_SysTimeUs() - previousT) * 1e-6;
-    previousT = Get_SysTimeUs();
+//	//函数运算间隔计算
+//    static uint64_t previousT;
+//    float deltaT = (Get_SysTimeUs() - previousT) * 1e-6;
+//    previousT = Get_SysTimeUs();
 	//角度环目标赋值
 	g_infc.angle_outer_target.shoot		= target.shoot;
 	
@@ -250,61 +254,33 @@ void Angle_2006_Control(object_t target)
 	g_infc.angle_outer_error.shoot  	= g_infc.angle_outer_target.shoot-g_data_2006.angle;
 	
 	//死区控制
-    g_infc.angle_outer_error.shoot  	= ApplyDeadbandFloat(g_infc.angle_outer_error.shoot,0.1);
+    g_infc.angle_outer_error.shoot  	= ApplyDeadbandfloat(g_infc.angle_outer_error.shoot,0.1);
 	
 	//PID算法，计算出角度环的控制量
-    s_angle_contorl_out.shoot         	= PID_GetPID(&g_infc.pid[SHOOT_ANGLE],g_infc.angle_outer_error.shoot,deltaT);
+    s_angle_contorl_out.shoot         	= PID_GetPID(&g_infc.pid[SHOOT_ANGLE],g_infc.angle_outer_error.shoot,1);
 	
 	//输出限幅
-    s_angle_contorl_out.shoot         	= ConstrainFloat(s_angle_contorl_out.shoot,-6666,6666);
+    s_angle_contorl_out.shoot         	= Constrainfloat(s_angle_contorl_out.shoot,-6666,6666);
 	
 	//将角度外环控制量作为速度内环的控制目标
 	Speed_2006_Control(s_angle_contorl_out);
 }
 /*
-*Y W
+*x W
 *|<-
 *| <-
-*|__________x
+*|__________y
 */
 void Speed_Chassis_Control(float vx,float vy,float wz)    //底盘速度控制
 {
-	g_speed_target.rf=-(vy-vx+wz*(CHASSIS_L+CHASSIS_W));
-	g_speed_target.lf=  vy+vx-wz*(CHASSIS_L+CHASSIS_W);
-	g_speed_target.la=  vy-vx-wz*(CHASSIS_L+CHASSIS_W);
-	g_speed_target.ra=-(vy+vx+wz*(CHASSIS_L+CHASSIS_W));
+	g_speed_target.rf=-(vx+vy+wz*(CHASSIS_L+CHASSIS_W));
+	g_speed_target.lf=  vx-vy-wz*(CHASSIS_L+CHASSIS_W);
+	g_speed_target.la=  vx+vy-wz*(CHASSIS_L+CHASSIS_W);
+	g_speed_target.ra=-(vx-vy+wz*(CHASSIS_L+CHASSIS_W));
 	Speed_3510_Control(g_speed_target);
 }
 
-void Speed_Rotate_Control(object_t target)       //自旋speed
-{
-	static uint64_t previousT;
-    float deltaT = (Get_SysTimeUs() - previousT) * 1e-6;
-    previousT = Get_SysTimeUs();
-	
-	//速度环目标赋值
-	g_infc.speed_inner_target.ch_rotate=target.ch_rotate;
-	
-	//计算速度环控制误差
-    g_infc.speed_inner_error.ch_rotate  	= g_infc.speed_inner_target.ch_rotate-g_imu_data.yaw_speed;
-	
-	//死区控制
-    g_infc.speed_inner_error.ch_rotate  	= ApplyDeadbandFloat( g_infc.speed_inner_error.ch_rotate,0);
-	
-	//PID算法，计算出速度环的控制量
-    s_speed_contorl_out.ch_rotate         	= PID_GetPID(&g_infc.pid[CH_ROTATE_SPEED],g_infc.speed_inner_error.ch_rotate,deltaT);
-	
-	//输出限幅
-    s_speed_contorl_out.ch_rotate         	= ConstrainFloat(s_speed_contorl_out.ch_rotate,-150,150);
-	
-	Speed_Chassis_Control(0,0,s_speed_contorl_out.ch_rotate);
-	
-}
-
-
-
-
-void Angle_Rotate_Control(object_t target)         //
+float Angle_Rotate_Control(object_t target)         //
 {
     static uint64_t previousT;
     float deltaT = (Get_SysTimeUs() - previousT) * 1e-6;
@@ -316,20 +292,14 @@ void Angle_Rotate_Control(object_t target)         //
 	g_infc.angle_outer_error.ch_rotate  	= g_infc.angle_outer_target.ch_rotate-g_data_6623.angle[YAW];
 	
 	//死区控制
-    g_infc.angle_outer_error.ch_rotate  	= ApplyDeadbandFloat(g_infc.angle_outer_error.ch_rotate,1.2);
-	
-	if(!g_infc.angle_outer_error.ch_rotate)
-	{
-		chassis_move.chassis_follow_flag=0;
-	}
+    g_infc.angle_outer_error.ch_rotate  	= ApplyDeadbandfloat(g_infc.angle_outer_error.ch_rotate,1.0f);
 	
 	//PID算法，计算出角度环的控制量
     s_angle_contorl_out.ch_rotate         	= PID_GetPID(&g_infc.pid[CH_ROTATE_ANGLE],g_infc.angle_outer_error.ch_rotate,deltaT);
 	
 	//输出限幅
-    s_angle_contorl_out.ch_rotate         	= ConstrainFloat(s_angle_contorl_out.ch_rotate,-120,120);
+    s_angle_contorl_out.ch_rotate         	= Constrainfloat(s_angle_contorl_out.ch_rotate,-110,110);
 	
-	//将角度外环控制量作为速度内环的控制目标
-	//Speed_Rotate_Control(s_angle_contorl_out);
-	Speed_Chassis_Control(0,0,-s_angle_contorl_out.ch_rotate);
+	
+	return s_angle_contorl_out.ch_rotate;
 }

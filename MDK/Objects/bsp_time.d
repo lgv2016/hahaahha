@@ -1,11 +1,15 @@
 .\objects\bsp_time.o: ..\BSP\bsp_time.c
 .\objects\bsp_time.o: ..\BSP\bsp_time.h
 .\objects\bsp_time.o: ..\CORE\stm32f4xx.h
+.\objects\bsp_time.o: ..\DSP\Include\arm_math.h
 .\objects\bsp_time.o: ..\CORE\core_cm4.h
 .\objects\bsp_time.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\bsp_time.o: ..\CORE\core_cmInstr.h
 .\objects\bsp_time.o: ..\CORE\core_cmFunc.h
 .\objects\bsp_time.o: ..\CORE\core_cm4_simd.h
+.\objects\bsp_time.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\bsp_time.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\bsp_time.o: ..\CORE\core_cm4.h
 .\objects\bsp_time.o: ..\CORE\system_stm32f4xx.h
 .\objects\bsp_time.o: ..\CORE\stm32f4xx_conf.h
 .\objects\bsp_time.o: ..\FWLIB\inc\stm32f4xx_adc.h

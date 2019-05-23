@@ -1,11 +1,15 @@
 .\objects\drive_usart.o: ..\DRIVE\drive_usart.c
 .\objects\drive_usart.o: ..\DRIVE\drive_usart.h
 .\objects\drive_usart.o: ..\CORE\stm32f4xx.h
+.\objects\drive_usart.o: ..\DSP\Include\arm_math.h
 .\objects\drive_usart.o: ..\CORE\core_cm4.h
 .\objects\drive_usart.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\drive_usart.o: ..\CORE\core_cmInstr.h
 .\objects\drive_usart.o: ..\CORE\core_cmFunc.h
 .\objects\drive_usart.o: ..\CORE\core_cm4_simd.h
+.\objects\drive_usart.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\drive_usart.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\drive_usart.o: ..\CORE\core_cm4.h
 .\objects\drive_usart.o: ..\CORE\system_stm32f4xx.h
 .\objects\drive_usart.o: ..\CORE\stm32f4xx_conf.h
 .\objects\drive_usart.o: ..\FWLIB\inc\stm32f4xx_adc.h
@@ -40,7 +44,6 @@
 .\objects\drive_usart.o: ..\MATH\math_tool.h
 .\objects\drive_usart.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\drive_usart.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
-.\objects\drive_usart.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\drive_usart.o: ..\BSP\bsp_dma.h
 .\objects\drive_usart.o: ..\DRIVE\drive_control.h
 .\objects\drive_usart.o: ..\MATH\math_pid.h

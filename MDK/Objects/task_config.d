@@ -1,10 +1,14 @@
 .\objects\task_config.o: ..\TASK\task_config.c
 .\objects\task_config.o: ..\CORE\stm32f4xx.h
+.\objects\task_config.o: ..\DSP\Include\arm_math.h
 .\objects\task_config.o: ..\CORE\core_cm4.h
 .\objects\task_config.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\task_config.o: ..\CORE\core_cmInstr.h
 .\objects\task_config.o: ..\CORE\core_cmFunc.h
 .\objects\task_config.o: ..\CORE\core_cm4_simd.h
+.\objects\task_config.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\task_config.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\task_config.o: ..\CORE\core_cm4.h
 .\objects\task_config.o: ..\CORE\system_stm32f4xx.h
 .\objects\task_config.o: ..\CORE\stm32f4xx_conf.h
 .\objects\task_config.o: ..\FWLIB\inc\stm32f4xx_adc.h
@@ -43,7 +47,6 @@
 .\objects\task_config.o: ..\MATH\math_pid.h
 .\objects\task_config.o: ..\MATH\math_tool.h
 .\objects\task_config.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-.\objects\task_config.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\task_config.o: ..\DRIVE\drive_delay.h
 .\objects\task_config.o: ..\TASK\task_config.h
 .\objects\task_config.o: ..\freeRTOS\include\FreeRTOS.h

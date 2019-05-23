@@ -1156,24 +1156,24 @@ typedef struct
 
 #if (__FPU_PRESENT == 1)
 /** \ingroup  CMSIS_core_register
-    \defgroup CMSIS_FPU     Floating Point Unit (FPU)
-    \brief      Type definitions for the Floating Point Unit (FPU)
+    \defgroup CMSIS_FPU     floating Point Unit (FPU)
+    \brief      Type definitions for the floating Point Unit (FPU)
   @{
  */
 
-/** \brief  Structure type to access the Floating Point Unit (FPU).
+/** \brief  Structure type to access the floating Point Unit (FPU).
  */
 typedef struct
 {
        uint32_t RESERVED0[1];
-  __IO uint32_t FPCCR;                   /*!< Offset: 0x004 (R/W)  Floating-Point Context Control Register               */
-  __IO uint32_t FPCAR;                   /*!< Offset: 0x008 (R/W)  Floating-Point Context Address Register               */
-  __IO uint32_t FPDSCR;                  /*!< Offset: 0x00C (R/W)  Floating-Point Default Status Control Register        */
+  __IO uint32_t FPCCR;                   /*!< Offset: 0x004 (R/W)  floating-Point Context Control Register               */
+  __IO uint32_t FPCAR;                   /*!< Offset: 0x008 (R/W)  floating-Point Context Address Register               */
+  __IO uint32_t FPDSCR;                  /*!< Offset: 0x00C (R/W)  floating-Point Default Status Control Register        */
   __I  uint32_t MVFR0;                   /*!< Offset: 0x010 (R/ )  Media and FP Feature Register 0                       */
   __I  uint32_t MVFR1;                   /*!< Offset: 0x014 (R/ )  Media and FP Feature Register 1                       */
 } FPU_Type;
 
-/* Floating-Point Context Control Register */
+/* floating-Point Context Control Register */
 #define FPU_FPCCR_ASPEN_Pos                31                                             /*!< FPCCR: ASPEN bit Position */
 #define FPU_FPCCR_ASPEN_Msk                (1UL << FPU_FPCCR_ASPEN_Pos)                   /*!< FPCCR: ASPEN bit Mask */
 
@@ -1201,11 +1201,11 @@ typedef struct
 #define FPU_FPCCR_LSPACT_Pos                0                                             /*!< FPCCR: Lazy state preservation active bit Position */
 #define FPU_FPCCR_LSPACT_Msk               (1UL << FPU_FPCCR_LSPACT_Pos)                  /*!< FPCCR: Lazy state preservation active bit Mask */
 
-/* Floating-Point Context Address Register */
+/* floating-Point Context Address Register */
 #define FPU_FPCAR_ADDRESS_Pos               3                                             /*!< FPCAR: ADDRESS bit Position */
 #define FPU_FPCAR_ADDRESS_Msk              (0x1FFFFFFFUL << FPU_FPCAR_ADDRESS_Pos)        /*!< FPCAR: ADDRESS bit Mask */
 
-/* Floating-Point Default Status Control Register */
+/* floating-Point Default Status Control Register */
 #define FPU_FPDSCR_AHP_Pos                 26                                             /*!< FPDSCR: AHP bit Position */
 #define FPU_FPDSCR_AHP_Msk                 (1UL << FPU_FPDSCR_AHP_Pos)                    /*!< FPDSCR: AHP bit Mask */
 
@@ -1394,8 +1394,8 @@ typedef struct
 #endif
 
 #if (__FPU_PRESENT == 1)
-  #define FPU_BASE          (SCS_BASE +  0x0F30UL)                    /*!< Floating Point Unit                */
-  #define FPU               ((FPU_Type       *)     FPU_BASE      )   /*!< Floating Point Unit                */
+  #define FPU_BASE          (SCS_BASE +  0x0F30UL)                    /*!< floating Point Unit                */
+  #define FPU               ((FPU_Type       *)     FPU_BASE      )   /*!< floating Point Unit                */
 #endif
 
 /*@} */

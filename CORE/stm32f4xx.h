@@ -53,6 +53,8 @@
 #ifndef __STM32F4xx_H
 #define __STM32F4xx_H
 
+#include "arm_math.h"
+
 #ifdef __cplusplus
  extern "C" {
 #endif /* __cplusplus */
@@ -164,6 +166,9 @@
 #define __NVIC_PRIO_BITS          4       /*!< STM32F4XX uses 4 Bits for the Priority Levels */
 #define __Vendor_SysTickConfig    0       /*!< Set to 1 if different SysTick Config is used  */
 #define __FPU_PRESENT             1       /*!< FPU present                                   */
+
+
+
 
 /**
  * @brief STM32F4XX Interrupt Number Definition, according to the selected device 

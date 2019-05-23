@@ -1,11 +1,15 @@
 .\objects\stm32f4xx_it.o: ..\USER\stm32f4xx_it.c
 .\objects\stm32f4xx_it.o: ..\USER\stm32f4xx_it.h
 .\objects\stm32f4xx_it.o: ..\CORE\stm32f4xx.h
+.\objects\stm32f4xx_it.o: ..\DSP\Include\arm_math.h
 .\objects\stm32f4xx_it.o: ..\CORE\core_cm4.h
 .\objects\stm32f4xx_it.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\stm32f4xx_it.o: ..\CORE\core_cmInstr.h
 .\objects\stm32f4xx_it.o: ..\CORE\core_cmFunc.h
 .\objects\stm32f4xx_it.o: ..\CORE\core_cm4_simd.h
+.\objects\stm32f4xx_it.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\stm32f4xx_it.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\stm32f4xx_it.o: ..\CORE\core_cm4.h
 .\objects\stm32f4xx_it.o: ..\CORE\system_stm32f4xx.h
 .\objects\stm32f4xx_it.o: ..\CORE\stm32f4xx_conf.h
 .\objects\stm32f4xx_it.o: ..\FWLIB\inc\stm32f4xx_adc.h
@@ -54,7 +58,6 @@
 .\objects\stm32f4xx_it.o: ..\MATH\math_tool.h
 .\objects\stm32f4xx_it.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\stm32f4xx_it.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
-.\objects\stm32f4xx_it.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\stm32f4xx_it.o: ..\DRIVE\drive_gimble.h
 .\objects\stm32f4xx_it.o: ..\DRIVE\drive_shoot.h
 .\objects\stm32f4xx_it.o: ..\MOTOR\motor_chassis.h

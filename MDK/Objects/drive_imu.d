@@ -1,11 +1,15 @@
 .\objects\drive_imu.o: ..\DRIVE\drive_imu.c
 .\objects\drive_imu.o: ..\DRIVE\drive_imu.h
 .\objects\drive_imu.o: ..\CORE\stm32f4xx.h
+.\objects\drive_imu.o: ..\DSP\Include\arm_math.h
 .\objects\drive_imu.o: ..\CORE\core_cm4.h
 .\objects\drive_imu.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\drive_imu.o: ..\CORE\core_cmInstr.h
 .\objects\drive_imu.o: ..\CORE\core_cmFunc.h
 .\objects\drive_imu.o: ..\CORE\core_cm4_simd.h
+.\objects\drive_imu.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\drive_imu.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\drive_imu.o: ..\CORE\core_cm4.h
 .\objects\drive_imu.o: ..\CORE\system_stm32f4xx.h
 .\objects\drive_imu.o: ..\CORE\stm32f4xx_conf.h
 .\objects\drive_imu.o: ..\FWLIB\inc\stm32f4xx_adc.h

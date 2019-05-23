@@ -5,7 +5,7 @@
 #include <stm32f4xx.h>
 #include <stdbool.h>
 
-#define SHOOT_CONTROL_CYCLE 1      //5ms
+#define SHOOT_CONTROL_CYCLE 5      //5ms
 
 typedef struct
 {

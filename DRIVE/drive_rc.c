@@ -52,31 +52,29 @@ void RC_Data_Parse()
 	  g_rc_control.key.k[Q]       =   (g_rc_control.key.v&(0X0001<<6))>>6;
 	  g_rc_control.key.k[E]       =   (g_rc_control.key.v&(0X0001<<7))>>7;
 	  
+	  g_rc_control.key.k[R]       =   (g_rc_control.key.v&(0X0001<<8))>>8;
+	  
+	  g_rc_control.key.k[F]       =   (g_rc_control.key.v&(0X0001<<9))>>9;
+	  g_rc_control.key.k[G]       =   (g_rc_control.key.v&(0X0001<<10))>>10;
+	  
+	  g_rc_control.key.k[Z]       =   (g_rc_control.key.v&(0X0001<<11))>>11;
+	  
+	  g_rc_control.key.k[X]       =   (g_rc_control.key.v&(0X0001<<12))>>12;
+	  
+	  g_rc_control.key.k[C]       =   (g_rc_control.key.v&(0X0001<<13))>>13;
+	  g_rc_control.key.k[V]       =   (g_rc_control.key.v&(0X0001<<14))>>14;
+	  
+	  g_rc_control.key.k[B]       =   (g_rc_control.key.v&(0X0001<<15))>>15;
+	  
+	  
+	  
+	  
 	  if(robot_status.gimbal_mode==GIMBLE_PC)
 	  {
 		  g_rc_control.mouse.x_distance+=-g_rc_control.mouse.x*deltaT*YAW_SENSITIVITY;
 		  g_rc_control.mouse.y_distance+=-g_rc_control.mouse.y*deltaT*PIT_SENSITIVITY;
 	  }
 }
-
-void CH_Speed_Control(u16 xspeedmax,u16 yspeedmax)
-{
-	float xspeed,yspeed;
-	
-	xspeed=(xspeedmax/(660))*(g_rc_control.rc.ch2-1024);
-	
-	yspeed=(yspeedmax/(660))*(g_rc_control.rc.ch3-1024);
-	
-	
-	xspeed= ApplyDeadbandFloat(xspeed,100);
-	yspeed= ApplyDeadbandFloat(yspeed,100);
-	
-	xspeed=ConstrainFloat(xspeed,-xspeedmax,xspeedmax);
-	yspeed=ConstrainFloat(yspeed,-yspeedmax,yspeedmax);
-	
-	Speed_Chassis_Control(xspeed,yspeed,0);
-}
-
 
 
 

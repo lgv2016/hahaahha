@@ -1,11 +1,15 @@
 .\objects\misc.o: ..\FWLIB\src\misc.c
 .\objects\misc.o: ..\FWLIB\inc\misc.h
 .\objects\misc.o: ..\CORE\stm32f4xx.h
+.\objects\misc.o: ..\DSP\Include\arm_math.h
 .\objects\misc.o: ..\CORE\core_cm4.h
 .\objects\misc.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\misc.o: ..\CORE\core_cmInstr.h
 .\objects\misc.o: ..\CORE\core_cmFunc.h
 .\objects\misc.o: ..\CORE\core_cm4_simd.h
+.\objects\misc.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\misc.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\misc.o: ..\CORE\core_cm4.h
 .\objects\misc.o: ..\CORE\system_stm32f4xx.h
 .\objects\misc.o: ..\CORE\stm32f4xx_conf.h
 .\objects\misc.o: ..\FWLIB\inc\stm32f4xx_adc.h

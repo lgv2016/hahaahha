@@ -12,9 +12,9 @@
 #define GYRO_MAG_SQR_SHIFT 6
 #define NUM_ROTATION_MATRIX_ELEMENTS (9)
 #define ROT_MATRIX_SCALE_LONG  (1073741824L)
-#define ROT_MATRIX_SCALE_FLOAT (1073741824.0f)
-#define ROT_MATRIX_LONG_TO_FLOAT( longval ) \
-    ((float) ((longval) / ROT_MATRIX_SCALE_FLOAT ))
+#define ROT_MATRIX_SCALE_float (1073741824.0f)
+#define ROT_MATRIX_LONG_TO_float( longval ) \
+    ((float) ((longval) / ROT_MATRIX_SCALE_float ))
 #define SIGNM(k)((int)(k)&1?-1:1)
 #define SIGNSET(x) ((x) ? -1 : +1)
 

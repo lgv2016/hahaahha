@@ -10,7 +10,6 @@
 #include <drive_gimble.h>
 #include <drive_shoot.h>
 
-
 control_cycle_t s_control_cycle;
 void vTaskControl(void *pvParameters)
 {
@@ -20,12 +19,13 @@ void vTaskControl(void *pvParameters)
 	SHOOT_Init();
 
 	
-	vTaskDelay(1000);
+	vTaskDelay(2000);
     while(1)
     {	
 		s_control_cycle.shoot_cycle++;
 		s_control_cycle.gimble_cycle++;
 		s_control_cycle.chassis_cycyle++;
+		
 		
 		if(s_control_cycle.shoot_cycle==SHOOT_CONTROL_CYCLE)
 		{
@@ -40,12 +40,11 @@ void vTaskControl(void *pvParameters)
 			s_control_cycle.gimble_cycle=0;
 		}
 		
-		if(s_control_cycle.chassis_cycyle==SHOOT_CONTROL_CYCLE)
+		if(s_control_cycle.chassis_cycyle==CHASSIS_CONTROL_CYCLE)
 		{
 			CHASSIS_Loop_Control();
 			s_control_cycle.chassis_cycyle=0;
 		}
-
 
 		vTaskDelay(1);
 	}

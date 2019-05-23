@@ -1,11 +1,15 @@
 .\objects\motor_cradle_head.o: ..\MOTOR\motor_cradle_head.c
 .\objects\motor_cradle_head.o: ..\MOTOR\motor_cradle_head.h
 .\objects\motor_cradle_head.o: ..\CORE\stm32f4xx.h
+.\objects\motor_cradle_head.o: ..\DSP\Include\arm_math.h
 .\objects\motor_cradle_head.o: ..\CORE\core_cm4.h
 .\objects\motor_cradle_head.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\motor_cradle_head.o: ..\CORE\core_cmInstr.h
 .\objects\motor_cradle_head.o: ..\CORE\core_cmFunc.h
 .\objects\motor_cradle_head.o: ..\CORE\core_cm4_simd.h
+.\objects\motor_cradle_head.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\motor_cradle_head.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\motor_cradle_head.o: ..\CORE\core_cm4.h
 .\objects\motor_cradle_head.o: ..\CORE\system_stm32f4xx.h
 .\objects\motor_cradle_head.o: ..\CORE\stm32f4xx_conf.h
 .\objects\motor_cradle_head.o: ..\FWLIB\inc\stm32f4xx_adc.h
@@ -40,7 +44,6 @@
 .\objects\motor_cradle_head.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\motor_cradle_head.o: ..\MATH\math_tool.h
 .\objects\motor_cradle_head.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-.\objects\motor_cradle_head.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\motor_cradle_head.o: ..\DRIVE\drive_delay.h
 .\objects\motor_cradle_head.o: ..\freeRTOS\include\FreeRTOS.h
 .\objects\motor_cradle_head.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h

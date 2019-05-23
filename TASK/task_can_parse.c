@@ -16,6 +16,7 @@ void vTaskCANParse(void *pvParameters)
 		Get_6623_data(s_rx_message);
         Get_2006_data(s_rx_message);
         Get_3510_data(s_rx_message);
+		Get_CHASSIS_data(s_rx_message);
 	}
 }
 

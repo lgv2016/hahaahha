@@ -15,10 +15,11 @@ typedef struct
 {
     
     float    angle[NUM_6623];
-	u16    last_angle[NUM_6623];
+	float   last_angle[NUM_6623];
 	
     u16      pre_angle[NUM_6623];
     int16_t    speed[NUM_6623];
+    float relative_angle[NUM_6623];
     
 }data_6623_t;
 

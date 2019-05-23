@@ -13,10 +13,14 @@
 .\objects\task_can_parse.o: ..\freeRTOS\include\task.h
 .\objects\task_can_parse.o: ..\freeRTOS\include\list.h
 .\objects\task_can_parse.o: ..\CORE\stm32f4xx.h
+.\objects\task_can_parse.o: ..\DSP\Include\arm_math.h
 .\objects\task_can_parse.o: ..\CORE\core_cm4.h
 .\objects\task_can_parse.o: ..\CORE\core_cmInstr.h
 .\objects\task_can_parse.o: ..\CORE\core_cmFunc.h
 .\objects\task_can_parse.o: ..\CORE\core_cm4_simd.h
+.\objects\task_can_parse.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\task_can_parse.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\task_can_parse.o: ..\CORE\core_cm4.h
 .\objects\task_can_parse.o: ..\CORE\system_stm32f4xx.h
 .\objects\task_can_parse.o: ..\CORE\stm32f4xx_conf.h
 .\objects\task_can_parse.o: ..\FWLIB\inc\stm32f4xx_adc.h
@@ -55,3 +59,5 @@
 .\objects\task_can_parse.o: ..\DRIVE\drive_shoot.h
 .\objects\task_can_parse.o: ..\DRIVE\drive_gimble.h
 .\objects\task_can_parse.o: ..\DRIVE\drive_chassis.h
+.\objects\task_can_parse.o: ..\MATH\math_tool.h
+.\objects\task_can_parse.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h

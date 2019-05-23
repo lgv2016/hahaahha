@@ -10,6 +10,10 @@
 static Gimbal_Motor_t Gimbal_Motor_yaw;
 static Gimbal_Motor_t Gimbal_Motor_pit;
 
+#ifdef RED1
+
+#define YAW_INIT_ANGLE 180.0f
+#define PIT_INIT_ANGLE 51.0f
 
 #define PIT_RC_LIMIT_ANGLE  15
 #define YAW_RC_LIMIT_ANGLE  90
@@ -27,6 +31,33 @@ static Gimbal_Motor_t Gimbal_Motor_pit;
 #define PIT_PC_LIMIT_ANGLE  15
 #define PIT_PC_LIMIT_ANGLE_DOWN  15
 #define PIT_PC_LIMIT_ANGLE_UP    60
+
+#endif
+
+
+#ifdef RED2
+
+
+#define YAW_INIT_ANGLE 180.0f
+#define PIT_INIT_ANGLE 124.0f
+
+
+#define PIT_RC_LIMIT_ANGLE  15
+#define YAW_RC_LIMIT_ANGLE  90
+
+#define PIT_RC_LIMIT_ANGLE_DOWN  15
+#define PIT_RC_LIMIT_ANGLE_UP  60
+
+
+#define YAW_PC_LIMIT_ANGLE  90000    //最大圈数正负250圈
+
+#define PIT_PC_LIMIT_ANGLE  15
+#define PIT_PC_LIMIT_ANGLE_DOWN  15
+#define PIT_PC_LIMIT_ANGLE_UP    60
+
+
+#endif
+
 
 
 
@@ -122,7 +153,7 @@ static void GIMBLE_Set_Mode()
 static void GIMBLE_Init_Control()
 {
 	g_angle_target.yaw   = YAW_INIT_ANGLE;
-	g_angle_target.pitch = PIT_INIT_ANGLE-11;
+	g_angle_target.pitch = PIT_INIT_ANGLE-13.0f;
 	
 	GIMBLE_ENCONDE_Control(g_angle_target);
 }
@@ -161,7 +192,7 @@ static void GIMBLE_Data_Update()
 static void GIMBLE_RC_Control()
 {
 	//遥控角度计算
-	Gimbal_Motor_yaw.rc_control_angle      = -(YAW_RC_LIMIT_ANGLE/(660.0f))*(g_rc_control.rc.ch0-1024);
+	Gimbal_Motor_yaw.rc_control_angle  = -(YAW_RC_LIMIT_ANGLE/(660.0f))*(g_rc_control.rc.ch0-1024);
 	Gimbal_Motor_pit.rc_control_angle  =  (PIT_RC_LIMIT_ANGLE/(660.0f))*(g_rc_control.rc.ch1-1024);
 	
 	//目标角度赋值
@@ -169,8 +200,8 @@ static void GIMBLE_RC_Control()
 	g_angle_target.pitch = Gimbal_Motor_pit.rc_control_angle+PIT_INIT_ANGLE;
 	
 	//角度环目标限幅赋值
-	g_angle_target.yaw   = ConstrainFloat(g_angle_target.yaw,  - YAW_RC_LIMIT_ANGLE+g_imu_data.count*360.0f,YAW_RC_LIMIT_ANGLE+g_imu_data.count*360.0f);
-	g_angle_target.pitch = ConstrainFloat(g_angle_target.pitch,- PIT_RC_LIMIT_ANGLE_DOWN+PIT_INIT_ANGLE,PIT_RC_LIMIT_ANGLE_UP+PIT_INIT_ANGLE);	 
+	g_angle_target.yaw   = Constrainfloat(g_angle_target.yaw,  - YAW_RC_LIMIT_ANGLE+g_imu_data.count*360.0f,YAW_RC_LIMIT_ANGLE+g_imu_data.count*360.0f);
+	g_angle_target.pitch = Constrainfloat(g_angle_target.pitch,- PIT_RC_LIMIT_ANGLE_DOWN+PIT_INIT_ANGLE,PIT_RC_LIMIT_ANGLE_UP+PIT_INIT_ANGLE);	 
 	
 	GIMBLE_GYRO_Control(g_angle_target);
 }
@@ -186,8 +217,8 @@ static void GIMBLE_PC_Control()
 {
 
 	//角度环目标限幅赋值
-	g_rc_control.mouse.x_distance   = ConstrainFloat(g_rc_control.mouse.x_distance,  - YAW_PC_LIMIT_ANGLE,YAW_PC_LIMIT_ANGLE);
-	g_rc_control.mouse.y_distance   = ConstrainFloat(g_rc_control.mouse.y_distance,  - PIT_PC_LIMIT_ANGLE_DOWN,PIT_PC_LIMIT_ANGLE_UP);	 
+	g_rc_control.mouse.x_distance   = Constrainfloat(g_rc_control.mouse.x_distance,  - YAW_PC_LIMIT_ANGLE,YAW_PC_LIMIT_ANGLE);
+	g_rc_control.mouse.y_distance   = Constrainfloat(g_rc_control.mouse.y_distance,  - PIT_PC_LIMIT_ANGLE_DOWN,PIT_PC_LIMIT_ANGLE_UP);	 
 	//遥控角度计算
 	
 	
@@ -209,8 +240,8 @@ static void GIMBLE_PC_Control()
 	g_angle_target.pitch = Gimbal_Motor_pit.pc_control_angle+PIT_INIT_ANGLE;
 	
 	//角度环目标限幅赋值
-	g_angle_target.yaw   = ConstrainFloat(g_angle_target.yaw,  - YAW_PC_LIMIT_ANGLE,YAW_PC_LIMIT_ANGLE);
-	g_angle_target.pitch = ConstrainFloat(g_angle_target.pitch,- PIT_PC_LIMIT_ANGLE_DOWN+PIT_INIT_ANGLE,PIT_PC_LIMIT_ANGLE_UP+PIT_INIT_ANGLE);	 
+	g_angle_target.yaw   = Constrainfloat(g_angle_target.yaw,  - YAW_PC_LIMIT_ANGLE,YAW_PC_LIMIT_ANGLE);
+	g_angle_target.pitch = Constrainfloat(g_angle_target.pitch,- PIT_PC_LIMIT_ANGLE_DOWN+PIT_INIT_ANGLE,PIT_PC_LIMIT_ANGLE_UP+PIT_INIT_ANGLE);	 
 	
 	GIMBLE_GYRO_Control(g_angle_target);
 	
@@ -246,8 +277,8 @@ static void GIMBLE_Auto_Control()
 	}
 	
 	//角度环目标限幅赋值
-	g_angle_target.yaw   = ConstrainFloat(g_angle_target.yaw,  - YAW_PC_LIMIT_ANGLE,YAW_PC_LIMIT_ANGLE);
-	g_angle_target.pitch = ConstrainFloat(g_angle_target.pitch,- PIT_PC_LIMIT_ANGLE_DOWN+PIT_INIT_ANGLE,PIT_PC_LIMIT_ANGLE_UP+PIT_INIT_ANGLE);	 
+	g_angle_target.yaw   = Constrainfloat(g_angle_target.yaw,  - YAW_PC_LIMIT_ANGLE,YAW_PC_LIMIT_ANGLE);
+	g_angle_target.pitch = Constrainfloat(g_angle_target.pitch,- PIT_PC_LIMIT_ANGLE_DOWN+PIT_INIT_ANGLE,PIT_PC_LIMIT_ANGLE_UP+PIT_INIT_ANGLE);	 
 	
 	GIMBLE_GYRO_Control(g_angle_target);
 }

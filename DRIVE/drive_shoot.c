@@ -247,7 +247,7 @@ static void Fric_Control(fric_motor_t *fric_motor)
 {
 	if(robot_status.fric_status==FRIC_ON_START)
 	{
-		fric_motor->out+=fric_motor->input*fric_motor->period*0.8f;
+		fric_motor->out+=fric_motor->input*fric_motor->period*0.8f*SHOOT_CONTROL_CYCLE;
 		
 		if(fric_motor->out>fric_motor->max)
 		{
@@ -257,7 +257,7 @@ static void Fric_Control(fric_motor_t *fric_motor)
 	
 	if(robot_status.fric_status==FRIC_OFF_START)
 	{
-		fric_motor->out-=fric_motor->input*fric_motor->period*0.7f;
+		fric_motor->out-=fric_motor->input*fric_motor->period*0.7f*SHOOT_CONTROL_CYCLE;
 		if(fric_motor->out<fric_motor->min)
 		{
 			fric_motor->out=fric_motor->min;
@@ -315,3 +315,4 @@ void Fric_Motor_Speed_Control()
 	TIM_SetCompare1(TIM5,(u16)s_fric_motor1.out);
 	TIM_SetCompare2(TIM5,(u16)s_fric_motor2.out);
 }
+

@@ -720,8 +720,8 @@ extern "C" {
 	#define configUSE_QUEUE_SETS 0
 #endif
 
-#ifndef portTASK_USES_FLOATING_POINT
-	#define portTASK_USES_FLOATING_POINT()
+#ifndef portTASK_USES_floatING_POINT
+	#define portTASK_USES_floatING_POINT()
 #endif
 
 #ifndef configUSE_TIME_SLICING

@@ -1,11 +1,15 @@
 .\objects\motor_chassis.o: ..\MOTOR\motor_chassis.c
 .\objects\motor_chassis.o: ..\MOTOR\motor_chassis.h
 .\objects\motor_chassis.o: ..\CORE\stm32f4xx.h
+.\objects\motor_chassis.o: ..\DSP\Include\arm_math.h
 .\objects\motor_chassis.o: ..\CORE\core_cm4.h
 .\objects\motor_chassis.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\motor_chassis.o: ..\CORE\core_cmInstr.h
 .\objects\motor_chassis.o: ..\CORE\core_cmFunc.h
 .\objects\motor_chassis.o: ..\CORE\core_cm4_simd.h
+.\objects\motor_chassis.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\motor_chassis.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\motor_chassis.o: ..\CORE\core_cm4.h
 .\objects\motor_chassis.o: ..\CORE\system_stm32f4xx.h
 .\objects\motor_chassis.o: ..\CORE\stm32f4xx_conf.h
 .\objects\motor_chassis.o: ..\FWLIB\inc\stm32f4xx_adc.h

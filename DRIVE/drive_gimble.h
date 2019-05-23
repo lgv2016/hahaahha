@@ -7,8 +7,7 @@
 
 #define GIMBLE_CONTROL_CYCLE 1
 
-#define YAW_INIT_ANGLE 180.0f
-#define PIT_INIT_ANGLE 51.0f
+
 
 
 typedef struct

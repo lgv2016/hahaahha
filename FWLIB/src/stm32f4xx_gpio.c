@@ -20,7 +20,7 @@
                
    (#) Configure the GPIO pin(s) using GPIO_Init()
        Four possible configuration are available for each pin:
-       (++) Input: Floating, Pull-up, Pull-down.
+       (++) Input: floating, Pull-up, Pull-down.
        (++) Output: Push-Pull (Pull-up, Pull-down or no Pull)
             Open Drain (Pull-up, Pull-down or no Pull). In output mode, the speed 
             is configurable: 2 MHz, 25 MHz, 50 MHz or 100 MHz.

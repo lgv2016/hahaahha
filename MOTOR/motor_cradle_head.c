@@ -8,6 +8,15 @@
 #include <robotstatus.h>
 #include <drive_control.h>
 
+
+#ifdef RED1
+#define YAW_OFFSET 180.0F-14.0f
+#endif
+
+#ifdef RED2
+#define YAW_OFFSET 180.0F-44.78f
+#endif
+
 static CanTxMsg s_tx_message;
 
 
@@ -80,10 +89,13 @@ void Get_6623_data(CanRxMsg rx_message)
 		
 			angle             =   (g_data_6623.pre_angle[YAW]*360.0f)/8191.0f;
 
-			angle=angle+166.0f;
+			angle=angle+YAW_OFFSET;
+		   
 			if(angle>360.0f)
 			angle=angle-360.0f;
 			g_data_6623.angle[YAW]=angle;
+			
+			
 			robot_status.motor_yaw=MOTOR_GIMBAL_ENCODE; 
 			break;
       }
@@ -93,7 +105,7 @@ void Get_6623_data(CanRxMsg rx_message)
 			g_data_6623.last_angle[PITCH]  =  g_data_6623.pre_angle[PITCH];
 			g_data_6623.pre_angle[PITCH]   =  rx_message.Data[0]<<8|rx_message.Data[1];
 		  
-		  if((abs( g_data_6623.last_angle[PITCH]- g_data_6623.pre_angle[PITCH])>500)&&g_data_6623.last_angle[PITCH])
+		  if((abs( g_data_6623.last_angle[PITCH]- g_data_6623.pre_angle[PITCH])>400)&&g_data_6623.last_angle[PITCH])
 		  {
 			   g_data_6623.pre_angle[PITCH]=g_data_6623.last_angle[PITCH];
 		  }
@@ -132,8 +144,9 @@ void Get_2006_data(CanRxMsg rx_message)
           angle2=(g_data_2006.total_angle*360.0f)/(8192.0f*36.0f);
           g_data_2006.angle=angle2;
          
-         if(!ApplyDeadbandFloat((abs(g_data_2006.angle)-360.0f),0.5f))
+         if(!ApplyDeadbandfloat((abs(g_data_2006.angle)-360.0f),0.5f))
              g_data_2006.count=0;
+		
           break;
       }
       default:
@@ -154,12 +167,6 @@ void Get_2006_Offset_angle(CanRxMsg rx_message)
         break;
     } 
 }
-
-
-
-
-
-
 
 
 

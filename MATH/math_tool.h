@@ -21,11 +21,18 @@
 
 #define HALF_SQRT_2          0.70710678118654757f	//根号2的值
 
+typedef __packed struct
+{
+    float input;        //输入数据
+    float out;          //滤波输出的数据
+    float num[1];       //滤波参数
+    float frame_period; //滤波的时间间隔 单位 s
+} first_order_filter_type_t;
 
-float ConstrainFloat(float amt, float low, float high);
+float Constrainfloat(float amt, float low, float high);
 
 int32_t ApplyDeadbandInt(int32_t value, int32_t deadband);
-float ApplyDeadbandFloat(float value, float deadband);
+float ApplyDeadbandfloat(float value, float deadband);
 
 float Radians(float deg);
 float Degrees(float rad);
@@ -35,12 +42,13 @@ extern u8 Verify_Check_SUM(u8* pchMessage, u16 dwLength);
 extern void Append_Check_SUM(u8* pchMessage, u16 dwLength);
 
 
-extern float HEX_TO_Float(u8 * pchMessage);
-extern void FLOAT_TO_Hex(u8 * pchMessage,float fdata);
+extern float HEX_TO_float(u8 * pchMessage);
+extern void float_TO_Hex(u8 * pchMessage,float fdata);
 
 extern void FILTER_Limit(u16 lastdata,u16 predata,u16 limit);
 
-
+extern void first_order_filter_cali(first_order_filter_type_t *first_order_filter_type, float input);
+extern void first_order_filter_init(first_order_filter_type_t *first_order_filter_type, float frame_period, const float num[1]);
 
 
 #endif  

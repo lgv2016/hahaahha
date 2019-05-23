@@ -18,8 +18,8 @@ void MiniPC_Rece_Resolver()
 		{
 			if(Verify_Check_SUM(g_DMA_MiniPC_Reve_Buff,11))
 			{
-				minipc_data.get_target_angle_yaw   = HEX_TO_Float(&g_DMA_MiniPC_Reve_Buff[2]);
-				minipc_data.get_target_angle_pit   = HEX_TO_Float(&g_DMA_MiniPC_Reve_Buff[6]);
+				minipc_data.get_target_angle_yaw   = HEX_TO_float(&g_DMA_MiniPC_Reve_Buff[2]);
+				minipc_data.get_target_angle_pit   = HEX_TO_float(&g_DMA_MiniPC_Reve_Buff[6]);
 			}
 		}
 		
@@ -36,8 +36,8 @@ void MiniPC_Send_Data(u8 cmd)
 		g_DMA_MiniPC_Send_Buff[1]=cmd;
 		
 		
-		FLOAT_TO_Hex(&g_DMA_MiniPC_Send_Buff[2] ,   g_imu_data.absolute_yaw);
-		FLOAT_TO_Hex(&g_DMA_MiniPC_Send_Buff[2+4] ,g_data_6623.angle[PITCH]);
+		float_TO_Hex(&g_DMA_MiniPC_Send_Buff[2] ,   g_imu_data.absolute_yaw);
+		float_TO_Hex(&g_DMA_MiniPC_Send_Buff[2+4] ,g_data_6623.angle[PITCH]);
 		
 		
 		Append_Check_SUM(g_DMA_MiniPC_Send_Buff,2+4+4+1);

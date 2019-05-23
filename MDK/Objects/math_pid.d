@@ -1,11 +1,15 @@
 .\objects\math_pid.o: ..\MATH\math_pid.c
 .\objects\math_pid.o: ..\MATH\math_pid.h
 .\objects\math_pid.o: ..\CORE\stm32f4xx.h
+.\objects\math_pid.o: ..\DSP\Include\arm_math.h
 .\objects\math_pid.o: ..\CORE\core_cm4.h
 .\objects\math_pid.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\math_pid.o: ..\CORE\core_cmInstr.h
 .\objects\math_pid.o: ..\CORE\core_cmFunc.h
 .\objects\math_pid.o: ..\CORE\core_cm4_simd.h
+.\objects\math_pid.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\math_pid.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\math_pid.o: ..\CORE\core_cm4.h
 .\objects\math_pid.o: ..\CORE\system_stm32f4xx.h
 .\objects\math_pid.o: ..\CORE\stm32f4xx_conf.h
 .\objects\math_pid.o: ..\FWLIB\inc\stm32f4xx_adc.h
@@ -40,4 +44,3 @@
 .\objects\math_pid.o: ..\MATH\math_tool.h
 .\objects\math_pid.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\math_pid.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
-.\objects\math_pid.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

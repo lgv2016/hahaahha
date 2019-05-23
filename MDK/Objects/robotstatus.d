@@ -1,11 +1,15 @@
 .\objects\robotstatus.o: ..\USER\robotstatus.c
 .\objects\robotstatus.o: ..\USER\robotstatus.h
 .\objects\robotstatus.o: ..\CORE\stm32f4xx.h
+.\objects\robotstatus.o: ..\DSP\Include\arm_math.h
 .\objects\robotstatus.o: ..\CORE\core_cm4.h
 .\objects\robotstatus.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\robotstatus.o: ..\CORE\core_cmInstr.h
 .\objects\robotstatus.o: ..\CORE\core_cmFunc.h
 .\objects\robotstatus.o: ..\CORE\core_cm4_simd.h
+.\objects\robotstatus.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\robotstatus.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\robotstatus.o: ..\CORE\core_cm4.h
 .\objects\robotstatus.o: ..\CORE\system_stm32f4xx.h
 .\objects\robotstatus.o: ..\CORE\stm32f4xx_conf.h
 .\objects\robotstatus.o: ..\FWLIB\inc\stm32f4xx_adc.h

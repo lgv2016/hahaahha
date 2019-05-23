@@ -1,11 +1,15 @@
 .\objects\bsp_gpio.o: ..\BSP\bsp_gpio.c
 .\objects\bsp_gpio.o: ..\BSP\bsp_gpio.h
 .\objects\bsp_gpio.o: ..\CORE\stm32f4xx.h
+.\objects\bsp_gpio.o: ..\DSP\Include\arm_math.h
 .\objects\bsp_gpio.o: ..\CORE\core_cm4.h
 .\objects\bsp_gpio.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\bsp_gpio.o: ..\CORE\core_cmInstr.h
 .\objects\bsp_gpio.o: ..\CORE\core_cmFunc.h
 .\objects\bsp_gpio.o: ..\CORE\core_cm4_simd.h
+.\objects\bsp_gpio.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\bsp_gpio.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\bsp_gpio.o: ..\CORE\core_cm4.h
 .\objects\bsp_gpio.o: ..\CORE\system_stm32f4xx.h
 .\objects\bsp_gpio.o: ..\CORE\stm32f4xx_conf.h
 .\objects\bsp_gpio.o: ..\FWLIB\inc\stm32f4xx_adc.h

@@ -1,11 +1,15 @@
 .\objects\drive_rc.o: ..\DRIVE\drive_rc.c
 .\objects\drive_rc.o: ..\DRIVE\drive_rc.h
 .\objects\drive_rc.o: ..\CORE\stm32f4xx.h
+.\objects\drive_rc.o: ..\DSP\Include\arm_math.h
 .\objects\drive_rc.o: ..\CORE\core_cm4.h
 .\objects\drive_rc.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\drive_rc.o: ..\CORE\core_cmInstr.h
 .\objects\drive_rc.o: ..\CORE\core_cmFunc.h
 .\objects\drive_rc.o: ..\CORE\core_cm4_simd.h
+.\objects\drive_rc.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\drive_rc.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\drive_rc.o: ..\CORE\core_cm4.h
 .\objects\drive_rc.o: ..\CORE\system_stm32f4xx.h
 .\objects\drive_rc.o: ..\CORE\stm32f4xx_conf.h
 .\objects\drive_rc.o: ..\FWLIB\inc\stm32f4xx_adc.h
@@ -42,7 +46,6 @@
 .\objects\drive_rc.o: ..\MATH\math_tool.h
 .\objects\drive_rc.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\drive_rc.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
-.\objects\drive_rc.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\drive_rc.o: ..\DRIVE\drive_control.h
 .\objects\drive_rc.o: ..\MATH\math_pid.h
 .\objects\drive_rc.o: ..\USER\robotstatus.h

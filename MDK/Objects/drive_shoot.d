@@ -1,11 +1,15 @@
 .\objects\drive_shoot.o: ..\DRIVE\drive_shoot.c
 .\objects\drive_shoot.o: ..\DRIVE\drive_shoot.h
 .\objects\drive_shoot.o: ..\CORE\stm32f4xx.h
+.\objects\drive_shoot.o: ..\DSP\Include\arm_math.h
 .\objects\drive_shoot.o: ..\CORE\core_cm4.h
 .\objects\drive_shoot.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\drive_shoot.o: ..\CORE\core_cmInstr.h
 .\objects\drive_shoot.o: ..\CORE\core_cmFunc.h
 .\objects\drive_shoot.o: ..\CORE\core_cm4_simd.h
+.\objects\drive_shoot.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\drive_shoot.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\drive_shoot.o: ..\CORE\core_cm4.h
 .\objects\drive_shoot.o: ..\CORE\system_stm32f4xx.h
 .\objects\drive_shoot.o: ..\CORE\stm32f4xx_conf.h
 .\objects\drive_shoot.o: ..\FWLIB\inc\stm32f4xx_adc.h
@@ -42,7 +46,6 @@
 .\objects\drive_shoot.o: ..\MATH\math_pid.h
 .\objects\drive_shoot.o: ..\MATH\math_tool.h
 .\objects\drive_shoot.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-.\objects\drive_shoot.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\drive_shoot.o: ..\MOTOR\motor_cradle_head.h
 .\objects\drive_shoot.o: ..\USER\robotstatus.h
 .\objects\drive_shoot.o: ..\DRIVE\drive_rc.h

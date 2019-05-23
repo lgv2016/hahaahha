@@ -3,11 +3,15 @@
 .\objects\sysconfig.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\sysconfig.o: ..\BSP\bsp_can.h
 .\objects\sysconfig.o: ..\CORE\stm32f4xx.h
+.\objects\sysconfig.o: ..\DSP\Include\arm_math.h
 .\objects\sysconfig.o: ..\CORE\core_cm4.h
 .\objects\sysconfig.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\sysconfig.o: ..\CORE\core_cmInstr.h
 .\objects\sysconfig.o: ..\CORE\core_cmFunc.h
 .\objects\sysconfig.o: ..\CORE\core_cm4_simd.h
+.\objects\sysconfig.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\sysconfig.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\sysconfig.o: ..\CORE\core_cm4.h
 .\objects\sysconfig.o: ..\CORE\system_stm32f4xx.h
 .\objects\sysconfig.o: ..\CORE\stm32f4xx_conf.h
 .\objects\sysconfig.o: ..\FWLIB\inc\stm32f4xx_adc.h
@@ -53,7 +57,6 @@
 .\objects\sysconfig.o: ..\MATH\math_tool.h
 .\objects\sysconfig.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\sysconfig.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
-.\objects\sysconfig.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\sysconfig.o: ..\DRIVE\drive_gimble.h
 .\objects\sysconfig.o: ..\DRIVE\drive_shoot.h
 .\objects\sysconfig.o: ..\MOTOR\motor_chassis.h

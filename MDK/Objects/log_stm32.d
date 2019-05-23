@@ -11,10 +11,13 @@
 .\objects\log_stm32.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\limits.h
 .\objects\log_stm32.o: ..\DMP\driver\include\log.h
 .\objects\log_stm32.o: ..\CORE\stm32f4xx.h
+.\objects\log_stm32.o: ..\DSP\Include\arm_math.h
 .\objects\log_stm32.o: ..\CORE\core_cm4.h
 .\objects\log_stm32.o: ..\CORE\core_cmInstr.h
 .\objects\log_stm32.o: ..\CORE\core_cmFunc.h
 .\objects\log_stm32.o: ..\CORE\core_cm4_simd.h
+.\objects\log_stm32.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\log_stm32.o: ..\CORE\core_cm4.h
 .\objects\log_stm32.o: ..\CORE\system_stm32f4xx.h
 .\objects\log_stm32.o: ..\CORE\stm32f4xx_conf.h
 .\objects\log_stm32.o: ..\FWLIB\inc\stm32f4xx_adc.h

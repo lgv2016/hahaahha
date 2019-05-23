@@ -137,7 +137,7 @@ r0p1 port. */
 #define portVECTACTIVE_MASK					( 0xFFUL )
 
 /* Constants required to manipulate the VFP. */
-#define portFPCCR					( ( volatile uint32_t * ) 0xe000ef34 ) /* Floating point context control register. */
+#define portFPCCR					( ( volatile uint32_t * ) 0xe000ef34 ) /* floating point context control register. */
 #define portASPEN_AND_LSPEN_BITS	( 0x3UL << 30UL )
 
 /* Constants required to set up the initial stack. */
