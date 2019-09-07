@@ -54,3 +54,4 @@
 .\objects\task_pc_parse.o: ..\FWLIB\inc\stm32f4xx_fmc.h
 .\objects\task_pc_parse.o: ..\FWLIB\inc\stm32f4xx_sai.h
 .\objects\task_pc_parse.o: ..\USER\robotstatus.h
+.\objects\task_pc_parse.o: ..\BSP\bsp_dma.h

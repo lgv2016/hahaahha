@@ -5,7 +5,7 @@
 #include <drive_shoot.h>
 #include <drive_gimble.h>
 #include <drive_chassis.h>
-
+#include <drive_judge.h>
 
 
 void vTaskCANParse(void *pvParameters)
@@ -16,7 +16,7 @@ void vTaskCANParse(void *pvParameters)
 		Get_6623_data(s_rx_message);
         Get_2006_data(s_rx_message);
         Get_3510_data(s_rx_message);
-		Get_CHASSIS_data(s_rx_message);
+	    Get_Judge_data(s_rx_message);
 	}
 }
 

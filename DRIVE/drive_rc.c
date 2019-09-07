@@ -7,6 +7,9 @@
 #include <drive_control.h>
 #include <robotstatus.h>
 
+#include <drive_gimble.h>
+
+#include <drive_imu.h>
 
 // Û±Í¡È√Ù∂»…Ë÷√
 #define YAW_SENSITIVITY   2.5f
@@ -21,10 +24,14 @@ rc_control_t g_rc_control={0};
 
 void RC_Data_Parse()
 {
+	
+	
+	  u8 last_key_g;
 	  static uint64_t previousT;
       float deltaT = (Get_SysTimeUs() - previousT) * 1e-6f;
       previousT = Get_SysTimeUs();
 	
+	  last_key_g=g_rc_control.key.k[G];
 	
       g_rc_control.rc.ch0         =  (g_DMA_Dbus_Buff[0]       | (g_DMA_Dbus_Buff[1] << 8)) & 0x07ff; 
       g_rc_control.rc.ch1         = ((g_DMA_Dbus_Buff[1] >> 3) | (g_DMA_Dbus_Buff[2] << 5)) & 0x07ff; 
@@ -68,11 +75,15 @@ void RC_Data_Parse()
 	  
 	  
 	  
-	  
 	  if(robot_status.gimbal_mode==GIMBLE_PC)
 	  {
 		  g_rc_control.mouse.x_distance+=-g_rc_control.mouse.x*deltaT*YAW_SENSITIVITY;
 		  g_rc_control.mouse.y_distance+=-g_rc_control.mouse.y*deltaT*PIT_SENSITIVITY;
+	  }
+	  
+	  if(!last_key_g&&g_rc_control.key.k[G])
+	  {
+		   g_rc_control.mouse.x_distance+=-180.0f;
 	  }
 }
 

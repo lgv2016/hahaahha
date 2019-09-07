@@ -7,15 +7,33 @@
 
 #define SHOOT_CONTROL_CYCLE 5      //5ms
 
+
 typedef struct
 {
     bool press_l;
     bool last_press_l;
+	
+	bool press_r;
+	bool last_press_r;
+	
+//	bool last_key_v;
+//	bool last_key_b;
+	
     uint16_t press_l_time;
     uint16_t no_press_l_time;
 	uint16_t key_time;
 	
+	uint16_t key_q_time;
+	
+	uint16_t no_key_q_time;
+	
+	bool last_key_q;
 	bool rest_flag;
+	
+	float speed;
+	
+	u8 shoot_flag;
+	
 } shoot_motor_t;
 
 

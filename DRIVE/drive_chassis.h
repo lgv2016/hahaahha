@@ -36,13 +36,18 @@ typedef struct
   float vy_min_speed;  //左右方向最小速度 单位m/s
   float chassis_yaw;   //陀螺仪和云台电机叠加的yaw角度
   float chassis_yaw_set;
+  
+  
+  float max_power;
+  
 
 } chassis_move_t;
+
+extern chassis_move_t chassis_move;
 
 
 extern void CHASSIS_Loop_Control(void);
 extern void CHASSIS_Init(void);
-extern void Get_CHASSIS_data(CanRxMsg rx_message);
 #endif
 
 

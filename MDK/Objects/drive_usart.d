@@ -49,3 +49,5 @@
 .\objects\drive_usart.o: ..\MATH\math_pid.h
 .\objects\drive_usart.o: ..\MOTOR\motor_cradle_head.h
 .\objects\drive_usart.o: ..\DRIVE\drive_imu.h
+.\objects\drive_usart.o: ..\DRIVE\drive_rc.h
+.\objects\drive_usart.o: ..\USER\robotstatus.h

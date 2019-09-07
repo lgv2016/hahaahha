@@ -4,6 +4,7 @@
 #include <drive_imu.h>
 #include <drive_control.h>
 #include <drive_delay.h>
+#include <drive_judge.h>
 
 #include <task_config.h>
 #include <task_can_parse.h>
@@ -35,15 +36,14 @@ void vTaskLED(void *pvParameters)
 	vTaskDelay(200);
     while(1)
     {
-		if(robot_status.mpu6500_status==MPU6500_INIT) 
+		if(robot_status.mpu6500_status==MPU6500_NO) 
 		{
 			taskENTER_CRITICAL();
 			while(mpu_dmp_init());
 			robot_status.mpu6500_status=MPU6500_SUCCESS;
 			taskEXIT_CRITICAL();  
 		}
-		
-		vTaskDelay(8);
+		vTaskDelay(10);
     }
 }
 

@@ -48,6 +48,7 @@
 .\objects\task_config.o: ..\MATH\math_tool.h
 .\objects\task_config.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\task_config.o: ..\DRIVE\drive_delay.h
+.\objects\task_config.o: ..\DRIVE\drive_judge.h
 .\objects\task_config.o: ..\TASK\task_config.h
 .\objects\task_config.o: ..\freeRTOS\include\FreeRTOS.h
 .\objects\task_config.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h

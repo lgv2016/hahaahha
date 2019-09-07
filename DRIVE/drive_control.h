@@ -30,6 +30,9 @@ enum
 	CH_ROTATE_SPEED,  //自旋速度控制
 	CH_ROTATE_ANGLE,  //自旋角度控制
 	
+	
+	CH_POWER,
+	
     PIDNUM
 };
 
@@ -44,6 +47,7 @@ typedef struct
     float rf;
     float ra;
 	float ch_rotate;
+	float ch_power;
 
 } object_t;
 
@@ -66,6 +70,7 @@ typedef struct
     object_t angle_outer_target;
     object_t speed_inner_error;
     object_t angle_outer_error;
+	
 	
 } infantry_control_t;
 

@@ -26,8 +26,9 @@ enum
 //摩擦轮状态   firc_status
 enum
 {
-	FRIC_ON,        //摩擦轮打开
 	FRIC_OFF,       //摩擦轮关闭
+	FRIC_ON,        //摩擦轮打开
+	
 	FRIC_ON_START,  //
 	FRIC_OFF_START  //
 };
@@ -72,7 +73,20 @@ enum
 };
 
 
-//
+//己方装甲颜色状态
+enum
+{
+	COLOR_NO,
+	COLOR_RED,
+	COLOR_BLUE,
+};
+
+//敌方装甲大小信息
+enum
+{
+	ARMOR_BIG,
+	ARMOR_SMALL
+};
 
 
 //底盘模式    chassis_mode
@@ -86,6 +100,22 @@ enum
 	CHASSIS_FOLLOW_GIMBLE,
 	CHASSIS_NO_FOLLOW_GIMBLE
 	
+};
+
+
+//弹仓状态：
+
+enum
+{
+	DEPOT_OFF,
+	DEPOT_ON
+};
+
+//姿态
+enum
+{
+	POSTURE_NORMAL,
+	POSTURE_ABNORMAL
 };
 
 
@@ -106,6 +136,12 @@ typedef struct
 	u8  motor_yaw;
 	u8  motor_pit;
 	u8 fric_status;
+	
+	u8 enemy_color;
+	u8 enemy_armor;
+	
+	u8 depot_status;
+	u8 posture_status;
 	
 	
 }robot_status_t;    

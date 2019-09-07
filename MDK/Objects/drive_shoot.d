@@ -46,6 +46,9 @@
 .\objects\drive_shoot.o: ..\MATH\math_pid.h
 .\objects\drive_shoot.o: ..\MATH\math_tool.h
 .\objects\drive_shoot.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\drive_shoot.o: ..\DRIVE\drive_judge.h
 .\objects\drive_shoot.o: ..\MOTOR\motor_cradle_head.h
 .\objects\drive_shoot.o: ..\USER\robotstatus.h
 .\objects\drive_shoot.o: ..\DRIVE\drive_rc.h
+.\objects\drive_shoot.o: ..\DRIVE\drive_usart.h
+.\objects\drive_shoot.o: ..\BSP\bsp_dma.h

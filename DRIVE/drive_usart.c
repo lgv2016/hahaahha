@@ -6,6 +6,9 @@
 #include <motor_cradle_head.h>
 
 #include <drive_imu.h>
+#include <drive_rc.h>
+#include <robotstatus.h>
+
 
 minipc_data_t minipc_data;
 
@@ -29,6 +32,49 @@ void MiniPC_Rece_Resolver()
 void MiniPC_Send_Data(u8 cmd)
 {
 	u8 dwLength;
+
+	
+	if(cmd==0x01)   //发送目标装甲大小信息
+	{
+		dwLength=4;
+		g_DMA_MiniPC_Send_Buff[0]=0XA6;
+		g_DMA_MiniPC_Send_Buff[1]=cmd;
+		
+		if(robot_status.enemy_armor==ARMOR_SMALL)
+		{
+			g_DMA_MiniPC_Send_Buff[2]=0x01;
+		}
+		if(robot_status.enemy_armor==ARMOR_BIG)
+		{
+			g_DMA_MiniPC_Send_Buff[2]=0x02;
+		}
+		
+		if(!g_rc_control.mouse.press_r)
+		{
+			g_DMA_MiniPC_Send_Buff[2]=0x05;
+		}
+		
+		Append_Check_SUM(g_DMA_MiniPC_Send_Buff,2+1+1);
+			
+	}
+	
+	if(cmd==0x02)   //发送己方装甲颜色信息
+	{
+		dwLength=4;
+		g_DMA_MiniPC_Send_Buff[0]=0XA6;
+		g_DMA_MiniPC_Send_Buff[1]=cmd;
+		if(robot_status.enemy_color==COLOR_BLUE)
+		{
+			g_DMA_MiniPC_Send_Buff[2]=0x02;
+		}
+		
+		if(robot_status.enemy_color==COLOR_RED)
+		{
+			g_DMA_MiniPC_Send_Buff[2]=0x01;
+		}
+		Append_Check_SUM(g_DMA_MiniPC_Send_Buff,2+1+1);	
+	}
+	
 	if(cmd==0X03)   //发送云台角度数据
 	{
 		dwLength=11;

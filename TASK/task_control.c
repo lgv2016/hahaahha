@@ -11,6 +11,7 @@
 #include <drive_shoot.h>
 
 control_cycle_t s_control_cycle;
+
 void vTaskControl(void *pvParameters)
 {
 	
@@ -46,6 +47,9 @@ void vTaskControl(void *pvParameters)
 			s_control_cycle.chassis_cycyle=0;
 		}
 
+
 		vTaskDelay(1);
+		
+		
 	}
 }

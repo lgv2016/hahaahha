@@ -49,3 +49,5 @@
 .\objects\drive_rc.o: ..\DRIVE\drive_control.h
 .\objects\drive_rc.o: ..\MATH\math_pid.h
 .\objects\drive_rc.o: ..\USER\robotstatus.h
+.\objects\drive_rc.o: ..\DRIVE\drive_gimble.h
+.\objects\drive_rc.o: ..\DRIVE\drive_imu.h

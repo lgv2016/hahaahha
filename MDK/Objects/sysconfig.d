@@ -59,6 +59,7 @@
 .\objects\sysconfig.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\sysconfig.o: ..\DRIVE\drive_gimble.h
 .\objects\sysconfig.o: ..\DRIVE\drive_shoot.h
+.\objects\sysconfig.o: ..\DRIVE\drive_judge.h
 .\objects\sysconfig.o: ..\MOTOR\motor_chassis.h
 .\objects\sysconfig.o: ..\MOTOR\motor_cradle_head.h
 .\objects\sysconfig.o: ..\TASK\task_config.h

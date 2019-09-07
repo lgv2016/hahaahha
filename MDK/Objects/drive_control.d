@@ -52,3 +52,4 @@
 .\objects\drive_control.o: ..\USER\robotstatus.h
 .\objects\drive_control.o: ..\DRIVE\drive_gimble.h
 .\objects\drive_control.o: ..\DRIVE\drive_chassis.h
+.\objects\drive_control.o: ..\DRIVE\drive_judge.h

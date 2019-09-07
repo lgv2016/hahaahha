@@ -10,7 +10,7 @@
 
 
 #ifdef RED1
-#define YAW_OFFSET 180.0F-14.0f
+#define YAW_OFFSET 180.0F-166.0f
 #endif
 
 #ifdef RED2
@@ -95,7 +95,7 @@ void Get_6623_data(CanRxMsg rx_message)
 			angle=angle-360.0f;
 			g_data_6623.angle[YAW]=angle;
 			
-			
+		
 			robot_status.motor_yaw=MOTOR_GIMBAL_ENCODE; 
 			break;
       }
@@ -111,7 +111,12 @@ void Get_6623_data(CanRxMsg rx_message)
 		  }
 
 			g_data_6623.angle[PITCH]=   (g_data_6623.pre_angle[PITCH]*360.0f)/8191.0f;
+		  
+		  
+		  if(g_data_6623.angle[PITCH])
+		  {
 			robot_status.motor_pit=MOTOR_GIMBAL_ENCODE;
+		  }
 			break;
       }
 	    default:

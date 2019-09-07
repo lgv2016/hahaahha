@@ -61,3 +61,4 @@
 .\objects\task_can_parse.o: ..\DRIVE\drive_chassis.h
 .\objects\task_can_parse.o: ..\MATH\math_tool.h
 .\objects\task_can_parse.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\task_can_parse.o: ..\DRIVE\drive_judge.h

@@ -18,6 +18,8 @@
 #include <drive_control.h>
 #include <drive_gimble.h>
 #include <drive_shoot.h>
+#include <drive_judge.h>
+
 
 #include <motor_chassis.h>
 #include <motor_cradle_head.h>

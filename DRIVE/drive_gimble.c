@@ -15,22 +15,22 @@ static Gimbal_Motor_t Gimbal_Motor_pit;
 #define YAW_INIT_ANGLE 180.0f
 #define PIT_INIT_ANGLE 51.0f
 
-#define PIT_RC_LIMIT_ANGLE  15
+#define PIT_RC_LIMIT_ANGLE  13
 #define YAW_RC_LIMIT_ANGLE  90
 
 
 
-#define PIT_RC_LIMIT_ANGLE_DOWN  15
-#define PIT_RC_LIMIT_ANGLE_UP  60
+#define PIT_RC_LIMIT_ANGLE_DOWN  13
+#define PIT_RC_LIMIT_ANGLE_UP  45
 
 
 
 
 #define YAW_PC_LIMIT_ANGLE  90000    //最大圈数正负250圈
 
-#define PIT_PC_LIMIT_ANGLE  15
-#define PIT_PC_LIMIT_ANGLE_DOWN  15
-#define PIT_PC_LIMIT_ANGLE_UP    60
+#define PIT_PC_LIMIT_ANGLE  13
+#define PIT_PC_LIMIT_ANGLE_DOWN  13
+#define PIT_PC_LIMIT_ANGLE_UP    45
 
 #endif
 
@@ -39,21 +39,21 @@ static Gimbal_Motor_t Gimbal_Motor_pit;
 
 
 #define YAW_INIT_ANGLE 180.0f
-#define PIT_INIT_ANGLE 124.0f
+#define PIT_INIT_ANGLE 205.0f
 
 
-#define PIT_RC_LIMIT_ANGLE  15
-#define YAW_RC_LIMIT_ANGLE  90
+#define PIT_RC_LIMIT_ANGLE  14
+#define YAW_RC_LIMIT_ANGLE  160
 
-#define PIT_RC_LIMIT_ANGLE_DOWN  15
-#define PIT_RC_LIMIT_ANGLE_UP  60
+#define PIT_RC_LIMIT_ANGLE_DOWN  14
+#define PIT_RC_LIMIT_ANGLE_UP  30
 
 
 #define YAW_PC_LIMIT_ANGLE  90000    //最大圈数正负250圈
 
-#define PIT_PC_LIMIT_ANGLE  15
-#define PIT_PC_LIMIT_ANGLE_DOWN  15
-#define PIT_PC_LIMIT_ANGLE_UP    60
+#define PIT_PC_LIMIT_ANGLE  14
+#define PIT_PC_LIMIT_ANGLE_DOWN  14
+#define PIT_PC_LIMIT_ANGLE_UP    45
 
 
 #endif
@@ -62,7 +62,7 @@ static Gimbal_Motor_t Gimbal_Motor_pit;
 
 
 #define MOTOR_INIT_TIME   (80/GIMBLE_CONTROL_CYCLE)
-#define R_PRESS_LONG_TIME (350/GIMBLE_CONTROL_CYCLE)
+#define R_PRESS_LONG_TIME (20/GIMBLE_CONTROL_CYCLE)
 
 #define NO_CONTROL_TIME  (5/GIMBLE_CONTROL_CYCLE)
 
@@ -135,6 +135,8 @@ static void GIMBLE_Set_Mode()
 		}
 		if(switch_is_mid(g_rc_control.rc.s1))
 		{
+			
+			
 			robot_status.gimbal_mode=GIMBLE_PC;
 			
 			if(Gimbal_Motor_yaw.press_r_time==R_PRESS_LONG_TIME)
@@ -153,7 +155,7 @@ static void GIMBLE_Set_Mode()
 static void GIMBLE_Init_Control()
 {
 	g_angle_target.yaw   = YAW_INIT_ANGLE;
-	g_angle_target.pitch = PIT_INIT_ANGLE-13.0f;
+	g_angle_target.pitch = PIT_INIT_ANGLE-12.0f;
 	
 	GIMBLE_ENCONDE_Control(g_angle_target);
 }
@@ -191,6 +193,7 @@ static void GIMBLE_Data_Update()
 
 static void GIMBLE_RC_Control()
 {
+	
 	//遥控角度计算
 	Gimbal_Motor_yaw.rc_control_angle  = -(YAW_RC_LIMIT_ANGLE/(660.0f))*(g_rc_control.rc.ch0-1024);
 	Gimbal_Motor_pit.rc_control_angle  =  (PIT_RC_LIMIT_ANGLE/(660.0f))*(g_rc_control.rc.ch1-1024);
@@ -205,17 +208,45 @@ static void GIMBLE_RC_Control()
 	
 	GIMBLE_GYRO_Control(g_angle_target);
 }
+//static void GIMBLE_RC_Control()
+//{
+//	
+//	//yaw  
+//	//pitch :20;
+//	
+//	float yaw_p=0.13636,pitch_p=0.04545;
+//	float yaw_add,pitch_add;
+//	
+//	yaw_add    = (g_rc_control.rc.ch0-1024)*yaw_p;
+//	pitch_add  = (g_rc_control.rc.ch1-1024)*pitch_p;
+//	
+//	yaw_add    = ApplyDeadbandfloat(yaw_add,0.1f);
+//	pitch_add  = ApplyDeadbandfloat(pitch_add,0.1f);
+//	
+//	//遥控角度计算
+//	Gimbal_Motor_yaw.rc_control_angle  -= yaw_add;
+//	Gimbal_Motor_pit.rc_control_angle  += pitch_add;
+//	
+////	//目标角度赋值
+//	g_angle_target.yaw   = Gimbal_Motor_yaw.rc_control_angle;
+//	g_angle_target.pitch = Gimbal_Motor_pit.rc_control_angle+PIT_INIT_ANGLE;
+
+////角度环目标限幅赋值
+//	g_angle_target.yaw   = Constrainfloat(g_angle_target.yaw,  - YAW_PC_LIMIT_ANGLE,YAW_PC_LIMIT_ANGLE);
+//	g_angle_target.pitch = Constrainfloat(g_angle_target.pitch,- PIT_PC_LIMIT_ANGLE_DOWN+PIT_INIT_ANGLE,PIT_PC_LIMIT_ANGLE_UP+PIT_INIT_ANGLE);	 
+//	
+//	GIMBLE_GYRO_Control(g_angle_target);
+
+//    
+//}
 /*
  *函 数 名: GIMBLE_PC_Control
  *功能说明: 云台电脑控制
  *形    参: void
  *返 回 值: void
  */
-
-
 static void GIMBLE_PC_Control()
 {
-
 	//角度环目标限幅赋值
 	g_rc_control.mouse.x_distance   = Constrainfloat(g_rc_control.mouse.x_distance,  - YAW_PC_LIMIT_ANGLE,YAW_PC_LIMIT_ANGLE);
 	g_rc_control.mouse.y_distance   = Constrainfloat(g_rc_control.mouse.y_distance,  - PIT_PC_LIMIT_ANGLE_DOWN,PIT_PC_LIMIT_ANGLE_UP);	 
@@ -276,12 +307,19 @@ static void GIMBLE_Auto_Control()
 		g_angle_target.pitch                  = Gimbal_Motor_pit.vision_control_angle;
 	}
 	
+	
+	//自瞄到手瞄角度切换：
+	g_rc_control.mouse.x_distance=g_angle_target.yaw;
+	g_rc_control.mouse.y_distance=g_angle_target.pitch-PIT_INIT_ANGLE;
+	
 	//角度环目标限幅赋值
 	g_angle_target.yaw   = Constrainfloat(g_angle_target.yaw,  - YAW_PC_LIMIT_ANGLE,YAW_PC_LIMIT_ANGLE);
 	g_angle_target.pitch = Constrainfloat(g_angle_target.pitch,- PIT_PC_LIMIT_ANGLE_DOWN+PIT_INIT_ANGLE,PIT_PC_LIMIT_ANGLE_UP+PIT_INIT_ANGLE);	 
 	
 	GIMBLE_GYRO_Control(g_angle_target);
 }
+
+
 
 /*
  *函 数 名: GIMBLE_Loop_Control
@@ -313,10 +351,11 @@ void GIMBLE_Loop_Control()
 	else if(robot_status.gimbal_mode==GIMBLE_PC)
 	{
 		GIMBLE_PC_Control();
-	
+		
+
+
 	}
 }
-
 
 
 

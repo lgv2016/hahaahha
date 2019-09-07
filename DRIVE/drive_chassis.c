@@ -10,24 +10,46 @@
 
 #include <drive_gimble.h>
 #ifdef  RED1
+
+
 #define M3510_3508_RATE 1.0f
+
+#define NORMAL_MAX_CHASSIS_SPEED_X  6500*M3510_3508_RATE
+#define NORMAL_MAX_CHASSIS_SPEED_Y  6500*M3510_3508_RATE
+
+#define CHASSIS_MAX_FOLLOW_SPEED_Z  120.0f*M3510_3508_RATE
+#define CHASSIS_FOLLOW_LIMIT        20.0f
+
+#define CHASSIS_ROTATE_SPEED_Z        150.0f*M3510_3508_RATE
+
+#define CHASSIS_ROTATE_RUN_SPEED_Z    120.0f*M3510_3508_RATE
+#define CHASSIS_ROTATE_RUN_SPEED_X    4000*M3510_3508_RATE
+#define CHASSIS_ROTATE_RUN_SPEED_Y    4000*M3510_3508_RATE
+
+#define ADD_CHASSIS_SPEED  -3000*M3510_3508_RATE
+
 #endif
 
 #ifdef  RED2
 #define M3510_3508_RATE 0.704f
-#endif
 
-#define NORMAL_MAX_CHASSIS_SPEED_X  3000*M3510_3508_RATE
-#define NORMAL_MAX_CHASSIS_SPEED_Y  3000*M3510_3508_RATE
-#define CHASSIS_MAX_FOLLOW_SPEED_Z  110*M3510_3508_RATE
+#define NORMAL_MAX_CHASSIS_SPEED_X  7000*M3510_3508_RATE
+#define NORMAL_MAX_CHASSIS_SPEED_Y  7000*M3510_3508_RATE
+
+#define CHASSIS_MAX_FOLLOW_SPEED_Z  130.0f*M3510_3508_RATE
 #define CHASSIS_FOLLOW_LIMIT        20.0f
 
-#define CHASSIS_ROTATE_SPEED_Z        130.0f*M3510_3508_RATE
-#define CHASSIS_ROTATE_RUN_SPEED_Z    90.0f*M3510_3508_RATE
-#define CHASSIS_ROTATE_RUN_SPEED_X    1100*M3510_3508_RATE
-#define CHASSIS_ROTATE_RUN_SPEED_Y    750*M3510_3508_RATE
+#define CHASSIS_ROTATE_SPEED_Z        180.0f*M3510_3508_RATE
 
-#define ADD_CHASSIS_SPEED  1500*M3510_3508_RATE
+#define CHASSIS_ROTATE_RUN_SPEED_Z    130.0f*M3510_3508_RATE
+#define CHASSIS_ROTATE_RUN_SPEED_X    4000*M3510_3508_RATE
+#define CHASSIS_ROTATE_RUN_SPEED_Y    4000*M3510_3508_RATE
+
+#define ADD_CHASSIS_SPEED  -3000*M3510_3508_RATE
+#endif
+
+
+
 
 #define CHASSIS_ACCEL_X_NUM 0.1666666667f
 #define CHASSIS_ACCEL_Y_NUM 0.1666666667f
@@ -36,6 +58,12 @@
 #define RC_SW_UP   ((uint16_t)1)
 #define RC_SW_MID  ((uint16_t)3)
 #define RC_SW_DOWN ((uint16_t)2)
+
+
+
+#define CH_POWER 80
+#define CH_POWER_T 0.02
+#define CH_POWER_BUFFER_LIMIT 20
 
 
 #define switch_is_down(s) (s == RC_SW_DOWN)
@@ -75,24 +103,27 @@ void CHASSIS_Set_Mode()
         robot_status.chassis_mode=CHASSIS_FOLLOW_GIMBLE;
     }
 	
-	if(!g_rc_control.key.k[W]&&!g_rc_control.key.k[A]&&!g_rc_control.key.k[S]&&!g_rc_control.key.k[D])
+
+	if(switch_is_mid(g_rc_control.rc.s1))
 	{
-		robot_status.chassis_mode=CHASSIS_NO_FOLLOW_GIMBLE;
+		robot_status.chassis_mode=CHASSIS_FOLLOW_GIMBLE;
 	}
+
+
+//	if(!g_rc_control.key.k[W]&&!g_rc_control.key.k[A]&&!g_rc_control.key.k[S]&&!g_rc_control.key.k[D])
+//	{
+//		robot_status.chassis_mode=CHASSIS_NO_FOLLOW_GIMBLE;
+//	}
 	
-	//底盘不跟随
-    if (g_rc_control.key.k[CTRL])
-    {
-        robot_status.chassis_mode=CHASSIS_NO_FOLLOW_GIMBLE;
-    }
+
 	
-    if(g_rc_control.key.k[Q])
+    if(g_rc_control.key.k[CTRL])
     {
         robot_status.chassis_mode=CHASSIS_ROTATE;
     }
 	
 	
-	if(g_rc_control.key.k[Q]&&(g_rc_control.key.k[W]||g_rc_control.key.k[A]||g_rc_control.key.k[S]||g_rc_control.key.k[D]))
+	if(g_rc_control.key.k[CTRL]&&(g_rc_control.key.k[W]||g_rc_control.key.k[A]||g_rc_control.key.k[S]||g_rc_control.key.k[D]))
 	{
 		robot_status.chassis_mode=CHASSIS_ROTATE_RUN;
 	}
@@ -126,8 +157,11 @@ void CHASSIS_RC_Control_Value(float *vx_set, float *vy_set)
 	
 	if(g_rc_control.rc.ch3&&g_rc_control.rc.ch2)
 	{
-		vx_set_channel = (chassis_move.vx_max_speed/(660.0f))*(g_rc_control.rc.ch3-1024);
-		vy_set_channel= -(chassis_move.vy_max_speed/(660.0f))*(g_rc_control.rc.ch2-1024);
+//		vx_set_channel = (chassis_move.vx_max_speed/(660.0f))*(g_rc_control.rc.ch3-1024);
+//		vy_set_channel= -(chassis_move.vy_max_speed/(660.0f))*(g_rc_control.rc.ch2-1024);
+		
+		vx_set_channel = (4000/(660.0f))*(g_rc_control.rc.ch3-1024);
+		vy_set_channel= -(4000/(660.0f))*(g_rc_control.rc.ch2-1024);
 	}
    
 	
@@ -285,14 +319,10 @@ void CHASSIS_Mode_Control_Set(float *vx_set, float *vy_set, float *angle_set)
 //////设置遥控器输入控制量
 static void CHASSIS_Set_Control()
 {
-
     //设置速度
     float vx_set = 0.0f, vy_set = 0.0f, angle_set = 0.0f;
 	float sin_yaw=0.0f,cos_yaw=0.0f;
     CHASSIS_Mode_Control_Set(&vx_set, &vy_set, &angle_set);
-	
-//	aaaaa=-motor_ecd_to_angle_change(g_data_6623.angle[YAW],180.0f);
-//	bbbbb=chassis_move.chassis_yaw-(g_imu_data.yaw-180.0f);	
 	
 	if(robot_status.chassis_mode==CHASSIS_FOLLOW_GIMBLE)
 	{
@@ -354,25 +384,10 @@ void CHASSIS_Loop_Control()
 }
 
 
-void Get_CHASSIS_data(CanRxMsg rx_message)
-{
-    switch(rx_message.StdId)
-    {
-      case 0x208:
-      {
-		  chassis_move.chassis_yaw=HEX_TO_float(&rx_message.Data[4]);
-          break;
-      }
-      default:
-        break;
-    } 
-}
-
-
 //计算相对角度
 static float motor_ecd_to_angle_change(float ecd, float offset_ecd)
 {
-    int32_t relative_ecd = ecd - offset_ecd;
+    float relative_ecd = ecd - offset_ecd;
     if (relative_ecd > 180.0f)
     {
         relative_ecd -= 360.0f;
@@ -384,3 +399,22 @@ static float motor_ecd_to_angle_change(float ecd, float offset_ecd)
 
     return relative_ecd;
 }
+
+
+//最大功率计算
+
+//void CHASSIS_Max_Power()
+//{
+//	chassis_move.max_power=((judge_data.power_buffer-CH_POWER_BUFFER_LIMIT)/CH_POWER_T)+CH_POWER;
+//	
+//	if(chassis_move.max_power<CH_POWER)
+//	{
+//		chassis_move.max_power=CH_POWER;
+//	}
+//}
+
+
+//void CHASSIS_Speed_Set(float speed_set)
+//{
+//	
+//}
